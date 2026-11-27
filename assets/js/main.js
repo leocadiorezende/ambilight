@@ -196,7 +196,7 @@
     },
     rack: {
       title: "Zona 2 · Embaixo do rack",
-      text: "Fita sob a borda do rack, virada para o chão. Substitui a luz de baixo da TV, que fica tampada pela soundbar, e completa a moldura de luz.",
+      text: "Fita no recuo da base do rack, virada para o chão. Substitui a luz de baixo da TV, que fica tampada pela soundbar, e completa a moldura de luz.",
       specs: { "Comprimento": "~2,10 m (rack de 2,20 m)", "LEDs": "~126", "Saída": "2", "Energia": "Fonte A", "Dica": "Perfil com difusor evita reflexo de pontos no piso" }
     }
   };
@@ -273,6 +273,7 @@
       { id: "el32", name: "Eletroduto corrugado 32 mm (metro)", qty: 5, price: [4, 8], p: "essencial", desc: "TV ↔ rack. Use 40 mm se couber na parede.", q: "eletroduto corrugado 32mm", s: ["ml"] },
       { id: "el25", name: "Eletroduto corrugado 25 mm (metro)", qty: 10, price: [2.5, 5], p: "essencial", desc: "Rack ↔ colunas e colunas ↔ moldura.", q: "eletroduto corrugado 25mm", s: ["ml"] },
       { id: "caixas", name: "Caixas 4×4 e 4×2 + espelhos (inclui espelho de saída de cabos com escova)", qty: 1, price: [60, 150], p: "essencial", desc: "Atrás da TV e atrás do rack.", q: "espelho saida de cabos escova 4x4", s: ["ml", "amz"] },
+      { id: "surr", name: "Prateleira pequena de parede para caixa surround", qty: 2, price: [30, 90], p: "recomendado", desc: "Uma em cada parede lateral, na linha do sofá, a ~1,10–1,20 m do chão. Medir a base das caixas da JBL Bar 5.1 antes de comprar.", q: "prateleira pequena caixa de som parede", s: ["ml", "amz"] },
       { id: "guia", name: "Passa-fio (arame-guia) de 10 m", qty: 1, price: [20, 60], p: "recomendado", desc: "Para puxar os cabos pelos eletrodutos e deixar um guia para o futuro.", q: "passa fio 10 metros", s: ["ml", "amz"] }
     ]}
   ];
@@ -348,7 +349,7 @@
       "Embutir os perfis das colunas, colar a moldura do teto e pintar tudo de branco fosco."
     ], c: "Todos os eletrodutos passam o arame-guia e as tomadas funcionam." },
     { t: "TV, HDMI e som", s: "Fase 2 · imagem perfeita antes do ambilight", li: [
-      "Instalar o suporte com 5–8 cm de afastamento e a TV com o centro a ~1,05–1,15 m do chão.",
+      "Instalar o suporte com 5–8 cm de afastamento e a TV com o centro a ~1,05–1,10 m do chão (borda de baixo ~20 cm acima da soundbar).",
       "Ligar Fire TV e PS5 no switch HDMI, o switch na entrada do splitter e a saída 1 do splitter na TV.",
       "Ligar a porta HDMI eARC da TV na entrada HDMI ARC (TV) da JBL Bar 5.1.",
       "No splitter, escolher o modo de EDID que copia a TV (saída 1). Na TV, ativar o sinal HDMI aprimorado (Input Signal Plus) nessa porta.",
@@ -386,7 +387,7 @@
       "Equilibrar o brilho para as colunas e o teto não ofuscarem a tela. O ambilight deve complementar a imagem, não competir com ela.",
       "Testar atraso com vídeos de flashes. Se a luz parecer atrasada, reduzir a suavização.",
       "Stremio: testar um filme com áudio DTS. Se ficar sem som, usar um player externo (Just Player ou VLC).",
-      "Posicionar as caixas surround da JBL Bar 5.1 atrás ou ao lado do sofá, na altura dos ouvidos."
+      "Posicionar as caixas surround da JBL Bar 5.1 nas paredes laterais, na linha do sofá (2,65–2,95 m da parede da TV), a ~1,10–1,20 m do chão."
     ], c: "Uma sessão de filme inteira, sem travadas, com cores coerentes e som surround." }
   ];
   $("#steps").innerHTML = steps.map((st, i) => `
