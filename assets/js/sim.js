@@ -49,7 +49,7 @@
     mega: ["halo", "moldura", "rack", "tetoFrente", "tetoTodo", "laterais"],
     exagero: ["halo", "moldura", "rack", "tetoFrente", "tetoTodo", "laterais", "tras"]
   };
-  let extra = 0.6, slow = false, hasRack = false;
+  let extra = 0.6, slow = false, hasRack = true;
 
   const $ = (q) => document.querySelector(q);
   const $$ = (q) => [...document.querySelectorAll(q)];

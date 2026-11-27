@@ -94,7 +94,7 @@ function init() {
   const sbBar = new THREE.Mesh(new THREE.BoxGeometry(1.0, 0.06, 0.10), lam("#1d1e22")); wallBar.add(sbBar);
   const sbArm = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.16, 0.02), lam("#2b2d33")); wallBar.add(sbArm);
   const sub = box(0.30, 0.42, 0.35, 1.05, 0.21, 0.25, lam("#18191d"));   // subwoofer
-  let hasRack = false;
+  let hasRack = true;
   function placeRack() {
     rackGrp.visible = hasRack; wallBar.visible = !hasRack;
     const bottom = 1.1 - TV.h / 2;
@@ -201,7 +201,7 @@ function init() {
     rackInput.disabled = !hasRack; rackInput.closest("label").classList.toggle("off", !hasRack);
     syncStrips();
   });
-  rackInput.disabled = true; rackInput.closest("label").classList.add("off");
+  rackInput.disabled = false;
   $("#r3-slow").addEventListener("change", (e) => (slow = e.target.checked));
   $("#r3-extra").addEventListener("input", (e) => { extra = e.target.value / 100; $("#r3-extra-out").textContent = e.target.value + "%"; });
   const sc = $("#r3-scenes");

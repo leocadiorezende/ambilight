@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css?v=202611271849">
+  <link rel="stylesheet" href="assets/css/style.css?v=202611271857">
 </head>
 <body>
   <div class="bg-grid" aria-hidden="true"></div>
@@ -158,7 +158,7 @@
             <input type="range" id="sim-extra" min="0" max="100" value="60">
           </label>
           <label class="sim-check"><input type="checkbox" id="sim-slow"> Simular lâmpada inteligente ou kit barato (atraso de ~0,5 s)</label>
-          <label class="sim-check"><input type="checkbox" id="sim-rack"> Com rack (sem ele, a soundbar fica na parede)</label>
+          <label class="sim-check"><input type="checkbox" id="sim-rack" checked> Com rack (desmarque para ver sem rack)</label>
         </div>
 
         <div class="sim-group">
@@ -242,7 +242,7 @@
         <div class="sim-group">
           <label class="sim-check"><input type="checkbox" id="r3-strips"> Mostrar onde ficam as fitas (raio-X)</label>
           <label class="sim-check"><input type="checkbox" id="r3-door"> Abrir a porta</label>
-          <label class="sim-check"><input type="checkbox" id="r3-rack"> Com rack (sem ele, a soundbar fica na parede, embaixo da TV)</label>
+          <label class="sim-check"><input type="checkbox" id="r3-rack" checked> Com rack (desmarque para ver sem rack, com a soundbar na parede)</label>
           <label class="sim-check"><input type="checkbox" id="r3-slow"> Simular lâmpada inteligente (atraso de ~0,5 s)</label>
           <label class="sim-range">Brilho das camadas extras <output id="r3-extra-out">60%</output>
             <input type="range" id="r3-extra" min="0" max="100" value="60">
@@ -264,6 +264,20 @@
           <tr><td><b>Parede da TV</b> (base do projeto)</td><td>Halo + quadro de ripas nos 4 cantos da parede (rack opcional)</td><td>~1.120</td><td>Tábuas nos cantos da parede da TV</td><td>Quase nenhum</td><td>Imersão forte sem atrapalhar o filme. A parede inteira acompanha a imagem; no raio, o alto da parede clareia.</td></tr>
           <tr><td>Mega imersão</td><td>Parede da TV + teto da sala toda + paredes laterais</td><td>~2.420</td><td>Ripas + moldura no teto das 4 paredes</td><td>Médio</td><td>A sala inteira reage. Exige brilho baixo nas camadas de fora para não lavar a imagem.</td></tr>
           <tr><td>Exagero</td><td>Tudo, inclusive a parede atrás do sofá</td><td>~2.690</td><td>Tudo acima</td><td>Alto</td><td>Só para demonstração. A luz atrás de você reflete na tela e tira o contraste do OLED.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="reveal">
+      <h3>Com rack ou sem rack: onde ficam os equipamentos</h3>
+      <p class="muted">Equipamentos que precisam de lugar: PS5, Fire TV, Raspberry Pi com a placa de captura, splitter e switch HDMI, switch de rede, controlador WLED e 2 fontes. A soundbar e o subwoofer entram na conta também.</p>
+      <table class="table">
+        <thead><tr><th>Opção</th><th>Onde fica cada coisa</th><th>Luz de baixo</th><th>Prós</th><th>Contras</th></tr></thead>
+        <tbody>
+          <tr><td><b>A · Com rack</b> (o atual, 2,20 m)</td><td>Tudo dentro do rack, com as fontes no fundo e ventilação. Soundbar em cima do rack, subwoofer ao lado. Os cabos sobem pela parede até a TV.</td><td>O rodapé de luz para nas pontas do rack. Embaixo do rack, a fita no recuo da base ilumina o chão.</td><td>Não precisa de obra para guardar nada. Fácil de mexer nos aparelhos.</td><td>A luz de baixo fica dividida em três pedaços. O rack aparece na parede.</td></tr>
+          <tr><td><b>B · Sem rack, nicho atrás da TV</b></td><td>Caixa embutida na parede atrás da TV (uns 40 × 30 × 8 cm, ventilada) com Fire TV, Pi, captura, splitter, switches, controlador e fontes. PS5 numa prateleira estreita ou num móvel pequeno numa parede lateral. Soundbar num suporte preso ao suporte da TV. Subwoofer num canto perto do sofá.</td><td>Rodapé de luz inteiro, de ponta a ponta.</td><td>Parede mais limpa: só a TV, a soundbar e o quadro de luz.</td><td>Precisa de obra para o nicho. Mexer nos aparelhos exige tirar a TV do suporte, ou deixar uma tampa.</td></tr>
+          <tr><td><b>C · Sem rack, móvel pequeno na lateral</b></td><td>Um móvel baixo ou aparador numa parede lateral guarda tudo, inclusive o PS5. Os cabos HDMI vão por eletroduto no chão ou na parede até a TV. Soundbar no suporte da TV.</td><td>Rodapé de luz inteiro.</td><td>Sem nicho na parede. Fácil de mexer nos aparelhos.</td><td>Precisa de cabos HDMI mais longos e de uma passagem para eles. O móvel ocupa espaço na lateral.</td></tr>
+          <tr><td><b>D · Sem rack, equipamentos em outro cômodo</b></td><td>Tudo num armário de outro cômodo, com cabos HDMI de fibra até a TV. Na sala ficam só a TV, a soundbar e o subwoofer.</td><td>Rodapé de luz inteiro.</td><td>A sala fica sem nenhum aparelho à vista.</td><td>A obra é maior (eletroduto até o outro cômodo). O controle do PS5 pode perder alcance através da parede.</td></tr>
         </tbody>
       </table>
     </div>
@@ -892,18 +906,18 @@
     <p class="muted small">Baseado no tutorial de Chris Maher (SignalRGB + Soft Ambiance) e adaptado para fontes externas com HyperHDR.</p>
   </footer>
 
-  <script src="assets/js/scenes.js?v=202611271849"></script>
-  <script src="assets/js/sim.js?v=202611271849"></script>
-  <script src="assets/js/ripacalc.js?v=202611271849"></script>
-  <script src="assets/js/main.js?v=202611271849"></script>
+  <script src="assets/js/scenes.js?v=202611271857"></script>
+  <script src="assets/js/sim.js?v=202611271857"></script>
+  <script src="assets/js/ripacalc.js?v=202611271857"></script>
+  <script src="assets/js/main.js?v=202611271857"></script>
   <script type="importmap">
     { "imports": {
       "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
       "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
     } }
   </script>
-  <script type="module" src="assets/js/room3d.js?v=202611271849"></script>
-  <script type="module" src="assets/js/ripa3d.js?v=202611271849"></script>
+  <script type="module" src="assets/js/room3d.js?v=202611271857"></script>
+  <script type="module" src="assets/js/ripa3d.js?v=202611271857"></script>
 </body>
 </html>
 
