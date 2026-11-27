@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css?v=202611271825">
+  <link rel="stylesheet" href="assets/css/style.css?v=202611271849">
 </head>
 <body>
   <div class="bg-grid" aria-hidden="true"></div>
@@ -133,7 +133,7 @@
           <h4>Versões prontas</h4>
           <div class="filters" id="sim-presets">
             <button class="chip" data-p="sotv">Só TV</button>
-            <button class="chip active" data-p="parede">Parede da TV (recomendado)</button>
+            <button class="chip active" data-p="parede">Parede da TV (base do projeto)</button>
             <button class="chip" data-p="mega">Mega imersão</button>
             <button class="chip" data-p="exagero">Exagero</button>
           </div>
@@ -158,6 +158,7 @@
             <input type="range" id="sim-extra" min="0" max="100" value="60">
           </label>
           <label class="sim-check"><input type="checkbox" id="sim-slow"> Simular lâmpada inteligente ou kit barato (atraso de ~0,5 s)</label>
+          <label class="sim-check"><input type="checkbox" id="sim-rack"> Com rack (sem ele, a soundbar fica na parede)</label>
         </div>
 
         <div class="sim-group">
@@ -241,6 +242,7 @@
         <div class="sim-group">
           <label class="sim-check"><input type="checkbox" id="r3-strips"> Mostrar onde ficam as fitas (raio-X)</label>
           <label class="sim-check"><input type="checkbox" id="r3-door"> Abrir a porta</label>
+          <label class="sim-check"><input type="checkbox" id="r3-rack"> Com rack (sem ele, a soundbar fica na parede, embaixo da TV)</label>
           <label class="sim-check"><input type="checkbox" id="r3-slow"> Simular lâmpada inteligente (atraso de ~0,5 s)</label>
           <label class="sim-range">Brilho das camadas extras <output id="r3-extra-out">60%</output>
             <input type="range" id="r3-extra" min="0" max="100" value="60">
@@ -259,7 +261,7 @@
         <thead><tr><th>Versão</th><th>Camadas</th><th>LEDs (aprox.)</th><th>Obra</th><th>Reflexo na tela</th><th>Para quem</th></tr></thead>
         <tbody>
           <tr><td>Só TV</td><td>Halo atrás da TV</td><td>~210</td><td>Nenhuma</td><td>Nenhum</td><td>Quem quer o efeito clássico da Philips, só que mais rápido e preciso.</td></tr>
-          <tr><td>Parede da TV</td><td>Halo + moldura de ripas + rack + teto junto à TV</td><td>~1.530</td><td>Ripas na parede da TV</td><td>Quase nenhum</td><td>Imersão forte sem atrapalhar o filme. O raio clareia o alto da parede e o teto da frente.</td></tr>
+          <tr><td><b>Parede da TV</b> (base do projeto)</td><td>Halo + quadro de ripas nos 4 cantos da parede (rack opcional)</td><td>~1.120</td><td>Tábuas nos cantos da parede da TV</td><td>Quase nenhum</td><td>Imersão forte sem atrapalhar o filme. A parede inteira acompanha a imagem; no raio, o alto da parede clareia.</td></tr>
           <tr><td>Mega imersão</td><td>Parede da TV + teto da sala toda + paredes laterais</td><td>~2.420</td><td>Ripas + moldura no teto das 4 paredes</td><td>Médio</td><td>A sala inteira reage. Exige brilho baixo nas camadas de fora para não lavar a imagem.</td></tr>
           <tr><td>Exagero</td><td>Tudo, inclusive a parede atrás do sofá</td><td>~2.690</td><td>Tudo acima</td><td>Alto</td><td>Só para demonstração. A luz atrás de você reflete na tela e tira o contraste do OLED.</td></tr>
         </tbody>
@@ -272,9 +274,9 @@
         <thead><tr><th>Camada</th><th>Onde a fita fica</th><th>Para onde a luz vai</th><th>Comprimento</th><th>LEDs (60/m)</th></tr></thead>
         <tbody>
           <tr><td><i class="sw" style="background:#00e5ff"></i> Halo</td><td>Na traseira da TV, a 3–4 cm da borda</td><td>Parede atrás da TV</td><td>~3,5 m (55")</td><td>~211</td></tr>
-          <tr><td><i class="sw" style="background:#ff3d81"></i> Moldura de ripas</td><td>Dentro das ripas nas 4 bordas da parede da TV: ripa de cima a 13 cm do teto, rodapé e uma ripa vertical em cada canto</td><td>Para dentro, lavando a parede em direção à TV</td><td>~14,8 m</td><td>~890 (os ~130 atrás do rack ficam apagados)</td></tr>
-          <tr><td><i class="sw" style="background:#ffb300"></i> Rack e chão</td><td>Embaixo da frente do rack, junto à base recuada</td><td>Chão na frente do rack</td><td>~2,1 m</td><td>~126</td></tr>
-          <tr><td><i class="sw" style="background:#b388ff"></i> Teto junto à TV</td><td>Em cima da ripa de cima (a mesma ripa leva duas fitas)</td><td>Teto, junto à parede da TV</td><td>5,0 m</td><td>300</td></tr>
+          <tr><td><i class="sw" style="background:#ff3d81"></i> Moldura de ripas</td><td>Atrás das tábuas de 11 cm presas nos 4 cantos da parede da TV (junto ao teto, ao chão e às paredes laterais), numa cantoneira encostada na madeira</td><td>Ao longo da parede, em direção à TV</td><td>~15,2 m</td><td>~910</td></tr>
+          <tr><td><i class="sw" style="background:#ffb300"></i> Rack e chão</td><td>Só se o rack ficar: embaixo da frente do rack, junto à base recuada</td><td>Chão na frente do rack</td><td>~2,1 m</td><td>~126</td></tr>
+          <tr><td><i class="sw" style="background:#b388ff"></i> Teto junto à TV</td><td>Exige a tábua de cima 13 cm abaixo do teto, com uma segunda fita. Fora da versão base.</td><td>Teto, junto à parede da TV</td><td>5,0 m</td><td>300</td></tr>
           <tr><td><i class="sw" style="background:#7c4dff"></i> Teto da sala toda</td><td>Moldura de poliestireno nas outras 3 paredes, 15–20 cm abaixo do teto, interrompida no ar-condicionado</td><td>Teto da sala inteira</td><td>~10 m</td><td>~600</td></tr>
           <tr><td><i class="sw" style="background:#00e676"></i> Paredes laterais</td><td>Na face das ripas dos cantos virada para a parede lateral</td><td>Paredes laterais, perto da TV</td><td>2 × 2,4 m</td><td>~290</td></tr>
           <tr><td><i class="sw" style="background:#ff1744"></i> Parede atrás do sofá</td><td>Atrás do encosto do sofá</td><td>Parede do fundo</td><td>~4,6 m</td><td>~276</td></tr>
@@ -282,64 +284,7 @@
       </table>
     </div>
 
-    <div class="reveal">
-      <h3>Cortes técnicos da versão "Parede da TV"</h3>
-      <p class="muted">Desenhos fora de escala, com as medidas de partida. Antes de fazer a parede inteira, vale montar uma peça de teste de 50 cm.</p>
-      <div class="cuts">
-        <figure class="cut">
-          <svg viewBox="0 0 300 220" fill="#8d93a8" font-family="monospace" font-size="9.5" aria-label="Corte da TV com a fita na traseira">
-            <rect x="20" y="10" width="14" height="200" class="c-wall"/><text x="27" y="216" class="c-t">parede</text>
-            <rect x="34" y="100" width="40" height="10" class="c-mount"/><text x="150" y="120" class="c-t l">suporte com 5–8 cm</text><text x="150" y="134" class="c-t l">de afastamento</text>
-            <rect x="74" y="40" width="12" height="140" class="c-tv"/><text x="96" y="80" class="c-t l">TV</text>
-            <rect x="68" y="48" width="6" height="10" class="c-led"/><rect x="68" y="162" width="6" height="10" class="c-led"/>
-            <path d="M66 53 Q 45 40 38 20" class="c-ray"/><path d="M66 167 Q 45 180 38 200" class="c-ray"/>
-            <text x="150" y="40" class="c-t l">fita colada na traseira,</text><text x="150" y="54" class="c-t l">a 3–4 cm da borda,</text><text x="150" y="68" class="c-t l">virada para a parede</text>
-          </svg>
-          <figcaption>Halo: a TV esconde a fita, a luz rebate na parede.</figcaption>
-        </figure>
-        <figure class="cut">
-          <svg viewBox="0 0 300 220" fill="#8d93a8" font-family="monospace" font-size="9.5" aria-label="Corte da ripa de cima com duas fitas">
-            <rect x="10" y="10" width="280" height="12" class="c-wall"/><text x="150" y="8" class="c-t">teto</text>
-            <rect x="20" y="22" width="14" height="190" class="c-wall"/><text x="27" y="218" class="c-t">parede</text>
-            <rect x="34" y="62" width="40" height="8" class="c-ripa"/><rect x="66" y="62" width="8" height="40" class="c-ripa"/>
-            <rect x="40" y="56" width="14" height="6" class="c-led top"/><rect x="40" y="70" width="14" height="6" class="c-led"/>
-            <path d="M47 54 Q 50 35 90 26" class="c-ray top"/><path d="M47 78 Q 40 120 36 170" class="c-ray"/>
-            <text x="90" y="52" class="c-t l">13 cm do teto</text>
-            <text x="90" y="80" class="c-t l">fenda 4–5 cm</text>
-            <text x="90" y="100" class="c-t l">frente 10–12 cm</text>
-            <text x="120" y="135" class="c-t l">fita de cima: luz no teto</text>
-            <text x="120" y="150" class="c-t l">fita de baixo: luz na parede</text>
-          </svg>
-          <figcaption>Ripa de cima: uma fita ilumina o teto, a outra lava a parede para baixo.</figcaption>
-        </figure>
-        <figure class="cut">
-          <svg viewBox="0 0 300 220" fill="#8d93a8" font-family="monospace" font-size="9.5" aria-label="Corte visto de cima da ripa do canto">
-            <rect x="10" y="20" width="280" height="14" class="c-wall"/><text x="150" y="16" class="c-t">parede da TV</text>
-            <rect x="10" y="34" width="14" height="180" class="c-wall"/><text x="18" y="216" class="c-t">lateral</text>
-            <rect x="24" y="34" width="8" height="44" class="c-ripa"/><rect x="24" y="72" width="100" height="8" class="c-ripa"/>
-            <rect x="32" y="42" width="6" height="14" class="c-led"/>
-            <path d="M40 49 Q 120 40 200 44" class="c-ray"/>
-            <rect x="24" y="84" width="6" height="14" class="c-led side"/>
-            <text x="140" y="70" class="c-t l">luz vai para dentro,</text><text x="140" y="84" class="c-t l">em direção à TV</text>
-            <text x="40" y="118" class="c-t l">(opcional) fita virada para a</text><text x="40" y="132" class="c-t l">parede lateral = camada "laterais"</text>
-          </svg>
-          <figcaption>Ripa do canto, vista de cima: a frente da ripa esconde a fita de quem está no sofá.</figcaption>
-        </figure>
-        <figure class="cut">
-          <svg viewBox="0 0 300 220" fill="#8d93a8" font-family="monospace" font-size="9.5" aria-label="Corte do rodapé e do rack">
-            <rect x="10" y="196" width="280" height="14" class="c-wall"/><text x="90" y="218" class="c-t">chão</text>
-            <rect x="20" y="10" width="14" height="186" class="c-wall"/><text x="27" y="8" class="c-t">parede</text>
-            <rect x="34" y="150" width="8" height="46" class="c-ripa"/><rect x="34" y="150" width="30" height="8" class="c-ripa"/>
-            <rect x="42" y="160" width="6" height="12" class="c-led"/><path d="M45 158 Q 40 120 38 70" class="c-ray"/>
-            <text x="48" y="128" class="c-t l">rodapé:</text><text x="48" y="140" class="c-t l">luz sobe</text>
-            <rect x="140" y="110" width="140" height="66" class="c-rack"/><rect x="152" y="176" width="116" height="20" class="c-rack dark"/>
-            <rect x="250" y="177" width="16" height="5" class="c-led"/><path d="M258 184 Q 270 192 288 195" class="c-ray"/>
-            <text x="210" y="148" class="c-t">rack</text><text x="210" y="92" class="c-t">fita no recuo de 4+ cm,</text><text x="210" y="104" class="c-t">luz no chão</text>
-          </svg>
-          <figcaption>Rodapé e rack: a luz do rodapé sobe pela parede e a do rack ilumina o chão.</figcaption>
-        </figure>
-      </div>
-    </div>
+    <div class="note reveal">Para ver como a ripa é montada, onde a fita fica e de onde ela aparece, veja a seção <a href="#ripa">A ripa</a>: tem a montagem em 3D, a calculadora de visibilidade e o canto da porta.</div>
   </section>
 
   <!-- COMO FUNCIONA A RIPA -->
@@ -347,7 +292,7 @@
     <div class="section-head reveal">
       <span class="num">COMO FUNCIONA</span>
       <h2>A ripa, peça por peça</h2>
-      <p>Funciona como uma sanca de gesso, só que de madeira e na parede: uma canaleta em "L" com a fita escondida dentro. Clique em "Ver montagem" ou avance passo a passo. Você também pode girar a peça com o mouse.</p>
+      <p>A ripa é uma tábua de 11 cm presa no canto da parede, a 5 cm da parede da TV. A própria parede lateral (ou o teto, ou o chão) fecha o outro lado. A fita fica atrás da tábua, encostada na madeira, apontando ao longo da parede. Clique em "Ver montagem" ou avance passo a passo. Você também pode girar a peça com o mouse.</p>
     </div>
 
     <div class="sim reveal">
@@ -366,23 +311,63 @@
           <button class="btn primary small-btn" id="ripa-play">Ver montagem</button>
         </div>
         <div class="sim-group">
-          <label class="sim-check"><input type="checkbox" id="ripa-xray"> Tábua da frente transparente (para ver a fita)</label>
+          <label class="sim-check"><input type="checkbox" id="ripa-xray"> Tábua transparente (para ver a fita atrás dela)</label>
         </div>
         <div class="sim-group">
           <h4>Medidas de partida</h4>
           <ul class="list small">
-            <li>Espaçador: tira de madeira de 2 × 5 cm, presa na parede.</li>
-            <li>Tábua da frente: 11 cm de largura, MDF ou madeira, pintada de branco fosco.</li>
-            <li>Fenda por onde a luz sai: 5 cm.</li>
-            <li>A tábua avança o dobro da fenda, e por isso o LED fica escondido de quem está no sofá.</li>
+            <li>Tábua: 11 cm de largura, MDF ou madeira, pintada de branco fosco.</li>
+            <li>Fenda: 5 cm entre a parede da TV e a tábua.</li>
+            <li>Cantoneira de alumínio de 1 × 1 cm parafusada nas costas da tábua.</li>
+            <li>Fita colada na cantoneira, a ~1 cm da tábua, apontando ao longo da parede.</li>
+            <li>A medida que mais esconde o LED é a fita encostada na madeira. Teste na calculadora abaixo.</li>
           </ul>
         </div>
       </div>
     </div>
 
     <div class="section-head reveal" style="margin-top:3rem">
+      <h2>A fita aparece para quem está na sala?</h2>
+      <p>Mude as três medidas e veja, no corte, até onde a tábua esconde a fita. A área laranja é a única região da sala de onde daria para ver o LED: uma faixa colada na parede da TV.</p>
+    </div>
+    <div class="sim reveal" id="ripacalc">
+      <div class="sim-stage rc-stage">
+        <svg id="rc-svg" viewBox="0 0 380 240" aria-label="Corte da ripa com a linha de visão"></svg>
+      </div>
+      <div class="sim-panel">
+        <div class="sim-group">
+          <h4>Qual ripa</h4>
+          <div class="filters" id="rc-types">
+            <button class="chip active" data-t="lateral">Laterais</button>
+            <button class="chip" data-t="rodape">Rodapé</button>
+            <button class="chip" data-t="topo">De cima</button>
+          </div>
+        </div>
+        <div class="sim-group">
+          <label class="sim-range">Largura da tábua <output id="rc-w-out"></output><input type="range" id="rc-w" min="6" max="20" step="1" value="11"></label>
+          <label class="sim-range">Fenda (parede da TV até a tábua) <output id="rc-g-out"></output><input type="range" id="rc-g" min="3" max="8" step="0.5" value="5"></label>
+          <label class="sim-range">Distância da fita até a tábua <output id="rc-c-out"></output><input type="range" id="rc-c" min="0.5" max="4" step="0.5" value="1"></label>
+        </div>
+        <div class="sim-group">
+          <h4>Observador no desenho</h4>
+          <select id="rc-obs" class="select"></select>
+        </div>
+        <div class="sim-group">
+          <h4>Resultado</h4>
+          <p class="rc-big">A fita só aparece para quem estiver a menos de <b id="rc-min">—</b> da parede da TV.</p>
+          <ul class="rc-list" id="rc-list"></ul>
+        </div>
+      </div>
+    </div>
+    <div class="cards cols-3">
+      <article class="card reveal"><h3>A tábua (largura)</h3><p>Quanto mais larga, mais esconde. Com 11 cm a fita já some para quem está a mais de ~55 cm da parede da TV. Com 14 cm, o limite cai para ~43 cm.</p></article>
+      <article class="card reveal"><h3>A fenda (5 cm)</h3><p>Quase não muda o quanto a fita aparece. Ela muda a luz: fenda menor deixa a luz mais concentrada perto da ripa; fenda maior deixa mais suave e solta mais luz para a sala. Entre 4 e 6 cm funciona bem.</p></article>
+      <article class="card reveal"><h3>A fita encostada na madeira</h3><p>É a medida que mais importa. Por isso a fita vai numa cantoneira presa nas costas da tábua: ela fica a menos de 1 cm da madeira e a ripa inteira vira uma peça pronta.</p></article>
+    </div>
+
+    <div class="section-head reveal" style="margin-top:3rem">
       <h2>O canto da porta</h2>
-      <p>A porta da parede 2 começa a 10 cm do canto e abre girando em direção à parede da TV. Veja como cada opção de ripa fica com a porta aberta e fechada.</p>
+      <p>A porta da parede 2 começa a 10 cm do canto e abre girando em direção à parede da TV. A ripa fica no canto, como nos outros lados. A tábua e a fita ocupam só os primeiros 6,5 cm, antes da guarnição da porta.</p>
     </div>
     <div class="sim reveal">
       <div class="sim-stage">
@@ -390,12 +375,7 @@
       </div>
       <div class="sim-panel">
         <div class="sim-group">
-          <h4>Opção de ripa no canto</h4>
-          <div class="filters" id="porta-opts">
-            <button class="chip active" data-o="A">A · 20 cm do canto</button>
-            <button class="chip" data-o="B">B · no canto</button>
-            <button class="chip" data-o="C">C · sem ripa vertical</button>
-          </div>
+          <h4>Ripa no canto</h4>
           <p id="porta-text" class="step-caption">—</p>
         </div>
         <div class="sim-group">
@@ -409,7 +389,7 @@
           </div>
         </div>
         <div class="sim-group">
-          <p class="muted small">Durante o filme a porta fica fechada, então ela não atrapalha a luz. Vale colocar um prendedor de porta no chão para a maçaneta não bater na parede nem na ripa.</p>
+          <p class="muted small">Durante o filme a porta fica fechada. Aberta, ela fica uns 6 cm à frente da tábua. Vale colocar um prendedor de porta no chão para a maçaneta não bater na parede.</p>
         </div>
       </div>
     </div>
@@ -912,17 +892,18 @@
     <p class="muted small">Baseado no tutorial de Chris Maher (SignalRGB + Soft Ambiance) e adaptado para fontes externas com HyperHDR.</p>
   </footer>
 
-  <script src="assets/js/scenes.js?v=202611271825"></script>
-  <script src="assets/js/sim.js?v=202611271825"></script>
-  <script src="assets/js/main.js?v=202611271825"></script>
+  <script src="assets/js/scenes.js?v=202611271849"></script>
+  <script src="assets/js/sim.js?v=202611271849"></script>
+  <script src="assets/js/ripacalc.js?v=202611271849"></script>
+  <script src="assets/js/main.js?v=202611271849"></script>
   <script type="importmap">
     { "imports": {
       "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
       "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
     } }
   </script>
-  <script type="module" src="assets/js/room3d.js?v=202611271825"></script>
-  <script type="module" src="assets/js/ripa3d.js?v=202611271825"></script>
+  <script type="module" src="assets/js/room3d.js?v=202611271849"></script>
+  <script type="module" src="assets/js/ripa3d.js?v=202611271849"></script>
 </body>
 </html>
 

@@ -40,16 +40,16 @@
 
   /* ---------- controles ---------- */
   const layers = {
-    halo: true, moldura: true, rack: true, tetoFrente: true,
+    halo: true, moldura: true, rack: true, tetoFrente: false,
     tetoTodo: false, laterais: false, tras: false
   };
   const presets = {
     sotv: ["halo"],
-    parede: ["halo", "moldura", "rack", "tetoFrente"],
+    parede: ["halo", "moldura", "rack"],
     mega: ["halo", "moldura", "rack", "tetoFrente", "tetoTodo", "laterais"],
     exagero: ["halo", "moldura", "rack", "tetoFrente", "tetoTodo", "laterais", "tras"]
   };
-  let extra = 0.6, slow = false;
+  let extra = 0.6, slow = false, hasRack = false;
 
   const $ = (q) => document.querySelector(q);
   const $$ = (q) => [...document.querySelectorAll(q)];
@@ -68,6 +68,10 @@
     $("#sim-extra-out").textContent = e.target.value + "%";
   });
   $("#sim-slow").addEventListener("change", (e) => (slow = e.target.checked));
+  const rackIn = $('#sim-layers input[data-l="rack"]');
+  const syncRack = () => { rackIn.disabled = !hasRack; rackIn.closest("label").classList.toggle("off", !hasRack); };
+  $("#sim-rack").addEventListener("change", (e) => { hasRack = e.target.checked; syncRack(); });
+  syncRack();
   const chips = $("#sim-scenes");
   chips.innerHTML = '<button class="chip active" data-s="auto">Automático</button>' +
     Ambi.scenes.map((x) => `<button class="chip" data-s="${x.id}">${x.name}</button>`).join("");
@@ -147,7 +151,7 @@
     }
 
     // 3. rack e chão
-    if (layers.rack) inPlane("floor", () => {
+    if (layers.rack && hasRack) inPlane("floor", () => {
       for (let i = 0; i < 8; i++) {
         const c = L.bottom[Math.floor(4 + i * (NT - 8) / 8)];
         glow(RACK.x + 14 + i * (RACK.w - 28) / 7, Y1 + 6, 70, c, 0.35 * ex, 0.35);
@@ -193,12 +197,16 @@
       ctx.strokeRect(X0 + 3, Y0 + 3, X1 - X0 - 6, Y1 - Y0 - 6);
     }
 
-    // rack e soundbar
-    const rl = layers.rack ? 0.06 : 0;
-    ctx.fillStyle = "#1b1d24"; ctx.fillRect(RACK.x, RACK.y, RACK.w, RACK.h - 6);
-    ctx.fillStyle = "#121318"; ctx.fillRect(RACK.x + 8, RACK.y + RACK.h - 6, RACK.w - 16, 6);
-    if (rl) { ctx.fillStyle = rgba(L.bottom[10], rl * ex * 3); ctx.fillRect(RACK.x, RACK.y + RACK.h - 8, RACK.w, 2); }
-    ctx.fillStyle = "#2a2d36"; ctx.fillRect(SB.x, SB.y, SB.w, SB.h);
+    // rack e soundbar (sem rack, a soundbar fica na parede, 12 cm abaixo da TV)
+    if (hasRack) {
+      const rl = layers.rack ? 0.06 : 0;
+      ctx.fillStyle = "#1b1d24"; ctx.fillRect(RACK.x, RACK.y, RACK.w, RACK.h - 6);
+      ctx.fillStyle = "#121318"; ctx.fillRect(RACK.x + 8, RACK.y + RACK.h - 6, RACK.w - 16, 6);
+      if (rl) { ctx.fillStyle = rgba(L.bottom[10], rl * ex * 3); ctx.fillRect(RACK.x, RACK.y + RACK.h - 8, RACK.w, 2); }
+      ctx.fillStyle = "#2a2d36"; ctx.fillRect(SB.x, SB.y, SB.w, SB.h);
+    } else {
+      ctx.fillStyle = "#2a2d36"; ctx.fillRect(430, TV.y + TV.h + 9, 100, 6);
+    }
 
     // TV
     ctx.fillStyle = "#050506"; ctx.fillRect(TV.x - 2, TV.y - 2, TV.w + 4, TV.h + 4);

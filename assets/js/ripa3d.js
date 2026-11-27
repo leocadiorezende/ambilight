@@ -1,6 +1,6 @@
 /* ==========================================================
    Animações 3D explicativas:
-   1. Montagem da ripa, peça por peça
+   1. Montagem da ripa no canto (tábua + cantoneira + fita)
    2. Canto da porta (parede 2), com a porta abrindo para a parede da TV
    Medidas em metros.
    ========================================================== */
@@ -8,17 +8,18 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
 const $ = (q) => document.querySelector(q);
-const $$ = (q) => [...document.querySelectorAll(q)];
 const gam = (v) => Math.pow(v, 1.8);
+const P = 0.015;  // fita a 1,5 cm do canto
+const T = 0.015;  // espessura da tábua
 
-/* ---------- base comum: cena, câmera, controles, loop só quando visível ---------- */
+/* ---------- base comum ---------- */
 function stage(host, fov = 45) {
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   host.appendChild(renderer.domElement);
   const scene = new THREE.Scene();
   scene.background = new THREE.Color("#05060a");
-  const camera = new THREE.PerspectiveCamera(fov, 16 / 9, 0.01, 30);
+  const camera = new THREE.PerspectiveCamera(fov, 16 / 9, 0.005, 30);
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
   const resize = () => {
@@ -28,17 +29,15 @@ function stage(host, fov = 45) {
     camera.aspect = w / h; camera.updateProjectionMatrix();
   };
   window.addEventListener("resize", resize); resize();
-  scene.add(new THREE.AmbientLight("#ffffff", 0.35));
+  scene.add(new THREE.AmbientLight("#ffffff", 0.4));
   const key = new THREE.DirectionalLight("#ffffff", 0.6); key.position.set(1, 2, 3); scene.add(key);
 
-  // movimento suave da câmera entre pontos de vista
   let tween = null;
-  const fly = (pos, target, ms = 1200) => {
+  const fly = (pos, target, ms = 1300) => {
     tween = { p0: camera.position.clone(), t0: controls.target.clone(), p1: new THREE.Vector3(...pos), t1: new THREE.Vector3(...target), s: performance.now(), ms };
   };
   const jump = (pos, target) => { camera.position.set(...pos); controls.target.set(...target); controls.update(); };
-
-  const api = { renderer, scene, camera, controls, fly, jump, onFrame: null };
+  const api = { scene, camera, controls, fly, jump, onFrame: null };
   let running = false;
   const loop = (now) => {
     if (!running) return;
@@ -60,7 +59,6 @@ function stage(host, fov = 45) {
   return api;
 }
 
-// parede com textura pintada (para desenhar a luz rebatida)
 function paintedWall(w, h, S = 200) {
   const cv = document.createElement("canvas");
   cv.width = Math.round(w * S); cv.height = Math.round(h * S);
@@ -68,7 +66,6 @@ function paintedWall(w, h, S = 200) {
   const mesh = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ map: tex }));
   return { mesh, cv, ctx: cv.getContext("2d"), tex, S };
 }
-// etiqueta 3D (sprite) com texto
 function makeLabel(scene, text, scale = 0.36) {
   const c = document.createElement("canvas"); c.width = 512; c.height = 96;
   const g = c.getContext("2d");
@@ -81,6 +78,27 @@ function makeLabel(scene, text, scale = 0.36) {
 }
 const hueColor = (t) => new THREE.Color().setHSL((t / 8000) % 1, 1, 0.55);
 const css = (c, a) => `rgba(${(gam(c.r) * 255) | 0},${(gam(c.g) * 255) | 0},${(gam(c.b) * 255) | 0},${a})`;
+const lam = (c, o = {}) => new THREE.MeshLambertMaterial({ color: c, ...o });
+
+/* Peça da ripa vertical num canto à esquerda (canto em x = 0, parede da TV em z = 0).
+   Devolve um grupo com tábua, suportes, cantoneira e fita; sinal = +1 (canto esquerdo) ou −1 (direito). */
+function ripaPiece({ w, g, c, h, y0 = 0, sign = 1, boardMat, ledMat }) {
+  const grp = new THREE.Group();
+  const add = (sx, sy, sz, x, y, z, m, name) => {
+    const b = new THREE.Mesh(new THREE.BoxGeometry(sx, sy, sz), m);
+    b.position.set(sign * x, y0 + y, z); b.name = name || ""; grp.add(b); return b;
+  };
+  add(w, h, T, w / 2, h / 2, g + T / 2, boardMat, "board");
+  const bracket = lam("#7a7f8c");
+  for (let y = 0.08; y < h; y += 0.3) add(0.012, 0.03, g, 0.006, y, g / 2, bracket, "bracket");
+  const alu = lam("#b8bfcc");
+  add(0.012, h, 0.0015, 0.009, h / 2, g - 0.00075, alu, "angle");                 // aba presa na tábua
+  add(0.0015, h, c + 0.005, P - 0.00075, h / 2, g - (c + 0.005) / 2, alu, "angle"); // aba onde a fita é colada
+  add(0.002, h, 0.010, P + 0.001, h / 2, g - c, lam("#f2f2f2"), "strip");          // placa da fita
+  const n = Math.round(h * 60);
+  for (let i = 0; i < n; i++) add(0.004, 0.005, 0.005, P + 0.0035, (i + 0.5) / 60, g - c, ledMat, "strip");
+  return grp;
+}
 
 /* ==========================================================
    1. Montagem da ripa
@@ -91,85 +109,82 @@ function ripaBuild() {
   const st = stage(host);
   const { scene } = st;
   const WW = 1.2, WH = 0.6;
+  let dims = { w: 0.11, g: 0.05, c: 0.01 };
 
   const wall = paintedWall(WW, WH);
   wall.mesh.position.set(WW / 2, WH / 2, 0); scene.add(wall.mesh);
-  const floor = new THREE.Mesh(new THREE.PlaneGeometry(WW + 0.6, 1.2), new THREE.MeshLambertMaterial({ color: "#0e0f13" }));
-  floor.rotation.x = -Math.PI / 2; floor.position.set(WW / 2, 0, 0.6); scene.add(floor);
-  // parede lateral (o canto), para dar referência
-  const sideWall = new THREE.Mesh(new THREE.PlaneGeometry(0.8, WH), new THREE.MeshLambertMaterial({ color: "#3a3c45" }));
-  sideWall.rotation.y = Math.PI / 2; sideWall.position.set(0, WH / 2, 0.4); scene.add(sideWall);
+  const floor = new THREE.Mesh(new THREE.PlaneGeometry(WW + 0.6, 1.4), lam("#0e0f13"));
+  floor.rotation.x = -Math.PI / 2; floor.position.set(WW / 2, 0, 0.7); scene.add(floor);
+  const sideWall = new THREE.Mesh(new THREE.PlaneGeometry(0.9, WH), lam("#3a3c45"));
+  sideWall.rotation.y = Math.PI / 2; sideWall.position.set(0, WH / 2, 0.45); scene.add(sideWall);
 
-  const white = new THREE.MeshLambertMaterial({ color: "#e9e9e9", transparent: true });
-  const wood = new THREE.MeshLambertMaterial({ color: "#e0b97a" });
-  const piece = (w, h, d, x, y, z, mat) => { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat); m.position.set(x, y, z); scene.add(m); return m; };
-
-  // espaçador: 2 cm de espessura, 5 cm de profundidade, colado/parafusado na parede
-  const spacer = piece(0.02, WH, 0.05, 0.01, WH / 2, 0.025, wood);
-  // fita de LED na face interna do espaçador, virada para o centro da parede
-  const strip = new THREE.Group();
-  const pcb = new THREE.Mesh(new THREE.BoxGeometry(0.002, WH, 0.012), new THREE.MeshLambertMaterial({ color: "#f2f2f2" }));
-  pcb.position.set(0.021, WH / 2, 0.025); strip.add(pcb);
+  const boardMat = lam("#e9e9e9", { transparent: true });
   const ledMat = new THREE.MeshBasicMaterial({ color: "#333" });
-  for (let i = 0; i < WH * 60; i++) {
-    const d = new THREE.Mesh(new THREE.BoxGeometry(0.004, 0.005, 0.005), ledMat);
-    d.position.set(0.0235, (i + 0.5) / 60, 0.025); strip.add(d);
-  }
-  scene.add(strip);
-  // tábua da frente: 11 cm de largura, 1,5 cm de espessura
-  const front = piece(0.11, WH, 0.015, 0.055, WH / 2, 0.0575, white);
+  let piece = null;
+  const build = () => {
+    if (piece) scene.remove(piece);
+    piece = ripaPiece({ ...dims, h: WH, boardMat, ledMat });
+    scene.add(piece);
+    apply(false, true);
+  };
 
-  const L = (t) => makeLabel(scene, t, 0.3);
-  const lbl = { spacer: L("espaçador · 5 cm"), strip: L("fita de LED"), front: L("tábua da frente · 11 cm"), light: L("a luz sai pela fenda"), wall: L("parede da TV") };
-  lbl.spacer.position.set(-0.1, 0.66, 0.1);
-  lbl.strip.position.set(0.2, 0.47, 0.1);
-  lbl.front.position.set(0.24, 0.68, 0.12);
-  lbl.light.position.set(0.42, 0.3, 0.06);
-  lbl.wall.position.set(0.7, 0.55, 0.02);
+  const L = (t) => makeLabel(scene, t, 0.26);
+  const lbl = { corner: L("canto da sala"), board: L("tábua"), bracket: L("suportes"), angle: L("cantoneira de alumínio"), strip: L("fita, encostada na tábua"), light: L("a luz sai pela fenda"), side: L("parede lateral"), wall: L("parede da TV") };
+  const placeLabels = () => {
+    const { w, g } = dims;
+    lbl.corner.position.set(0.05, 0.66, 0.05);
+    lbl.side.position.set(-0.02, 0.4, 0.35);
+    lbl.wall.position.set(0.7, 0.45, 0.02);
+    lbl.board.position.set(w + 0.12, 0.5, g + 0.03);
+    lbl.bracket.position.set(0.12, 0.08, g + 0.12);
+    lbl.angle.position.set(0.2, 0.62, g);
+    lbl.strip.position.set(0.22, 0.32, g - 0.01);
+    lbl.light.position.set(0.45, 0.22, 0.04);
+  };
 
-  const CAM = [[0.7, 0.95, 0.75], [0.14, 0.42, 0.02]];
+  const CAM = [[0.75, 0.95, 0.8], [0.12, 0.38, 0.03]];
   const steps = [
-    { t: "1. Este é um pedaço da parede da TV, no canto esquerdo. Ela precisa estar lisa e pintada de branco fosco.", show: ["wall"], cam: CAM },
-    { t: "2. O espaçador: uma tira de madeira de 5 cm, presa na parede junto ao canto.", show: ["spacer"], cam: CAM },
-    { t: "3. A fita de LED é colada na lateral do espaçador, virada para o centro da parede (para a TV).", show: ["spacer", "strip"], cam: CAM },
-    { t: "4. A tábua da frente (11 cm) é presa na frente do espaçador e cobre a fita. Entre a tábua e a parede sobra uma fenda de 5 cm.", show: ["spacer", "strip", "front"], cam: CAM },
-    { t: "5. A fita acende. A luz não tem para onde ir a não ser pela fenda, e sai lavando a parede em direção à TV.", show: ["spacer", "strip", "front", "light"], cam: CAM },
-    { t: "6. Agora visto do sofá: você só enxerga a tábua branca e a parede colorida. O LED fica escondido atrás da tábua.", show: ["spacer", "strip", "front", "light"], cam: [[0.75, 0.35, 2.3], [0.45, 0.3, 0]] }
+    { t: "1. O canto da sala: a parede da TV e a parede lateral. A parede lateral vai fazer o papel de apoio da ripa.", show: [], labels: ["corner", "side", "wall"], cam: CAM },
+    { t: "2. A tábua é presa no canto com suportes pequenos, a alguns centímetros da parede da TV. Entre as duas fica a fenda.", show: ["board", "bracket"], labels: ["board", "bracket"], cam: CAM },
+    { t: "3. Nas costas da tábua vai uma cantoneira de alumínio. A fita é colada nela, encostada na madeira e apontando para a TV (a tábua está transparente para você ver).", show: ["board", "bracket", "angle", "strip"], labels: ["angle", "strip"], xray: true, cam: [[0.35, 0.75, 0.42], [0.03, 0.45, 0.03]] },
+    { t: "4. A fita acende. A luz sai pela fenda e lava a parede em direção à TV.", show: ["board", "bracket", "angle", "strip"], lit: true, labels: ["light"], cam: CAM },
+    { t: "5. Visto do sofá: só aparecem a tábua branca e a parede colorida. A fita fica escondida.", show: ["board", "bracket", "angle", "strip"], lit: true, labels: [], cam: [[0.75, 0.35, 2.3], [0.45, 0.3, 0]] },
+    { t: "6. Visto de quem passa a 1 m da parede da TV, do outro lado: a fita continua escondida atrás da tábua.", show: ["board", "bracket", "angle", "strip"], lit: true, labels: [], cam: [[1.9, 0.5, 1.0], [0.05, 0.3, 0.03]] }
   ];
   let step = 0, xray = false, lit = false;
-  const apply = (fly = true) => {
+  const apply = (fly = true, keepCam = false) => {
     const s = steps[step];
-    spacer.visible = s.show.includes("spacer");
-    strip.visible = s.show.includes("strip");
-    front.visible = s.show.includes("front");
-    lit = s.show.includes("light");
-    white.opacity = xray ? 0.25 : 1;
-    lbl.wall.visible = step === 0;
-    lbl.spacer.visible = step >= 1 && step <= 3;
-    lbl.strip.visible = step === 2 || (xray && step >= 3 && step <= 4);
-    lbl.front.visible = step === 3 || step === 4;
-    lbl.light.visible = step === 4;
+    if (piece) piece.children.forEach((m) => (m.visible = s.show.includes(m.name)));
+    lit = !!s.lit;
+    boardMat.opacity = xray || s.xray ? 0.22 : 1;
+    boardMat.depthWrite = !(xray || s.xray);
+    Object.entries(lbl).forEach(([k, sp]) => (sp.visible = s.labels.includes(k)));
+    placeLabels();
     $("#ripa-step").textContent = s.t;
     $("#ripa-n").textContent = `${step + 1} / ${steps.length}`;
-    fly ? st.fly(...s.cam) : st.jump(...s.cam);
+    if (!keepCam) fly ? st.fly(...s.cam) : st.jump(...s.cam);
   };
   $("#ripa-prev").addEventListener("click", () => { step = Math.max(0, step - 1); apply(); });
   $("#ripa-next").addEventListener("click", () => { step = Math.min(steps.length - 1, step + 1); apply(); });
-  $("#ripa-xray").addEventListener("change", (e) => { xray = e.target.checked; apply(false); });
+  $("#ripa-xray").addEventListener("change", (e) => { xray = e.target.checked; apply(false, true); });
   let auto = null;
   $("#ripa-play").addEventListener("click", (e) => {
     if (auto) { clearInterval(auto); auto = null; e.target.textContent = "Ver montagem"; return; }
     step = 0; apply(); e.target.textContent = "Pausar";
-    auto = setInterval(() => { if (step < steps.length - 1) { step++; apply(); } else { clearInterval(auto); auto = null; e.target.textContent = "Ver montagem"; } }, 4500);
+    auto = setInterval(() => { if (step < steps.length - 1) { step++; apply(); } else { clearInterval(auto); auto = null; e.target.textContent = "Ver montagem"; } }, 4800);
+  });
+  window.addEventListener("ripachange", (e) => {
+    const d = e.detail;
+    dims = { w: d.w / 100, g: d.g / 100, c: d.c / 100 };
+    build();
   });
 
   st.onFrame = (now) => {
-    const c = hueColor(now);
-    const g = wall.ctx, S = wall.S;
+    const c = hueColor(now), g = wall.ctx, S = wall.S;
     g.globalCompositeOperation = "source-over";
     g.fillStyle = "#2a2c33"; g.fillRect(0, 0, wall.cv.width, wall.cv.height);
     if (lit) {
-      const x0 = 0.02 * S, x1 = 0.9 * S;
+      const x0 = P * S, x1 = 0.9 * S;
       const gr = g.createLinearGradient(x0, 0, x1, 0);
       gr.addColorStop(0, css(c, 0.95)); gr.addColorStop(0.35, css(c, 0.45)); gr.addColorStop(1, css(c, 0));
       g.fillStyle = gr; g.fillRect(x0, 0, x1 - x0, wall.cv.height);
@@ -177,6 +192,7 @@ function ripaBuild() {
     wall.tex.needsUpdate = true;
     ledMat.color.copy(lit ? c : new THREE.Color("#333"));
   };
+  build();
   apply(false);
 }
 
@@ -191,77 +207,62 @@ function doorCorner() {
   if (!host) return;
   const st = stage(host, 50);
   const { scene } = st;
-  const CX = 1.5, H = 2.5, DEP = 1.4;
+  const CX = 1.5, H = 2.8, DEP = 1.4;
+  const W = 0.11, G = 0.05;
 
   const tvWall = paintedWall(CX, H, 120);
   tvWall.mesh.position.set(CX / 2, H / 2, 0); scene.add(tvWall.mesh);
-  const side = new THREE.Mesh(new THREE.PlaneGeometry(DEP, H), new THREE.MeshLambertMaterial({ color: "#1b1c22" }));
+  const side = new THREE.Mesh(new THREE.PlaneGeometry(DEP, H), lam("#1b1c22"));
   side.rotation.y = -Math.PI / 2; side.position.set(CX, H / 2, DEP / 2); scene.add(side);
-  const floor = new THREE.Mesh(new THREE.PlaneGeometry(CX, DEP), new THREE.MeshLambertMaterial({ color: "#2a2c34" }));
+  const floor = new THREE.Mesh(new THREE.PlaneGeometry(CX, DEP), lam("#2a2c34"));
   floor.rotation.x = -Math.PI / 2; floor.position.set(CX / 2, 0, DEP / 2); scene.add(floor);
 
-  const lam = (c, o = {}) => new THREE.MeshLambertMaterial({ color: c, ...o });
   const box = (w, h, d, x, y, z, m, parent = scene) => { const b = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), m); b.position.set(x, y, z); parent.add(b); return b; };
-  // vão e batente da porta (0,10 a 1,04 m do canto)
   const frameMat = lam("#5a3f26");
   box(0.04, 2.10, 0.04, CX - 0.02, 1.05, 0.12, frameMat);
   box(0.04, 2.10, 0.04, CX - 0.02, 1.05, 1.02, frameMat);
   box(0.04, 0.04, 0.94, CX - 0.02, 2.12, 0.57, frameMat);
-  // folha da porta com dobradiça do lado do canto (z = 0,14)
   const hinge = new THREE.Group(); hinge.position.set(CX - 0.02, 0, 0.14); scene.add(hinge);
   box(0.035, 2.08, 0.80, 0, 1.04, 0.40, lam("#8a5a2e"), hinge);
-  box(0.065, 0.025, 0.12, -0.05, 1.0, 0.72, lam("#c9c9c9"), hinge); // maçaneta (lado da sala)
+  box(0.065, 0.025, 0.12, -0.05, 1.0, 0.72, lam("#c9c9c9"), hinge);
 
-  // ripas: de cima, rodapé e vertical (posição depende da opção)
-  const ripaMat = lam("#e6e6e6");
-  box(CX, 0.12, 0.065, CX / 2, H - 0.25, 0.0325, ripaMat);
-  box(CX, 0.12, 0.065, CX / 2, 0.06, 0.0325, ripaMat);
-  const vert = box(0.11, H - 0.37, 0.065, 0, (H - 0.37) / 2 + 0.12, 0.0325, ripaMat);
+  // quadro: tábua de cima (no teto), rodapé e ripa vertical no canto
+  const boardMat = lam("#e6e6e6");
+  const ledMat = new THREE.MeshBasicMaterial({ color: "#333" });
+  box(CX, W, T, CX / 2, H - W / 2, G + T / 2, boardMat);
+  box(CX, W, T, CX / 2, W / 2, G + T / 2, boardMat);
+  const vert = ripaPiece({ w: W, g: G, c: 0.01, h: H - 2 * W, y0: W, sign: -1, boardMat, ledMat });
+  vert.position.x = CX; scene.add(vert);
 
-  const options = {
-    A: { x: CX - 0.20 - 0.055, show: true, text: "Opção A: ripa vertical a 20 cm do canto. A porta aberta passa uns 6 cm à frente da ripa e a maçaneta fica longe dela. Os dois lados da parede ficam simétricos." },
-    B: { x: CX - 0.055, show: true, text: "Opção B: ripa no canto. Cabe, mas fica justo: a porta aberta passa logo à frente da ripa e qualquer guarnição ou prendedor de porta encosta nela." },
-    C: { x: 0, show: false, text: "Opção C: sem ripa vertical. Só a ripa de cima e o rodapé. A porta não interfere em nada." }
-  };
-  let opt = "A", open = 0, target = 0;
-  let applyOpt = () => {
-    vert.visible = options[opt].show; vert.position.x = options[opt].x;
-    $("#porta-text").textContent = options[opt].text;
-  };
-  $$("#porta-opts .chip").forEach((c) => c.addEventListener("click", () => {
-    $$("#porta-opts .chip").forEach((x) => x.classList.toggle("active", x === c)); opt = c.dataset.o; applyOpt();
-  }));
+  $("#porta-text").textContent = "A ripa vertical fica no canto, igual às outras. A tábua sai 6,5 cm da parede da TV e a guarnição da porta começa em 10 cm, então sobram uns 3,5 cm. Com a porta aberta, ela passa uns 6 cm à frente da tábua.";
+  const PL = (t, x, y, z) => { const s = makeLabel(scene, t, 0.75); s.position.set(x, y, z); return s; };
+  PL("parede da TV", 0.45, 2.2, 0.05); PL("parede 2", CX - 0.02, 2.5, 1.1); PL("porta", CX - 0.15, 1.6, 0.6); PL("ripa no canto", CX - 0.35, 1.25, 0.15);
+
+  let open = 0, target = 0;
   $("#porta-toggle").addEventListener("click", (e) => { target = target ? 0 : 1; e.target.textContent = target ? "Fechar a porta" : "Abrir a porta"; });
-  $$("#porta-views .chip").forEach((c) => c.addEventListener("click", () => {
-    $$("#porta-views .chip").forEach((x) => x.classList.toggle("active", x === c));
-    const v = { sala: [[-0.2, 1.7, 3.0], [1.05, 1.0, 0.3]], cima: [[0.9, 3.8, 0.9], [0.9, 0, 0.6]] }[c.dataset.v];
+  document.querySelectorAll("#porta-views .chip").forEach((c) => c.addEventListener("click", () => {
+    document.querySelectorAll("#porta-views .chip").forEach((x) => x.classList.toggle("active", x === c));
+    const v = { sala: [[-0.2, 1.8, 3.0], [1.05, 1.1, 0.3]], cima: [[0.9, 4.2, 0.9], [0.9, 0, 0.6]] }[c.dataset.v];
     st.fly(...v);
   }));
 
   st.onFrame = (now) => {
     open += (target - open) * 0.06;
-    hinge.rotation.y = -open * Math.PI / 2 * 0.97; // abre em direção à parede da TV
+    hinge.rotation.y = -open * Math.PI / 2 * 0.97;
     const c = hueColor(now), g = tvWall.ctx, S = tvWall.S;
+    ledMat.color.copy(c);
     g.globalCompositeOperation = "source-over"; g.fillStyle = "#1c1d23"; g.fillRect(0, 0, tvWall.cv.width, tvWall.cv.height);
-    // luz da ripa de cima e do rodapé
-    let gr = g.createLinearGradient(0, 0.25 * S, 0, 1.6 * S);
-    gr.addColorStop(0, css(c, 0.7)); gr.addColorStop(1, css(c, 0)); g.fillStyle = gr; g.fillRect(0, 0.25 * S, CX * S, 1.35 * S);
-    gr = g.createLinearGradient(0, (H - 0.12) * S, 0, (H - 1.5) * S);
-    gr.addColorStop(0, css(c, 0.6)); gr.addColorStop(1, css(c, 0)); g.fillStyle = gr; g.fillRect(0, (H - 1.5) * S, CX * S, 1.38 * S);
-    if (options[opt].show) {
-      const x = (options[opt].x - 0.055) * S;
-      gr = g.createLinearGradient(x, 0, x - 1.3 * S, 0);
-      gr.addColorStop(0, css(c, 0.8)); gr.addColorStop(1, css(c, 0)); g.fillStyle = gr; g.fillRect(x - 1.3 * S, 0, 1.3 * S, H * S);
-    }
+    let gr = g.createLinearGradient(0, W * S, 0, 1.6 * S);              // de cima para baixo
+    gr.addColorStop(0, css(c, 0.7)); gr.addColorStop(1, css(c, 0)); g.fillStyle = gr; g.fillRect(0, W * S, CX * S, (1.6 - W) * S);
+    gr = g.createLinearGradient(0, (H - W) * S, 0, (H - 1.5) * S);      // rodapé para cima
+    gr.addColorStop(0, css(c, 0.6)); gr.addColorStop(1, css(c, 0)); g.fillStyle = gr; g.fillRect(0, (H - 1.5) * S, CX * S, (1.5 - W) * S);
+    const x = (CX - P) * S;                                              // canto para dentro
+    gr = g.createLinearGradient(x, 0, x - 1.3 * S, 0);
+    gr.addColorStop(0, css(c, 0.8)); gr.addColorStop(1, css(c, 0)); g.fillStyle = gr; g.fillRect(x - 1.3 * S, 0, 1.3 * S, H * S);
     tvWall.tex.needsUpdate = true;
   };
-  const PL = (t, x, y, z) => { const s = makeLabel(scene, t, 0.75); s.position.set(x, y, z); return s; };
-  PL("parede da TV", 0.45, 2.0, 0.05); PL("parede 2", CX - 0.02, 2.35, 1.1); PL("porta", CX - 0.15, 1.6, 0.6);
-  const ripaLbl = PL("ripa vertical", 0, 1.3, 0.15);
-  const _apply = applyOpt;
-  applyOpt = () => { _apply(); ripaLbl.visible = options[opt].show; ripaLbl.position.x = options[opt].x - 0.2; };
-  st.jump([-0.2, 1.7, 3.0], [1.05, 1.0, 0.3]);
-  applyOpt();
+  st.jump([-0.2, 1.8, 3.0], [1.05, 1.1, 0.3]);
 }
 
-if (window.THREE_OK !== false) { ripaBuild(); doorCorner(); }
+ripaBuild();
+doorCorner();

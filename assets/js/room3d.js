@@ -83,10 +83,25 @@ function init() {
     m.position.set(x, y, z); scene.add(m); return m;
   };
   // rack 2,20 × 0,46 × 0,37 m com base recuada
-  box(2.2, 0.40, 0.37, 2.5, 0.06 + 0.20, 0.185, lam("#cfc8bd"));
-  box(2.1, 0.06, 0.28, 2.5, 0.03, 0.14, lam("#8f897f"));
-  box(1.0, 0.06, 0.10, 2.5, 0.49, 0.14, lam("#1d1e22"));          // soundbar
-  box(0.30, 0.42, 0.35, 1.05, 0.21, 0.25, lam("#18191d"));        // subwoofer
+  // rack (opcional) com a soundbar em cima
+  const rackGrp = new THREE.Group(); scene.add(rackGrp);
+  const inRack = (m) => { scene.remove(m); rackGrp.add(m); return m; };
+  inRack(box(2.2, 0.40, 0.37, 2.5, 0.06 + 0.20, 0.185, lam("#cfc8bd")));
+  inRack(box(2.1, 0.06, 0.28, 2.5, 0.03, 0.14, lam("#8f897f")));
+  inRack(box(1.0, 0.06, 0.10, 2.5, 0.49, 0.14, lam("#1d1e22")));
+  // sem rack: soundbar num suporte preso no suporte da TV, ~7 cm à frente da parede
+  const wallBar = new THREE.Group(); scene.add(wallBar);
+  const sbBar = new THREE.Mesh(new THREE.BoxGeometry(1.0, 0.06, 0.10), lam("#1d1e22")); wallBar.add(sbBar);
+  const sbArm = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.16, 0.02), lam("#2b2d33")); wallBar.add(sbArm);
+  const sub = box(0.30, 0.42, 0.35, 1.05, 0.21, 0.25, lam("#18191d"));   // subwoofer
+  let hasRack = false;
+  function placeRack() {
+    rackGrp.visible = hasRack; wallBar.visible = !hasRack;
+    const bottom = 1.1 - TV.h / 2;
+    sbBar.position.set(2.5, bottom - 0.12, 0.12);
+    sbArm.position.set(2.5, bottom - 0.05, 0.075);
+    if (hasRack) sub.position.set(1.05, 0.21, 0.25); else sub.position.set(0.25, 0.21, 1.6);
+  }
   box(0.22, 0.30, 1.06, 0.11, 2.65, 1.45, lam("#e8e8e8"));        // ar-condicionado
   const sofaMat = lam("#7d6e5c");
   box(5, 0.45, 0.85, 2.5, 0.225, 2.325, sofaMat);                 // assento
@@ -103,8 +118,8 @@ function init() {
   // ripas da moldura (pintadas de branco)
   const ripaMat = lam("#e6e6e6");
   const ripas = new THREE.Group();
-  [[RW, 0.12, 0.05, RW / 2, 2.61, 0.025], [RW, 0.12, 0.05, RW / 2, 0.06, 0.025],
-   [0.12, 2.43, 0.05, 0.06, 1.335, 0.025], [0.12, 2.43, 0.05, RW - 0.06, 1.335, 0.025]]
+  [[RW, 0.11, 0.015, RW / 2, RH - 0.055, 0.0575], [RW, 0.11, 0.015, RW / 2, 0.055, 0.0575],
+   [0.11, RH - 0.22, 0.015, 0.055, RH / 2, 0.0575], [0.11, RH - 0.22, 0.015, RW - 0.055, RH / 2, 0.0575]]
     .forEach(([w, h, d, x, y, z]) => { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), ripaMat); m.position.set(x, y, z); ripas.add(m); });
   scene.add(ripas);
 
@@ -126,6 +141,7 @@ function init() {
     tvBody.scale.set(w + 0.01, h + 0.01, 1);
     tvScreen.scale.set(w, h, 1); tvRefl.scale.set(w, h, 1);
     buildStrips();
+    placeRack();
   };
 
   // luzes para os objetos (sofá, rack): seguem a cor média
@@ -150,7 +166,7 @@ function init() {
     const add = (k, list) => { const g = new THREE.Group(); list.forEach(([a, b]) => seg(g, a, b, stripColors[k])); strips[k] = g; scene.add(g); };
     const x0 = 2.5 - TV.w / 2 + 0.035, x1 = 2.5 + TV.w / 2 - 0.035, y0 = 1.1 - TV.h / 2 + 0.035, y1 = 1.1 + TV.h / 2 - 0.035, zt = 0.065;
     add("halo", [[[x0, y1, zt], [x1, y1, zt]], [[x0, y0, zt], [x1, y0, zt]], [[x0, y0, zt], [x0, y1, zt]], [[x1, y0, zt], [x1, y1, zt]]]);
-    add("moldura", [[[0, 2.56, 0.03], [RW, 2.56, 0.03]], [[0, 0.11, 0.03], [RW, 0.11, 0.03]], [[0.11, 0.12, 0.03], [0.11, 2.55, 0.03]], [[RW - 0.11, 0.12, 0.03], [RW - 0.11, 2.55, 0.03]]]);
+    add("moldura", [[[0, RH - 0.015, 0.04], [RW, RH - 0.015, 0.04]], [[0, 0.03, 0.04], [RW, 0.03, 0.04]], [[0.015, 0.11, 0.04], [0.015, RH - 0.11, 0.04]], [[RW - 0.015, 0.11, 0.04], [RW - 0.015, RH - 0.11, 0.04]]]);
     add("rack", [[[1.45, 0.055, 0.31], [3.55, 0.055, 0.31]]]);
     add("tetoFrente", [[[0, 2.68, 0.03], [RW, 2.68, 0.03]]]);
     add("tetoTodo", [[[0.03, 2.62, 0.08], [0.03, 2.62, 0.9]], [[0.03, 2.62, 2.0], [0.03, 2.62, RD - 0.03]], [[0, 2.62, RD - 0.03], [RW, 2.62, RD - 0.03]], [[RW - 0.03, 2.62, 0.08], [RW - 0.03, 2.62, RD - 0.03]]]);
@@ -160,15 +176,15 @@ function init() {
   }
 
   /* ---------- controles ---------- */
-  const layers = { halo: true, moldura: true, rack: true, tetoFrente: true, tetoTodo: false, laterais: false, tras: false };
+  const layers = { halo: true, moldura: true, rack: true, tetoFrente: false, tetoTodo: false, laterais: false, tras: false };
   const presets = {
     sotv: ["halo"],
-    parede: ["halo", "moldura", "rack", "tetoFrente"],
+    parede: ["halo", "moldura", "rack"],
     mega: ["halo", "moldura", "rack", "tetoFrente", "tetoTodo", "laterais"],
     exagero: ["halo", "moldura", "rack", "tetoFrente", "tetoTodo", "laterais", "tras"]
   };
   let extra = 0.6, slow = false, showStrips = false;
-  function syncStrips() { Object.entries(strips).forEach(([k, g]) => (g.visible = showStrips && layers[k])); ripas.visible = layers.moldura || layers.tetoFrente || layers.laterais; }
+  function syncStrips() { Object.entries(strips).forEach(([k, g]) => (g.visible = showStrips && layers[k] && (k !== "rack" || hasRack))); ripas.visible = layers.moldura || layers.tetoFrente || layers.laterais; }
   const syncToggles = () => $$("#r3-layers input").forEach((i) => (i.checked = layers[i.dataset.l]));
   $$("#r3-layers input").forEach((i) => i.addEventListener("change", () => { layers[i.dataset.l] = i.checked; $$("#r3-presets .chip").forEach((c) => c.classList.remove("active")); syncStrips(); }));
   $$("#r3-presets .chip").forEach((c) => c.addEventListener("click", () => {
@@ -179,6 +195,13 @@ function init() {
   $$("#r3-views .chip").forEach((c) => c.addEventListener("click", () => { $$("#r3-views .chip").forEach((x) => x.classList.toggle("active", x === c)); setView(c.dataset.v); }));
   $("#r3-strips").addEventListener("change", (e) => { showStrips = e.target.checked; syncStrips(); });
   $("#r3-door").addEventListener("change", (e) => (doorTarget = e.target.checked ? 1 : 0));
+  const rackInput = $('#r3-layers input[data-l="rack"]');
+  $("#r3-rack").addEventListener("change", (e) => {
+    hasRack = e.target.checked; placeRack();
+    rackInput.disabled = !hasRack; rackInput.closest("label").classList.toggle("off", !hasRack);
+    syncStrips();
+  });
+  rackInput.disabled = true; rackInput.closest("label").classList.add("off");
   $("#r3-slow").addEventListener("change", (e) => (slow = e.target.checked));
   $("#r3-extra").addEventListener("input", (e) => { extra = e.target.value / 100; $("#r3-extra-out").textContent = e.target.value + "%"; });
   const sc = $("#r3-scenes");
@@ -261,13 +284,13 @@ function init() {
     }
     if (layers.moldura) {
       const a = 0.6 * ex, d = 1.2;
-      band(P.tv, rectPx(P.tv, 0, RH - 0.25 - d, RW, RH - 0.25), L.top, "x", "down", a);     // ripa de cima (fita virada para a parede)
-      band(P.tv, rectPx(P.tv, 0, 0.12, RW, 0.12 + d), L.bottom, "x", "up", a);              // rodapé
-      band(P.tv, rectPx(P.tv, 0.12, 0, 0.12 + d, RH), L.left, "y", "right", a);
-      band(P.tv, rectPx(P.tv, RW - 0.12 - d, 0, RW - 0.12, RH), L.right, "y", "left", a);
+      band(P.tv, rectPx(P.tv, 0, RH - d, RW, RH), L.top, "x", "down", a);   // tábua de cima, no teto
+      band(P.tv, rectPx(P.tv, 0, 0, RW, d), L.bottom, "x", "up", a);         // rodapé
+      band(P.tv, rectPx(P.tv, 0, 0, d, RH), L.left, "y", "right", a);        // cantos
+      band(P.tv, rectPx(P.tv, RW - d, 0, RW, RH), L.right, "y", "left", a);
       band(P.floor, rectPx(P.floor, 0, 0, RW, 0.4), L.bottom, "x", "down", a * 0.35);
     }
-    if (layers.rack) {
+    if (layers.rack && hasRack) {
       for (let i = 0; i < 8; i++) glow(P.floor, 1.55 + i * 0.27, 0.42, 0.55, L.bottom[Math.floor(4 + i * (NT - 8) / 8)], 0.3 * ex, 1, 0.55);
     }
     if (layers.tetoFrente) band(P.ceil, rectPx(P.ceil, 0, 0, RW, 1.3), L.top, "x", "up", 0.5 * ex);

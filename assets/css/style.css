@@ -498,3 +498,27 @@ nav a:hover, nav a.active { color: #fff; background: var(--panel-2); }
   .diagram { background: #f6f6f6; color: #000; }
   .flow-svg text { fill: #000; } .flow-svg .node rect { fill: #fff; }
 }
+
+/* calculadora da ripa */
+.rc-stage { background: #0a0b10; }
+.rc-stage svg { width: 100%; height: auto; display: block; }
+.rc-wall { fill: #2a2d38; }
+.rc-board { fill: #e6e6e6; }
+.rc-angle { fill: #9aa3b5; }
+.rc-led { fill: #ff3d81; filter: drop-shadow(0 0 5px #ff3d81); }
+.rc-zone { fill: rgba(255, 179, 0, .18); }
+.rc-limit { stroke: #ffb300; stroke-width: 1.2; stroke-dasharray: 4 3; }
+.rc-ray { stroke-width: 2; }
+.rc-ray.ok { stroke: var(--green); }
+.rc-ray.bad { stroke: var(--pink); }
+.rc-hit { fill: var(--green); }
+.rc-t { fill: #aab0c4; font-family: var(--mono); font-size: 8.5px; text-anchor: middle; }
+.rc-t.l { text-anchor: start; } .rc-t.r { text-anchor: end; }
+.rc-t.led { fill: #ff7aa8; } .rc-t.zone { fill: #ffb300; }
+.rc-big { font-size: .95rem; color: #c3c8d8; margin: 0 0 .6rem; }
+.rc-big b { color: var(--amber); }
+.rc-list { list-style: none; padding: 0; margin: 0; display: grid; gap: .3rem; font-size: .85rem; }
+.rc-list li { display: grid; grid-template-columns: 1.2rem 1fr auto; gap: .4rem; align-items: center; color: #c3c8d8; }
+.rc-list li.ok span, .rc-list li.ok b { color: var(--green); }
+.rc-list li.bad span, .rc-list li.bad b { color: var(--pink); }
+.sim-layers label.off { opacity: .4; pointer-events: none; }
