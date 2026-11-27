@@ -197,8 +197,8 @@
     },
     rack: {
       title: "Zona 2 · Embaixo do rack",
-      text: "Fita no recuo da base do rack, virada para o chão. Substitui a luz de baixo da TV, que fica tampada pela soundbar, e completa a moldura de luz.",
-      specs: { "Comprimento": "~2,10 m (rack de 2,20 m)", "LEDs": "~126", "Saída": "2", "Energia": "Fonte A", "Dica": "Perfil com difusor evita reflexo de pontos no piso" }
+      text: "Fita dentro de um perfil de alumínio com difusor, colada embaixo da parte da frente do rack, no recuo de mais de 4 cm da base, virada para o chão. Fica escondida de quem está no sofá. Substitui a luz de baixo da TV, que fica tampada pela soundbar, e completa a moldura de luz.",
+      specs: { "Comprimento": "~2,10 m (rack de 2,20 m)", "LEDs": "~126", "Saída": "2", "Energia": "Fonte A", "Posição": "Junto à base recuada, longe da borda da frente", "Acabamento": "Perfil de sobrepor com difusor leitoso" }
     }
   };
   /* ---------- tamanho da TV: atualiza desenhos e contagem de LEDs ---------- */
@@ -293,6 +293,7 @@
     { group: "LEDs e acabamento", icon: "💡", items: [
       { id: "strip", name: "Fita WS2815 12 V, 60 LEDs/m, IP30, rolo de 5 m", qty: 4, price: [120, 260], p: "essencial", desc: "Endereçável LED a LED, com linha de dados reserva. IP30 (sem silicone) mantém a cor mais fiel. ~14,7 m necessários.", q: "fita led ws2815 12v 60 leds ip30 5m", s: ["ali", "ml", "amz"] },
       { id: "perfil", name: "Perfil de alumínio de embutir 2 m com difusor leitoso", qty: 2, price: [60, 150], p: "essencial", desc: "Colunas laterais. Profundidade de pelo menos 15 mm, com tampas e presilhas.", q: "perfil aluminio embutir fita led 2m difusor leitoso", s: ["ml", "amz"] },
+      { id: "perfilrack", name: "Perfil de alumínio de sobrepor com difusor leitoso (para o rack)", qty: 1, price: [60, 150], p: "recomendado", desc: "2,10 m no total (por exemplo, uma barra de 2 m e uma de 1 m, cortada). Cabe no recuo de 4 cm da base e evita que o piso reflita cada LED como um ponto.", q: "perfil aluminio sobrepor fita led difusor leitoso", s: ["ml", "amz"] },
       { id: "moldura", name: "Moldura de poliestireno para luz indireta LED (barra de 2 m)", qty: 3, price: [40, 110], p: "essencial", desc: "Substitui a sanca de gesso. 5 m de parede = 3 barras.", q: "moldura poliestireno luz indireta led", s: ["ml", "amz"] },
       { id: "cola", name: "Cola para moldura de poliestireno + massa para emendas", qty: 1, price: [30, 70], p: "essencial", desc: "Fixação e acabamento da moldura antes da pintura.", q: "cola para moldura de poliestireno", s: ["ml", "amz"] },
       { id: "vhb", name: "Fita dupla face 3M VHB 10 mm + promotor de adesão", qty: 1, price: [30, 80], p: "recomendado", desc: "O adesivo da fita de LED costuma soltar com o calor da traseira da TV.", q: "fita 3m vhb 10mm", s: ["ml", "amz"] },
@@ -408,7 +409,7 @@
     { t: "Montagem dos LEDs", s: "Fase 4 · solda e instalação", li: [
       "Na bancada, soldar os fios de entrada de cada trecho (V+, GND e dados; BI ligado ao GND no início) e isolar com termo-retrátil.",
       "Testar cada trecho ligado ao controlador, antes de colar na parede ou na TV.",
-      "Instalar a fita da TV com fita VHB, as colunas nos perfis, o teto na moldura e a fita sob o rack.",
+      "Instalar a fita da TV com fita VHB, as colunas nos perfis, o teto na moldura e a fita do rack no perfil, embaixo da frente do rack, junto à base recuada.",
       "Passar energia e dados pelos eletrodutos até o rack. Montar fusíveis, Wagos e o GND comum entre as duas fontes e o controlador.",
       "Com tudo desligado da tomada, conferir com o multímetro que não há curto entre V+ e GND em nenhum trecho.",
       "Ligar e medir a tensão no fim de cada trecho com branco (com limite de corrente ativo): deve ficar acima de ~11 V."
