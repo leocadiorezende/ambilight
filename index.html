@@ -38,7 +38,7 @@
       <h1>Ambilight de cinema<br><span class="grad">em sincronia com cada quadro</span></h1>
       <p class="lead">Projeto completo para transformar a parede da TV em uma extensão da imagem: luz atrás da TV, colunas laterais, luz indireta no teto e embaixo do rack, tudo copiando a imagem em tempo real, sem perder qualidade de vídeo.</p>
       <div class="hero-stats">
-        <div><strong data-count="862">0</strong><span>LEDs endereçáveis</span></div>
+        <div><strong data-count="880">0</strong><span>LEDs endereçáveis</span></div>
         <div><strong data-count="5">0</strong><span>zonas de luz</span></div>
         <div><strong data-count="60">0</strong><span>quadros por segundo</span></div>
       </div>
@@ -119,17 +119,20 @@
     <div class="split">
       <div class="reveal">
         <ul class="facts">
+          <li><span>Sala</span><strong>5,00 × 3,00 m (15 m²)</strong></li>
           <li><span>Largura da parede da TV</span><strong>5,00 m</strong></li>
           <li><span>Pé-direito</span><strong>2,80 m</strong></li>
           <li><span>TV → encosto do sofá</span><strong>2,50 m</strong></li>
           <li><span>Olhos → tela (estimado)</span><strong>~2,35 m</strong></li>
           <li><span>Cor da parede</span><strong>Branca</strong></li>
-          <li><span>Janela (parede da TV, à esquerda)</span><strong>a 1,10 m do canto</strong></li>
-          <li><span>Rack de chão</span><strong>Mantido (soundbar)</strong></li>
+          <li><span>Rack de chão</span><strong>2,20 m, centralizado (1,40 m de cada lado)</strong></li>
+          <li><span>Porta</span><strong>Parede direita, a 10 cm do canto da TV</strong></li>
+          <li><span>Janelas</span><strong>Parede esquerda e parede atrás do sofá</strong></li>
+          <li><span>Ar-condicionado</span><strong>Parede esquerda, a 2,50 m do chão</strong></li>
           <li><span>Painel de madeira da parede</span><strong>Removido</strong></li>
         </ul>
         <div class="note">
-          <strong>Por que a parede branca é ideal:</strong> o branco reflete a luz sem mudar a cor. A madeira do painel atual deixaria tudo alaranjado, por isso a remoção ajuda bastante. Para escurecer a sala, vale trocar a cortina por uma blackout.
+          <strong>Por que a parede branca é ideal:</strong> o branco reflete a luz sem mudar a cor. A madeira do painel atual deixaria tudo alaranjado, por isso a remoção ajuda bastante. A parede da TV não tem janela nem porta, então as duas colunas de luz cabem sem conflito.
         </div>
       </div>
 
@@ -164,6 +167,65 @@
     <div class="reveal tip-row">
       <div class="tip"><strong>Altura da TV:</strong> o centro da tela deve ficar próximo da altura dos olhos sentado, em torno de <b>1,00 m a 1,15 m do chão</b>. TV alta demais cansa o pescoço.</div>
       <div class="tip"><strong>Afastamento da parede:</strong> use suporte fixo com <b>5 a 8 cm</b> de afastamento. Com a TV colada na parede, a luz não tem espaço para espalhar e aparecem pontos de luz.</div>
+    </div>
+
+    <div class="plan reveal">
+      <h3>Planta baixa</h3>
+      <svg viewBox="0 0 590 360" class="plan-svg" role="img" aria-label="Planta baixa da sala, 5,00 por 3,00 metros">
+        <!-- escala: 100 px = 1 m; sala em (30,30) -->
+        <rect x="30" y="30" width="500" height="300" class="p-room"/>
+        <!-- moldura do teto ao longo da parede 1 -->
+        <line x1="30" y1="34" x2="530" y2="34" class="p-moldura"/>
+        <!-- colunas -->
+        <circle cx="170" cy="32" r="5" class="p-col"/>
+        <circle cx="390" cy="32" r="5" class="p-col"/>
+        <!-- rack e TV -->
+        <rect x="170" y="32" width="220" height="45" class="p-rack"/>
+        <text x="280" y="60" class="p-t">rack 2,20 m</text>
+        <rect x="219" y="26" width="122" height="5" class="p-tv"/>
+        <text x="280" y="20" class="p-t tv">TV 55"</text>
+        <!-- porta (parede 2) -->
+        <line x1="530" y1="40" x2="530" y2="134" class="p-gap"/>
+        <path d="M530 134 L436 134 A94 94 0 0 1 530 40" class="p-door"/>
+        <text x="478" y="152" class="p-t">porta 94 cm</text>
+        <!-- janela parede 4 -->
+        <line x1="30" y1="138" x2="30" y2="288" class="p-window"/>
+        <text x="44" y="230" class="p-t left">janela 1,50 m</text>
+        <!-- ar-condicionado -->
+        <rect x="32" y="122" width="10" height="106" class="p-ac"/>
+        <text x="48" y="130" class="p-t left">ar-cond. (2,50 m)</text>
+        <!-- janela parede 3 -->
+        <line x1="260" y1="330" x2="410" y2="330" class="p-window"/>
+        <text x="335" y="348" class="p-t">janela 1,50 m (atrás do sofá)</text>
+        <!-- sofá (posição aproximada) -->
+        <rect x="160" y="190" width="240" height="90" rx="10" class="p-sofa"/>
+        <rect x="160" y="268" width="240" height="14" rx="5" class="p-sofa-back"/>
+        <text x="280" y="236" class="p-t">sofá (posição aproximada)</text>
+        <!-- visão -->
+        <line x1="280" y1="255" x2="219" y2="31" class="p-view"/>
+        <line x1="280" y1="255" x2="341" y2="31" class="p-view"/>
+        <circle cx="280" cy="255" r="4" class="p-eye"/>
+        <!-- surrounds -->
+        <circle cx="175" cy="300" r="7" class="p-sur"/>
+        <circle cx="385" cy="300" r="7" class="p-sur"/>
+        <text x="280" y="304" class="p-t">caixas surround</text>
+        <!-- cotas -->
+        <line x1="545" y1="30" x2="545" y2="330" class="p-cota"/>
+        <text x="552" y="185" class="p-t left">3,00 m</text>
+        <line x1="30" y1="10" x2="530" y2="10" class="p-cota"/>
+        <text x="80" y="8" class="p-t">5,00 m</text>
+        <line x1="300" y1="31" x2="300" y2="280" class="p-cota soft"/>
+        <text x="306" y="170" class="p-t left">2,50 m</text>
+      </svg>
+      <div class="legend">
+        <span><i class="lg light"></i>Colunas</span>
+        <span><i class="lg video"></i>Janelas</span>
+        <span><i class="lg audio"></i>Caixas surround</span>
+        <span><i class="lg capture"></i>Moldura do teto e linhas de visão</span>
+      </div>
+      <div class="warn" style="margin-top:1rem">
+        <strong>As duas janelas precisam de cortina blackout.</strong> A janela atrás do sofá fica de frente para a TV, e a tela do OLED reflete a luz que entra por ela. A janela da parede esquerda ilumina a parede da TV de lado e reduz o efeito do ambilight. Com as duas fechadas, a sala fica escura de verdade.
+      </div>
     </div>
   </section>
 
@@ -252,11 +314,10 @@
         </defs>
         <rect x="0" y="0" width="500" height="280" class="wall"/>
         <!-- escala: 100 px = 1 m -->
-        <!-- janela (largura a confirmar) -->
-        <rect x="110" y="70" width="30" height="110" class="window"/>
-        <text x="125" y="194" class="dim">janela</text>
-        <text x="55" y="262" class="dim">1,10 m</text>
-        <line x1="0" y1="268" x2="110" y2="268" class="cota"/>
+        <text x="70" y="262" class="dim">1,40 m</text>
+        <line x1="0" y1="268" x2="140" y2="268" class="cota"/>
+        <text x="430" y="262" class="dim">1,40 m</text>
+        <line x1="360" y1="268" x2="500" y2="268" class="cota"/>
         <!-- zona teto -->
         <g class="zone" data-zone="teto">
           <rect x="0" y="0" width="500" height="60" fill="url(#ceil)" class="zone-glow"/>
@@ -264,10 +325,10 @@
         </g>
         <!-- colunas -->
         <g class="zone" data-zone="colunas">
-          <rect x="143" y="25" width="16" height="200" class="zone-glow" filter="url(#blur)"/>
-          <rect x="149" y="25" width="4" height="200" class="zone-strip"/>
-          <rect x="341" y="25" width="16" height="200" class="zone-glow" filter="url(#blur)"/>
-          <rect x="347" y="25" width="4" height="200" class="zone-strip"/>
+          <rect x="132" y="25" width="16" height="200" class="zone-glow" filter="url(#blur)"/>
+          <rect x="138" y="25" width="4" height="200" class="zone-strip"/>
+          <rect x="352" y="25" width="16" height="200" class="zone-glow" filter="url(#blur)"/>
+          <rect x="358" y="25" width="4" height="200" class="zone-strip"/>
         </g>
         <!-- TV: 1,22 × 0,69 m, centro a 1,10 m do chão -->
         <g class="zone" data-zone="tv">
@@ -277,9 +338,9 @@
         </g>
         <!-- rack -->
         <g class="zone" data-zone="rack">
-          <rect x="150" y="228" width="200" height="45" class="rack"/>
-          <rect x="155" y="272" width="190" height="8" class="zone-glow" filter="url(#blur)"/>
-          <rect x="155" y="273" width="190" height="3" class="zone-strip"/>
+          <rect x="140" y="228" width="220" height="45" class="rack"/>
+          <rect x="145" y="272" width="210" height="8" class="zone-glow" filter="url(#blur)"/>
+          <rect x="145" y="273" width="210" height="3" class="zone-strip"/>
           <rect x="200" y="220" width="100" height="8" rx="3" class="soundbar"/>
         </g>
         <!-- cotas -->
@@ -298,10 +359,10 @@
         <thead><tr><th>Zona</th><th>Comprimento</th><th>LEDs (60/m)</th><th>Copia da imagem</th><th>Saída do controlador</th></tr></thead>
         <tbody>
           <tr><td>1 · Atrás da TV</td><td>~3,56 m (perímetro, a 3–4 cm da borda)</td><td>~214</td><td>Bordas da tela</td><td>Saída 1</td></tr>
-          <tr><td>2 · Embaixo do rack</td><td>~1,80 m (confirmar largura do rack)</td><td>~108</td><td>Faixa inferior</td><td>Saída 2</td></tr>
+          <tr><td>2 · Embaixo do rack</td><td>~2,10 m (rack de 2,20 m)</td><td>~126</td><td>Faixa inferior</td><td>Saída 2</td></tr>
           <tr><td>3 · Coluna esquerda + teto esquerdo</td><td>2,00 m + 2,50 m</td><td>120 + 150</td><td>Lateral esquerda + metade esquerda do topo</td><td>Saída 3</td></tr>
           <tr><td>4 · Coluna direita + teto direito</td><td>2,00 m + 2,50 m</td><td>120 + 150</td><td>Lateral direita + metade direita do topo</td><td>Saída 4</td></tr>
-          <tr class="total"><td>Total</td><td>~14,4 m</td><td>~862</td><td colspan="2">4 rolos de 5 m (sobra para cortes e reposição)</td></tr>
+          <tr class="total"><td>Total</td><td>~14,7 m</td><td>~880</td><td colspan="2">4 rolos de 5 m (sobra para cortes e reposição)</td></tr>
         </tbody>
       </table>
       <p class="muted small">Os comprimentos são estimativas. A zona 1 só pode ser medida com a TV em mãos e a zona 2 depende da largura do rack. Todas as saídas ficam com no máximo ~270 LEDs, o que permite mais de 100 atualizações por segundo, bem acima dos 60 quadros do vídeo.</p>
@@ -322,8 +383,8 @@
         <p>Perfis de alumínio <b>de embutir</b> com difusor leitoso, num rasgo vertical na parede, do lado de cada TV. O perfil fica rente à parede e a luz aparece como uma linha contínua.</p>
         <ul class="list">
           <li>Profundidade do perfil de pelo menos 15 mm, para os LEDs não aparecerem como pontos.</li>
-          <li>Posição sugerida: 40 cm além de cada borda da TV, alinhada às laterais do rack.</li>
-          <li><b>A confirmar:</b> a coluna esquerda não pode cair sobre a janela (ver pendências).</li>
+          <li>Posição: alinhadas às pontas do rack, a 1,40 m de cada canto e ~49 cm de cada borda da TV.</li>
+          <li>A parede da TV não tem janela nem porta, então as duas colunas ficam simétricas.</li>
         </ul>
       </article>
     </div>
@@ -356,14 +417,14 @@
         <p class="muted">Ajuste os comprimentos depois de medir. O consumo por metro deve ser conferido na ficha técnica da fita comprada.</p>
         <div class="calc-grid" id="power-calc">
           <label>Zona TV (m)<input type="number" step="0.01" min="0" value="3.56" data-z="tv"></label>
-          <label>Rack (m)<input type="number" step="0.01" min="0" value="1.80" data-z="rack"></label>
+          <label>Rack (m)<input type="number" step="0.01" min="0" value="2.10" data-z="rack"></label>
           <label>Colunas (m, cada)<input type="number" step="0.01" min="0" value="2.00" data-z="col"></label>
           <label>Teto (m, total)<input type="number" step="0.01" min="0" value="5.00" data-z="teto"></label>
           <label>LEDs por metro<input type="number" step="1" min="1" value="60" id="pc-density"></label>
           <label>Consumo máx. (W/m)<input type="number" step="0.1" min="0" value="14.4" id="pc-wm"></label>
         </div>
         <div class="calc-out">
-          <div><span>LEDs</span><strong id="pc-leds">862</strong></div>
+          <div><span>LEDs</span><strong id="pc-leds">880</strong></div>
           <div><span>Metros de fita</span><strong id="pc-m">14,4</strong></div>
           <div><span>Fonte A (TV + rack)</span><strong id="pc-a">77 W</strong></div>
           <div><span>Fonte B (colunas + teto)</span><strong id="pc-b">130 W</strong></div>
@@ -388,7 +449,7 @@
 
   Controlador WLED (Ethernet ◄── switch do rack)
      Saída 1 ── dados ─► Zona 1  (TV · ~214 LEDs)
-     Saída 2 ── dados ─► Zona 2  (rack · ~108 LEDs)
+     Saída 2 ── dados ─► Zona 2  (rack · ~126 LEDs)
      Saída 3 ── dados ─► Zona 3  (coluna E 120 → teto E 150, do canto ao centro)
      Saída 4 ── dados ─► Zona 4  (coluna D 120 → teto D 150, do canto ao centro)
 
@@ -422,7 +483,7 @@
       </div></div>
       <div class="tl-item reveal"><span class="tl-dot"></span><div>
         <h3>Rasgos das colunas</h3>
-        <p>Dois rasgos verticais de 2,00 m na largura do perfil de embutir, a 40 cm de cada borda da TV. Eletroduto de 25 mm da base de cada coluna até a caixa do rack. No topo de cada coluna, uma saída até a altura da moldura.</p>
+        <p>Dois rasgos verticais de 2,00 m na largura do perfil de embutir, alinhados às pontas do rack (1,40 m de cada canto da parede). Eletroduto de 25 mm da base de cada coluna até a caixa do rack. No topo de cada coluna, uma saída até a altura da moldura.</p>
       </div></div>
       <div class="tl-item reveal"><span class="tl-dot"></span><div>
         <h3>Tomadas no rack</h3>
@@ -484,7 +545,7 @@
           <tbody>
             <tr><td>Conexão</td><td>Ethernet (Config → Ethernet Type: o modelo do controlador)</td></tr>
             <tr><td>Tipo de LED</td><td>WS281x (WS2815), ordem de cor GRB (confirmar com teste)</td></tr>
-            <tr><td>Saídas 1 a 4</td><td>~214 · ~108 · 270 · 270 LEDs</td></tr>
+            <tr><td>Saídas 1 a 4</td><td>~214 · ~126 · 270 · 270 LEDs</td></tr>
             <tr><td>Limite de corrente</td><td>Ativado. Por saída ou total, conforme as fontes (ver calculadora)</td></tr>
             <tr><td>Recepção em tempo real</td><td>Ativada (DDP / E1.31), "Force max brightness" desligado</td></tr>
             <tr><td>IP</td><td>Fixo (reserva de DHCP no app Deco)</td></tr>
@@ -497,7 +558,7 @@
           <tbody>
             <tr><td>Captura</td><td>Placa MS2130, 1280×720 ou 1920×1080, 60 fps</td></tr>
             <tr><td>Correção de HDR</td><td>Ativada, com LUT calibrada para a placa (calibração automática do HyperHDR)</td></tr>
-            <tr><td>Saída</td><td>Dispositivo WLED pelo IP do controlador, protocolo DDP, 862 LEDs</td></tr>
+            <tr><td>Saída</td><td>Dispositivo WLED pelo IP do controlador, protocolo DDP, 880 LEDs</td></tr>
             <tr><td>Layout</td><td>Mapeamento das 5 zonas no editor de LEDs (TV nas bordas, colunas nas laterais, teto no topo, rack na base)</td></tr>
             <tr><td>Suavização</td><td>Começar por volta de 100 ms para filmes. Valores menores para jogos.</td></tr>
             <tr><td>Barras pretas</td><td>Detecção automática ativada (filmes em 21:9)</td></tr>
@@ -533,8 +594,7 @@
       <p>Pontos em aberto antes da compra e da obra.</p>
     </div>
     <ul class="pending reveal">
-      <li><b>Largura da janela.</b> A janela começa a 1,10 m do canto esquerdo. A coluna esquerda sugerida ficaria a ~1,49 m do canto. Se a janela passar disso, a coluna muda de posição ou a distância das colunas até a TV diminui.</li>
-      <li><b>Largura do rack</b>, que define a zona 2 e a posição das colunas.</li>
+      <li><b>Altura e profundidade do rack.</b> A altura define a altura da TV; a profundidade confirma o espaço até o sofá.</li>
       <li><b>Medidas reais da TV S85H 55"</b> e do suporte, para cortar a fita da zona 1.</li>
       <li><b>Formatos de áudio aceitos pela JBL Bar 5.1</b>, principalmente DTS, para definir a configuração do Stremio.</li>
       <li><b>Disponibilidade no Brasil</b> do splitter com redução de resolução e do controlador com Ethernet. Os dois provavelmente serão importados.</li>

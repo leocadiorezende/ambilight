@@ -186,7 +186,7 @@
     },
     colunas: {
       title: "Zonas 3 e 4 · Colunas laterais",
-      text: "Perfis de alumínio embutidos na parede, a 40 cm de cada borda da TV. Copiam as laterais da imagem e ampliam a sensação de tela maior.",
+      text: "Perfis de alumínio embutidos na parede, alinhados às pontas do rack (1,40 m de cada canto). Copiam as laterais da imagem e ampliam a sensação de tela maior.",
       specs: { "Altura": "2,00 m cada (0,55 a 2,55 m do chão)", "LEDs": "120 cada", "Saídas": "3 (esq.) e 4 (dir.)", "Energia": "Fonte B", "Acabamento": "Difusor leitoso, perfil ≥ 15 mm" }
     },
     teto: {
@@ -197,7 +197,7 @@
     rack: {
       title: "Zona 2 · Embaixo do rack",
       text: "Fita sob a borda do rack, virada para o chão. Substitui a luz de baixo da TV, que fica tampada pela soundbar, e completa a moldura de luz.",
-      specs: { "Comprimento": "~1,80 m (confirmar)", "LEDs": "~108", "Saída": "2", "Energia": "Fonte A", "Dica": "Perfil com difusor evita reflexo de pontos no piso" }
+      specs: { "Comprimento": "~2,10 m (rack de 2,20 m)", "LEDs": "~126", "Saída": "2", "Energia": "Fonte A", "Dica": "Perfil com difusor evita reflexo de pontos no piso" }
     }
   };
   const wall = $("#wall-svg");
@@ -247,7 +247,7 @@
       { id: "dps", name: "Filtro de linha com protetor de surto (DPS), 8 tomadas", qty: 1, price: [80, 200], p: "recomendado", desc: "Protege fontes, Pi, PS5 e soundbar.", q: "filtro de linha dps 8 tomadas", s: ["ml", "amz"] }
     ]},
     { group: "LEDs e acabamento", icon: "💡", items: [
-      { id: "strip", name: "Fita WS2815 12 V, 60 LEDs/m, IP30, rolo de 5 m", qty: 4, price: [120, 260], p: "essencial", desc: "Endereçável LED a LED, com linha de dados reserva. IP30 (sem silicone) mantém a cor mais fiel. 14,4 m necessários.", q: "fita led ws2815 12v 60 leds ip30 5m", s: ["ali", "ml", "amz"] },
+      { id: "strip", name: "Fita WS2815 12 V, 60 LEDs/m, IP30, rolo de 5 m", qty: 4, price: [120, 260], p: "essencial", desc: "Endereçável LED a LED, com linha de dados reserva. IP30 (sem silicone) mantém a cor mais fiel. ~14,7 m necessários.", q: "fita led ws2815 12v 60 leds ip30 5m", s: ["ali", "ml", "amz"] },
       { id: "perfil", name: "Perfil de alumínio de embutir 2 m com difusor leitoso", qty: 2, price: [60, 150], p: "essencial", desc: "Colunas laterais. Profundidade de pelo menos 15 mm, com tampas e presilhas.", q: "perfil aluminio embutir fita led 2m difusor leitoso", s: ["ml", "amz"] },
       { id: "moldura", name: "Moldura de poliestireno para luz indireta LED (barra de 2 m)", qty: 3, price: [40, 110], p: "essencial", desc: "Substitui a sanca de gesso. 5 m de parede = 3 barras.", q: "moldura poliestireno luz indireta led", s: ["ml", "amz"] },
       { id: "cola", name: "Cola para moldura de poliestireno + massa para emendas", qty: 1, price: [30, 70], p: "essencial", desc: "Fixação e acabamento da moldura antes da pintura.", q: "cola para moldura de poliestireno", s: ["ml", "amz"] },
@@ -335,7 +335,7 @@
   /* ---------- passo a passo ---------- */
   const steps = [
     { t: "Confirmar medidas e comprar", s: "Fase 0 · antes de tudo", li: [
-      "Medir a largura da janela e a largura do rack e atualizar as pendências.",
+      "Medir a altura e a profundidade do rack e atualizar as pendências.",
       "Testar a internet no lugar do rack com o celular (fast.com). Filmes 4K pedem pelo menos 25 Mbps estáveis; remuxes 4K do Stremio podem pedir mais de 80 Mbps.",
       "Comprar primeiro os itens importados (splitter, controlador e fitas), que demoram mais para chegar.",
       "Com a TV em mãos, medir a traseira e definir o caminho da fita, a 3–4 cm da borda."
@@ -376,7 +376,7 @@
       "Ativar a recepção em tempo real (DDP/E1.31) e salvar."
     ], c: "Vermelho, verde, azul e branco aparecem corretos em todas as zonas." },
     { t: "HyperHDR", s: "Fase 6 · sincronia com a imagem", li: [
-      "Adicionar o dispositivo de LED WLED com o IP do controlador e 862 LEDs.",
+      "Adicionar o dispositivo de LED WLED com o IP do controlador e 880 LEDs.",
       "No editor de layout, posicionar os LEDs: zona 1 nas bordas, colunas nas laterais, teto no topo, rack na base. Corrigir o sentido de cada trecho.",
       "Ativar a correção de HDR e rodar a calibração automática da LUT para a placa de captura.",
       "Ativar detecção de barras pretas, detecção de sinal e suavização (~100 ms para filmes)."
