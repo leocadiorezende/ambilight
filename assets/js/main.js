@@ -262,7 +262,7 @@
   // preço: [mínimo, máximo] por unidade, em R$ (estimativa)
   const shop = [
     { group: "Vídeo e sinal", icon: "🎬", items: [
-      { id: "firetv", name: "Fire TV Stick 4K Max (2ª geração)", qty: 1, price: [450, 650], p: "essencial", desc: "Fonte dos filmes e séries: Netflix, Prime Video e Stremio. Wi-Fi 6E, HDR10+ e Dolby Atmos.", q: "fire tv stick 4k max", s: ["ml", "amz"] },
+      { id: "firetv", name: "Fire TV Stick 4K Max (você já tem)", qty: 1, price: [0, 0], p: "essencial", desc: "Fonte dos filmes e séries: Netflix, Prime Video e Stremio. Já está com você, não precisa comprar.", q: "fire tv stick 4k max", s: ["ml", "amz"] },
       { id: "hdmisw", name: "Switch HDMI 3×1 4K 60 Hz HDR", qty: 1, price: [90, 220], p: "essencial", desc: "Junta Fire TV e PS5 numa saída só. Exigir HDMI 2.0 (18 Gbps), HDCP 2.2, HDR e troca automática de fonte.", q: "switch hdmi 3x1 4k 60hz hdr hdcp 2.2", s: ["ml", "amz"] },
       { id: "split", name: "Splitter HDMI 1×2 4K 60 Hz HDR com downscale (ex.: ezcoo EZ-SP12H2)", qty: 1, price: [250, 550], p: "essencial", desc: "Peça central: a saída 1 passa o sinal original para a TV e a saída 2 reduz para 1080p para a captura. Precisa ter seleção de EDID. Provavelmente importado.", q: "ezcoo splitter 4k60 downscale hdr", s: ["ali", "amz", "ml"] },
       { id: "cap", name: "Placa de captura USB 3.0 com chip MS2130", qty: 1, price: [80, 220], p: "essencial", desc: "Lê a cópia do vídeo para o HyperHDR. Confirmar o chip MS2130; a MS2109 é USB 2.0 e mais lenta.", q: "placa de captura ms2130 usb 3.0", s: ["ali", "ml", "amz"] },

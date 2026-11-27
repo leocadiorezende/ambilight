@@ -19,6 +19,7 @@
     <button class="menu-btn" id="menu-btn" aria-label="Abrir menu" aria-expanded="false">☰</button>
     <nav id="nav">
       <a href="#visao">Visão geral</a>
+      <a href="#simulador">Simulador</a>
       <a href="#sala">A sala</a>
       <a href="#sinal">Sinal</a>
       <a href="#zonas">Zonas de luz</a>
@@ -106,6 +107,85 @@
         </tbody>
       </table>
     </div>
+  </section>
+
+  <!-- SIMULADOR -->
+  <section id="simulador" class="section">
+    <div class="section-head reveal">
+      <span class="num">SIMULADOR</span>
+      <h2>Como fica a sala</h2>
+      <p>Vista do sofá, com a sala escura. Ligue e desligue cada camada de luz e veja como a sala reage a raios, explosões e cenas calmas. O medidor mostra quanto a luz reflete na tela.</p>
+    </div>
+
+    <div class="sim reveal">
+      <div class="sim-stage">
+        <canvas id="sim" width="960" height="540" aria-label="Simulação da sala com as camadas de luz"></canvas>
+        <div class="sim-hud">
+          <span>Cena: <b id="sim-scene">—</b></span>
+          <span>Reflexo na tela: <b id="sim-refl" data-level="Nenhum">Nenhum</b></span>
+        </div>
+      </div>
+
+      <div class="sim-panel">
+        <div class="sim-group">
+          <h4>Versões prontas</h4>
+          <div class="filters" id="sim-presets">
+            <button class="chip" data-p="sotv">Só TV</button>
+            <button class="chip active" data-p="parede">Parede da TV (recomendado)</button>
+            <button class="chip" data-p="mega">Mega imersão</button>
+            <button class="chip" data-p="exagero">Exagero</button>
+          </div>
+        </div>
+
+        <div class="sim-group">
+          <h4>Camadas de luz</h4>
+          <div class="sim-layers" id="sim-layers">
+            <label><input type="checkbox" data-l="halo"> Halo atrás da TV <small>não reflete</small></label>
+            <label><input type="checkbox" data-l="moldura"> Moldura de ripas na parede da TV <small>quase não reflete</small></label>
+            <label><input type="checkbox" data-l="rack"> Rack e chão <small>quase não reflete</small></label>
+            <label><input type="checkbox" data-l="tetoFrente"> Teto junto à parede da TV <small>pouco reflexo · é onde o raio pisca</small></label>
+            <label class="risk"><input type="checkbox" data-l="tetoTodo"> Teto da sala toda <small>reflete na tela</small></label>
+            <label class="risk"><input type="checkbox" data-l="laterais"> Paredes laterais <small>reflete na tela</small></label>
+            <label class="bad"><input type="checkbox" data-l="tras"> Parede atrás do sofá <small>reflete muito</small></label>
+          </div>
+        </div>
+
+        <div class="sim-group">
+          <h4>Ajustes</h4>
+          <label class="sim-range">Brilho das camadas extras <output id="sim-extra-out">60%</output>
+            <input type="range" id="sim-extra" min="0" max="100" value="60">
+          </label>
+          <label class="sim-check"><input type="checkbox" id="sim-slow"> Simular lâmpada inteligente ou kit barato (atraso de ~0,5 s)</label>
+        </div>
+
+        <div class="sim-group">
+          <h4>Cena</h4>
+          <div class="filters" id="sim-scenes">
+            <button class="chip active" data-s="auto">Automático</button>
+            <button class="chip" data-s="tempestade">Raios</button>
+            <button class="chip" data-s="explosao">Explosões</button>
+            <button class="chip" data-s="por">Pôr do sol</button>
+            <button class="chip" data-s="oceano">Oceano</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cards cols-3">
+      <article class="card reveal">
+        <h3>O que observar</h3>
+        <p>Na cena de raios, repare no <b>teto junto à parede da TV</b>: ele clareia junto com o relâmpago e não reflete na tela. Depois ligue a <b>parede atrás do sofá</b> e veja a imagem da TV ficar lavada.</p>
+      </article>
+      <article class="card reveal">
+        <h3>Por que o reflexo importa</h3>
+        <p>A tela reflete o que está na frente dela: o sofá, o teto em cima de você e a parede de trás. A luz na própria parede da TV fica atrás da tela e quase não aparece no reflexo.</p>
+      </article>
+      <article class="card reveal">
+        <h3>Atraso</h3>
+        <p>Ligue "Simular lâmpada inteligente" na cena de raios. A luz chega depois do relâmpago. As fitas com WLED e HyperHDR reagem em 1 a 2 quadros, junto com a imagem.</p>
+      </article>
+    </div>
+    <p class="muted small reveal">A simulação é uma aproximação visual para ajudar na decisão. A intensidade real depende do brilho configurado, da cor da parede e do acabamento das ripas.</p>
   </section>
 
   <!-- A SALA -->
@@ -604,6 +684,7 @@
     <p class="muted small">Baseado no tutorial de Chris Maher (SignalRGB + Soft Ambiance) e adaptado para fontes externas com HyperHDR.</p>
   </footer>
 
+  <script src="assets/js/sim.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
 </html>
