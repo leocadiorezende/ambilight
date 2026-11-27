@@ -38,7 +38,7 @@
       <h1>Ambilight de cinema<br><span class="grad">em sincronia com cada quadro</span></h1>
       <p class="lead">Projeto completo para transformar a parede da TV em uma extensão da imagem: luz atrás da TV, colunas laterais, luz indireta no teto e embaixo do rack, tudo copiando a imagem em tempo real, sem perder qualidade de vídeo.</p>
       <div class="hero-stats">
-        <div><strong data-count="880">0</strong><span>LEDs endereçáveis</span></div>
+        <div><strong data-count="877">0</strong><span>LEDs endereçáveis</span></div>
         <div><strong data-count="5">0</strong><span>zonas de luz</span></div>
         <div><strong data-count="60">0</strong><span>quadros por segundo</span></div>
       </div>
@@ -85,7 +85,7 @@
       <article class="card reveal">
         <div class="icon">🌌</div>
         <h3>Imersão real</h3>
-        <p>Cinco zonas de luz na parede da TV e som surround com as caixas destacáveis da soundbar JBL Bar 5.1 nas paredes laterais, na linha do sofá.</p>
+        <p>Cinco zonas de luz na parede da TV, somadas ao som da soundbar JBL Bar 5.1 com subwoofer, que fica no rack embaixo da TV.</p>
       </article>
     </div>
 
@@ -102,7 +102,7 @@
           <tr><td>Fitas</td><td>WS2815 12 V, 60 LEDs/m</td><td>Cada LED é controlado individualmente, a tensão de 12 V reduz a queda de tensão e a linha de dados reserva continua funcionando se um LED falhar.</td></tr>
           <tr><td>Rede</td><td>Switch gigabit local no rack, ligado ao Deco X60 da sala (sem fio)</td><td>Não haverá cabo do roteador até a sala. O switch mantém o tráfego das luzes local.</td></tr>
           <tr><td>Luz do teto</td><td>Moldura de poliestireno para luz indireta (no lugar de sanca de gesso)</td><td>Efeito parecido com sanca, custo bem menor e instalação simples, colada e pintada.</td></tr>
-          <tr><td>Áudio</td><td>TV (eARC) → soundbar (ARC) por HDMI</td><td>A soundbar recebe só o som e não interfere no HDR. As caixas surround ficam nas paredes laterais, na linha do sofá.</td></tr>
+          <tr><td>Áudio</td><td>TV (eARC) → soundbar (ARC) por HDMI</td><td>A soundbar fica no rack, embaixo da TV, e recebe só o som. Assim ela não interfere no HDR.</td></tr>
         </tbody>
       </table>
     </div>
@@ -161,7 +161,7 @@
             <small id="angle-width">Largura da tela: 1,22 m</small>
           </div>
         </div>
-        <p class="muted small">Com os olhos a ~2,35 m: a 55" dá cerca de 29° e a 65" cerca de 34°. A 65" não seria desconfortável e ainda fica dentro das recomendações. A 55" com ambilight parece maior do que é, porque a luz amplia a área percebida da imagem.</p>
+        <p class="muted small"><b>A planta baixa, o desenho da parede e a quantidade de LEDs da TV acompanham o tamanho escolhido aqui.</b> Com os olhos a ~2,35 m: a 55" dá cerca de 29° e a 65" cerca de 34°. A 65" não seria desconfortável e ainda fica dentro das recomendações. A 55" com ambilight parece maior do que é, porque a luz amplia a área percebida da imagem.</p>
       </div>
     </div>
 
@@ -182,9 +182,10 @@
         <circle cx="390" cy="32" r="5" class="p-col"/>
         <!-- rack e TV -->
         <rect x="170" y="32" width="220" height="37" class="p-rack"/>
-        <text x="280" y="56" class="p-t">rack 2,20 × 0,37 m</text>
-        <rect x="219" y="26" width="122" height="5" class="p-tv"/>
-        <text x="280" y="20" class="p-t tv">TV 55"</text>
+        <text x="280" y="48" class="p-t">rack 2,20 × 0,37 m</text>
+        <rect x="230" y="56" width="100" height="8" rx="2" class="p-sb"/>
+        <rect id="p-tv" x="219" y="26" width="122" height="5" class="p-tv"/>
+        <text id="p-tv-label" x="280" y="20" class="p-t tv">TV 55"</text>
         <!-- porta (parede 2) -->
         <line x1="530" y1="40" x2="530" y2="134" class="p-gap"/>
         <path d="M530 134 L436 134 A94 94 0 0 1 530 40" class="p-door"/>
@@ -203,13 +204,9 @@
         <rect x="34" y="280" width="492" height="46" rx="6" class="p-sofa-back"/>
         <text x="160" y="250" class="p-t">sofá (parede inteira)</text>
         <!-- visão -->
-        <line x1="280" y1="265" x2="219" y2="31" class="p-view"/>
-        <line x1="280" y1="265" x2="341" y2="31" class="p-view"/>
-        <circle cx="280" cy="265" r="4" class="p-eye"/>
-        <!-- surrounds nas paredes laterais -->
-        <circle cx="40" cy="305" r="7" class="p-sur"/>
-        <circle cx="520" cy="305" r="7" class="p-sur"/>
-        <text x="420" y="250" class="p-t">surround: paredes laterais</text>
+        <line id="p-view-a" x1="280" y1="266" x2="219" y2="31" class="p-view"/>
+        <line id="p-view-b" x1="280" y1="266" x2="341" y2="31" class="p-view"/>
+        <circle id="p-eye" cx="280" cy="266" r="4" class="p-eye"/>
         <!-- cotas -->
         <line x1="545" y1="30" x2="545" y2="330" class="p-cota"/>
         <text x="552" y="185" class="p-t left">3,00 m</text>
@@ -221,7 +218,7 @@
       <div class="legend">
         <span><i class="lg light"></i>Colunas</span>
         <span><i class="lg video"></i>Janelas</span>
-        <span><i class="lg audio"></i>Caixas surround</span>
+        <span><i class="lg audio"></i>Soundbar (no rack)</span>
         <span><i class="lg capture"></i>Moldura do teto e linhas de visão</span>
       </div>
       <div class="warn" style="margin-top:1rem">
@@ -288,7 +285,7 @@
       </article>
       <article class="card reveal">
         <h3>Áudio</h3>
-        <p>O som vai junto com a imagem até a TV. A TV repassa o som pela porta <b>HDMI eARC</b> para a entrada <b>HDMI ARC</b> da JBL Bar 5.1. As três entradas HDMI da soundbar não são usadas, porque ela é de 2017 e poderia limitar o HDR.</p>
+        <p>O som vai junto com a imagem até a TV. A TV repassa o som pela porta <b>HDMI eARC</b> para a porta <b>HDMI ARC/eARC</b> da JBL Bar 5.1, que fica no rack. Esse cabo HDMI sobe pelo eletroduto até a TV.</p>
         <p class="muted small">Stremio: arquivos com áudio DTS podem ficar sem som. A solução está no passo a passo, fase 7.</p>
       </article>
       <article class="card reveal">
@@ -333,9 +330,9 @@
         </g>
         <!-- TV: 1,22 × 0,69 m, centro a 1,10 m do chão -->
         <g class="zone" data-zone="tv">
-          <rect x="183" y="129" width="134" height="82" rx="4" class="zone-glow" filter="url(#blur)"/>
-          <rect x="189" y="135" width="122" height="70" rx="2" class="tvrect"/>
-          <text x="250" y="174" class="dim light">TV 55"</text>
+          <rect id="w-tv-glow" x="183" y="129" width="134" height="82" rx="4" class="zone-glow" filter="url(#blur)"/>
+          <rect id="w-tv" x="189" y="135" width="122" height="70" rx="2" class="tvrect"/>
+          <text id="w-tv-label" x="250" y="174" class="dim light">TV 55"</text>
         </g>
         <!-- rack -->
         <g class="zone" data-zone="rack">
@@ -359,11 +356,11 @@
       <table class="table">
         <thead><tr><th>Zona</th><th>Comprimento</th><th>LEDs (60/m)</th><th>Copia da imagem</th><th>Saída do controlador</th></tr></thead>
         <tbody>
-          <tr><td>1 · Atrás da TV</td><td>~3,56 m (perímetro, a 3–4 cm da borda)</td><td>~214</td><td>Bordas da tela</td><td>Saída 1</td></tr>
+          <tr><td>1 · Atrás da TV</td><td><span id="zt-tv-len">~3,52 m</span> (perímetro, a 3–4 cm da borda)</td><td id="zt-tv-leds">~211</td><td>Bordas da tela</td><td>Saída 1</td></tr>
           <tr><td>2 · Embaixo do rack</td><td>~2,10 m (rack de 2,20 m)</td><td>~126</td><td>Faixa inferior</td><td>Saída 2</td></tr>
           <tr><td>3 · Coluna esquerda + teto esquerdo</td><td>2,00 m + 2,50 m</td><td>120 + 150</td><td>Lateral esquerda + metade esquerda do topo</td><td>Saída 3</td></tr>
           <tr><td>4 · Coluna direita + teto direito</td><td>2,00 m + 2,50 m</td><td>120 + 150</td><td>Lateral direita + metade direita do topo</td><td>Saída 4</td></tr>
-          <tr class="total"><td>Total</td><td>~14,7 m</td><td>~880</td><td colspan="2">4 rolos de 5 m (sobra para cortes e reposição)</td></tr>
+          <tr class="total"><td>Total</td><td id="zt-total-len">~14,7 m</td><td id="zt-total-leds">~877</td><td colspan="2">4 rolos de 5 m (sobra para cortes e reposição)</td></tr>
         </tbody>
       </table>
       <p class="muted small">Os comprimentos são estimativas. A zona 1 só pode ser medida com a TV em mãos e a zona 2 depende da largura do rack. Todas as saídas ficam com no máximo ~270 LEDs, o que permite mais de 100 atualizações por segundo, bem acima dos 60 quadros do vídeo.</p>
@@ -417,7 +414,7 @@
         <h3>Calculadora de LEDs e potência</h3>
         <p class="muted">Ajuste os comprimentos depois de medir. O consumo por metro deve ser conferido na ficha técnica da fita comprada.</p>
         <div class="calc-grid" id="power-calc">
-          <label>Zona TV (m)<input type="number" step="0.01" min="0" value="3.56" data-z="tv"></label>
+          <label>Zona TV (m)<input type="number" step="0.01" min="0" value="3.52" data-z="tv"></label>
           <label>Rack (m)<input type="number" step="0.01" min="0" value="2.10" data-z="rack"></label>
           <label>Colunas (m, cada)<input type="number" step="0.01" min="0" value="2.00" data-z="col"></label>
           <label>Teto (m, total)<input type="number" step="0.01" min="0" value="5.00" data-z="teto"></label>
@@ -425,7 +422,7 @@
           <label>Consumo máx. (W/m)<input type="number" step="0.1" min="0" value="14.4" id="pc-wm"></label>
         </div>
         <div class="calc-out">
-          <div><span>LEDs</span><strong id="pc-leds">880</strong></div>
+          <div><span>LEDs</span><strong id="pc-leds">877</strong></div>
           <div><span>Metros de fita</span><strong id="pc-m">14,4</strong></div>
           <div><span>Fonte A (TV + rack)</span><strong id="pc-a">77 W</strong></div>
           <div><span>Fonte B (colunas + teto)</span><strong id="pc-b">130 W</strong></div>
@@ -449,7 +446,7 @@
                           V− ───────────────────► GND comum
 
   Controlador WLED (Ethernet ◄── switch do rack)
-     Saída 1 ── dados ─► Zona 1  (TV · ~214 LEDs)
+     Saída 1 ── dados ─► Zona 1  (TV · ~211 LEDs)
      Saída 2 ── dados ─► Zona 2  (rack · ~126 LEDs)
      Saída 3 ── dados ─► Zona 3  (coluna E 120 → teto E 150, do canto ao centro)
      Saída 4 ── dados ─► Zona 4  (coluna D 120 → teto D 150, do canto ao centro)
@@ -546,7 +543,7 @@
           <tbody>
             <tr><td>Conexão</td><td>Ethernet (Config → Ethernet Type: o modelo do controlador)</td></tr>
             <tr><td>Tipo de LED</td><td>WS281x (WS2815), ordem de cor GRB (confirmar com teste)</td></tr>
-            <tr><td>Saídas 1 a 4</td><td>~214 · ~126 · 270 · 270 LEDs</td></tr>
+            <tr><td>Saídas 1 a 4</td><td>~211 · ~126 · 270 · 270 LEDs</td></tr>
             <tr><td>Limite de corrente</td><td>Ativado. Por saída ou total, conforme as fontes (ver calculadora)</td></tr>
             <tr><td>Recepção em tempo real</td><td>Ativada (DDP / E1.31), "Force max brightness" desligado</td></tr>
             <tr><td>IP</td><td>Fixo (reserva de DHCP no app Deco)</td></tr>
@@ -559,7 +556,7 @@
           <tbody>
             <tr><td>Captura</td><td>Placa MS2130, 1280×720 ou 1920×1080, 60 fps</td></tr>
             <tr><td>Correção de HDR</td><td>Ativada, com LUT calibrada para a placa (calibração automática do HyperHDR)</td></tr>
-            <tr><td>Saída</td><td>Dispositivo WLED pelo IP do controlador, protocolo DDP, 880 LEDs</td></tr>
+            <tr><td>Saída</td><td>Dispositivo WLED pelo IP do controlador, protocolo DDP, 877 LEDs</td></tr>
             <tr><td>Layout</td><td>Mapeamento das 5 zonas no editor de LEDs (TV nas bordas, colunas nas laterais, teto no topo, rack na base)</td></tr>
             <tr><td>Suavização</td><td>Começar por volta de 100 ms para filmes. Valores menores para jogos.</td></tr>
             <tr><td>Barras pretas</td><td>Detecção automática ativada (filmes em 21:9)</td></tr>
@@ -581,7 +578,7 @@
           <li>TV: ativar "Input Signal Plus" (sinal HDMI aprimorado) na porta do splitter. Saída de som: receptor HDMI (eARC).</li>
           <li>TV: modo de imagem "Filmmaker" ou "Filme" para filmes e "Jogo" para o PS5.</li>
           <li>PS5: saída 4K 60 Hz com HDR. Ajuste de HDR feito com o splitter já instalado.</li>
-          <li>JBL Bar 5.1: como o sofá ocupa a parede do fundo, as caixas surround vão nas paredes laterais, entre 2,65 e 2,95 m da parede da TV (depois da janela da esquerda), a ~1,10–1,20 m do chão, numa prateleira pequena. Elas usam bateria e recarregam encaixadas na barra.</li>
+          <li>JBL Bar 5.1: fica no rack, centralizada embaixo da TV, sem encostar na tela. Conferir se ela não tampa o sensor do controle remoto da TV.</li>
         </ul>
       </article>
     </div>

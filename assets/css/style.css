@@ -271,7 +271,7 @@ nav a:hover, nav a.active { color: #fff; background: var(--panel-2); }
 .p-sofa-back { fill: #3a342e; }
 .p-view { stroke: var(--violet); stroke-width: 1.5; stroke-dasharray: 4 4; animation: dash 1.5s linear infinite; }
 .p-eye { fill: #fff; }
-.p-sur { fill: var(--green); filter: drop-shadow(0 0 6px var(--green)); }
+.p-sb { fill: var(--green); filter: drop-shadow(0 0 6px var(--green)); }
 .p-cota { stroke: rgba(255,255,255,.3); }
 .p-cota.soft { stroke-dasharray: 2 3; }
 .p-t { fill: var(--muted); font-family: var(--mono); font-size: 10px; text-anchor: middle; }

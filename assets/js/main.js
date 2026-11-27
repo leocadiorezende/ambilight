@@ -149,6 +149,7 @@
     const xa = 150 - half, xb = 150 + half;
     $("#ang-a").setAttribute("x2", xa); $("#ang-b").setAttribute("x2", xb);
     $("#ang-screen").setAttribute("x1", xa); $("#ang-screen").setAttribute("x2", xb);
+    window.dispatchEvent(new CustomEvent("tvchange", { detail: { inch, d, width, height: width * 9 / 16 } }));
   };
   size.addEventListener("input", updateAngle);
   dist.addEventListener("input", updateAngle);
@@ -182,7 +183,7 @@
     tv: {
       title: "Zona 1 · Atrás da TV",
       text: "Fita colada na traseira da TV, a 3–4 cm da borda, com os LEDs virados para a parede. É a base do ambilight e copia as bordas da imagem.",
-      specs: { "Comprimento": "~3,56 m", "LEDs": "~214", "Saída": "1", "Energia": "Fonte A, início e fim", "Fixação": "Fita 3M VHB + cantos em L ou soldados" }
+      specs: { "Comprimento": "~3,52 m", "LEDs": "~211", "Saída": "1", "Energia": "Fonte A, início e fim", "Fixação": "Fita 3M VHB + cantos em L ou soldados" }
     },
     colunas: {
       title: "Zonas 3 e 4 · Colunas laterais",
@@ -200,6 +201,48 @@
       specs: { "Comprimento": "~2,10 m (rack de 2,20 m)", "LEDs": "~126", "Saída": "2", "Energia": "Fonte A", "Dica": "Perfil com difusor evita reflexo de pontos no piso" }
     }
   };
+  /* ---------- tamanho da TV: atualiza desenhos e contagem de LEDs ---------- */
+  // Fixos: rack 2,10 m de fita, colunas 2 × 2,00 m, teto 5,00 m.
+  const FIXED_M = 2.10 + 4.00 + 5.00;
+  const setAttrs = (el, a) => Object.entries(a).forEach(([k, v]) => el.setAttribute(k, v));
+  window.addEventListener("tvchange", (e) => {
+    const { inch, d, width, height } = e.detail;
+    // fita a ~3,5 cm da borda em cada lado
+    const perim = 2 * (width - 0.07 + height - 0.07);
+    const leds = Math.round(perim * 60);
+    const label = `TV ${inch}"`;
+
+    // planta baixa: 100 px = 1 m, centro da parede em x = 280, parede em y = 31
+    const pw = width * 100;
+    setAttrs($("#p-tv"), { x: 280 - pw / 2, width: pw });
+    $("#p-tv-label").textContent = label;
+    const eyeY = 31 + d * 100;
+    setAttrs($("#p-eye"), { cy: eyeY });
+    setAttrs($("#p-view-a"), { y1: eyeY, x2: 280 - pw / 2 });
+    setAttrs($("#p-view-b"), { y1: eyeY, x2: 280 + pw / 2 });
+
+    // parede da TV: centro da tela a 1,10 m do chão (y = 170)
+    const wh = height * 100, top = 170 - wh / 2;
+    setAttrs($("#w-tv"), { x: 250 - pw / 2, y: top, width: pw, height: wh });
+    setAttrs($("#w-tv-glow"), { x: 250 - pw / 2 - 6, y: top - 6, width: pw + 12, height: wh + 12 });
+    setAttrs($("#w-tv-label"), { y: 170 + 4 });
+    $("#w-tv-label").textContent = label;
+
+    // tabela de zonas e calculadora de potência
+    $("#zt-tv-len").textContent = "~" + num(perim, 2) + " m";
+    $("#zt-tv-leds").textContent = "~" + leds;
+    $("#zt-total-len").textContent = "~" + num(perim + FIXED_M, 1) + " m";
+    $("#zt-total-leds").textContent = "~" + Math.round((perim + FIXED_M) * 60);
+    const tvInput = $("[data-z=tv]", pc);
+    tvInput.value = perim.toFixed(2);
+    updatePower();
+
+    zones.tv.specs["Comprimento"] = "~" + num(perim, 2) + " m";
+    zones.tv.specs["LEDs"] = "~" + leds;
+    zones.tv.title = `Zona 1 · Atrás da TV (${inch}")`;
+    if ($('.zone[data-zone="tv"]', wall).classList.contains("on")) showZone("tv");
+  });
+
   const wall = $("#wall-svg");
   const showZone = (k) => {
     const z = zones[k];
@@ -213,6 +256,7 @@
     g.addEventListener("mouseenter", () => showZone(g.dataset.zone));
     g.addEventListener("click", () => showZone(g.dataset.zone));
   });
+  updateAngle(); // aplica o tamanho inicial da TV nos desenhos
 
   /* ---------- lista de compras ---------- */
   // preço: [mínimo, máximo] por unidade, em R$ (estimativa)
@@ -273,7 +317,6 @@
       { id: "el32", name: "Eletroduto corrugado 32 mm (metro)", qty: 5, price: [4, 8], p: "essencial", desc: "TV ↔ rack. Use 40 mm se couber na parede.", q: "eletroduto corrugado 32mm", s: ["ml"] },
       { id: "el25", name: "Eletroduto corrugado 25 mm (metro)", qty: 10, price: [2.5, 5], p: "essencial", desc: "Rack ↔ colunas e colunas ↔ moldura.", q: "eletroduto corrugado 25mm", s: ["ml"] },
       { id: "caixas", name: "Caixas 4×4 e 4×2 + espelhos (inclui espelho de saída de cabos com escova)", qty: 1, price: [60, 150], p: "essencial", desc: "Atrás da TV e atrás do rack.", q: "espelho saida de cabos escova 4x4", s: ["ml", "amz"] },
-      { id: "surr", name: "Prateleira pequena de parede para caixa surround", qty: 2, price: [30, 90], p: "recomendado", desc: "Uma em cada parede lateral, na linha do sofá, a ~1,10–1,20 m do chão. Medir a base das caixas da JBL Bar 5.1 antes de comprar.", q: "prateleira pequena caixa de som parede", s: ["ml", "amz"] },
       { id: "guia", name: "Passa-fio (arame-guia) de 10 m", qty: 1, price: [20, 60], p: "recomendado", desc: "Para puxar os cabos pelos eletrodutos e deixar um guia para o futuro.", q: "passa fio 10 metros", s: ["ml", "amz"] }
     ]}
   ];
@@ -377,7 +420,7 @@
       "Ativar a recepção em tempo real (DDP/E1.31) e salvar."
     ], c: "Vermelho, verde, azul e branco aparecem corretos em todas as zonas." },
     { t: "HyperHDR", s: "Fase 6 · sincronia com a imagem", li: [
-      "Adicionar o dispositivo de LED WLED com o IP do controlador e 880 LEDs.",
+      "Adicionar o dispositivo de LED WLED com o IP do controlador e 877 LEDs (com TV de 55 polegadas).",
       "No editor de layout, posicionar os LEDs: zona 1 nas bordas, colunas nas laterais, teto no topo, rack na base. Corrigir o sentido de cada trecho.",
       "Ativar a correção de HDR e rodar a calibração automática da LUT para a placa de captura.",
       "Ativar detecção de barras pretas, detecção de sinal e suavização (~100 ms para filmes)."
@@ -386,9 +429,8 @@
       "Calibrar o branco: tela branca na TV e ajuste no HyperHDR até a luz ficar com o mesmo tom.",
       "Equilibrar o brilho para as colunas e o teto não ofuscarem a tela. O ambilight deve complementar a imagem, não competir com ela.",
       "Testar atraso com vídeos de flashes. Se a luz parecer atrasada, reduzir a suavização.",
-      "Stremio: testar um filme com áudio DTS. Se ficar sem som, usar um player externo (Just Player ou VLC).",
-      "Posicionar as caixas surround da JBL Bar 5.1 nas paredes laterais, na linha do sofá (2,65–2,95 m da parede da TV), a ~1,10–1,20 m do chão."
-    ], c: "Uma sessão de filme inteira, sem travadas, com cores coerentes e som surround." }
+      "Stremio: testar um filme com áudio DTS. Se ficar sem som, usar um player externo (Just Player ou VLC)."
+    ], c: "Uma sessão de filme inteira, sem travadas, com cores coerentes e som pela soundbar." }
   ];
   $("#steps").innerHTML = steps.map((st, i) => `
     <details class="step reveal" ${i === 0 ? "open" : ""}>
