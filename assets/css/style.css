@@ -527,3 +527,19 @@ nav a:hover, nav a.active { color: #fff; background: var(--panel-2); }
 .wall-svg .zone:hover .q-glow, .wall-svg .zone.on .q-glow { opacity: 1; animation: none; }
 .wall-svg.has-sel .zone:not(.on) .q-glow { opacity: .15; animation: none; }
 .wall-svg.with-rack .only-sem, .wall-svg.no-rack .only-com { display: none; }
+
+/* guia de áudio */
+.audio-guide { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.5rem; margin-bottom: 2rem; }
+.audio-guide h4 { font-family: var(--display); font-size: 1rem; margin: 1.6rem 0 .6rem; color: #fff; }
+.audio-path { width: 100%; height: auto; min-width: 640px; }
+.audio-guide .audio-path-wrap { overflow-x: auto; }
+.ap-node rect { fill: #0d1020; stroke: rgba(255,255,255,.18); }
+.ap-node.hl rect { stroke: var(--green); filter: drop-shadow(0 0 8px rgba(0,230,118,.5)); }
+.audio-path text { fill: #fff; font-family: var(--display); font-size: 14px; text-anchor: middle; }
+.audio-path text.sub { fill: var(--muted); font-family: var(--mono); font-size: 11px; }
+.ap-wire { fill: none; stroke: var(--green); stroke-width: 3; stroke-dasharray: 8 8; animation: dash 1s linear infinite; }
+.ap-wire.wl { stroke: #9aa3ff; }
+.audio-guide td.ok { color: var(--green); } .audio-guide td.mid { color: var(--amber); } .audio-guide td.bad { color: var(--pink); }
+.audio-steps { padding-left: 1.2rem; color: #c3c8d8; }
+.audio-steps li { margin-bottom: .7rem; }
+.audio-steps ul { margin-top: .4rem; }

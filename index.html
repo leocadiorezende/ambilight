@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css?v=202611271928">
+  <link rel="stylesheet" href="assets/css/style.css?v=202611271937">
 </head>
 <body>
   <div class="bg-grid" aria-hidden="true"></div>
@@ -587,7 +587,7 @@
       </article>
       <article class="card reveal">
         <h3>Áudio</h3>
-        <p>O som vai junto com a imagem até a TV. A TV repassa o som pela porta <b>HDMI eARC</b> para a porta <b>HDMI ARC/eARC</b> da JBL Bar 5.1, que fica no rack. Esse cabo HDMI sobe pelo eletroduto até a TV.</p>
+        <p>O som vai junto com a imagem até a TV. A TV repassa o som pela porta <b>HDMI eARC</b> para a porta <b>HDMI ARC</b> da JBL Bar 5.1 Surround. Pelo ARC passam Dolby Digital 5.1 ou PCM em 2 canais. O passo a passo está no guia de áudio da seção Software.</p>
         <p class="muted small">Stremio: arquivos com áudio DTS podem ficar sem som. A solução está no passo a passo, fase 7.</p>
       </article>
       <article class="card reveal">
@@ -852,7 +852,65 @@
       <h2>Configuração de software</h2>
       <p>Valores de partida. O ajuste fino é feito vendo conteúdo real na sala escura.</p>
     </div>
-    <div class="warn reveal"><b>Em atualização.</b> Esta seção ainda mostra a versão anterior do projeto (colunas e luz no teto). Ela será refeita para a versão "Parede da TV" assim que você decidir entre com ou sem rack.</div>
+    <div class="audio-guide reveal">
+      <h3>Guia de áudio: Stremio, Fire TV e JBL Bar 5.1 Surround</h3>
+      <p class="muted">Dados da ficha da barra (modelo Bar 5.1 CNTR + Bar 5.1 SUB): formatos MP3, WAV e Dolby Digital; ligação com a TV por <b>HDMI ARC</b> (não eARC); vem com suporte de parede.</p>
+
+      <h4>Caminho do som</h4>
+      <div class="audio-path-wrap">
+      <svg viewBox="0 0 900 130" class="audio-path" role="img" aria-label="Caminho do áudio do Fire TV até a soundbar" fill="#8d93a8" font-family="monospace" font-size="12">
+        <g class="ap-node"><rect x="10" y="35" width="130" height="50" rx="10"/><text x="75" y="58">Fire TV</text><text x="75" y="74" class="sub">Stremio</text></g>
+        <g class="ap-node"><rect x="190" y="35" width="130" height="50" rx="10"/><text x="255" y="58">Switch HDMI</text><text x="255" y="74" class="sub">e splitter</text></g>
+        <g class="ap-node"><rect x="370" y="35" width="150" height="50" rx="10"/><text x="445" y="58">TV Samsung</text><text x="445" y="74" class="sub">porta eARC</text></g>
+        <g class="ap-node hl"><rect x="580" y="35" width="160" height="50" rx="10"/><text x="660" y="58">JBL Bar 5.1</text><text x="660" y="74" class="sub">porta HDMI ARC</text></g>
+        <g class="ap-node"><rect x="790" y="35" width="100" height="50" rx="10"/><text x="840" y="58">Subwoofer</text><text x="840" y="74" class="sub">sem fio</text></g>
+        <path d="M140 60 H190" class="ap-wire"/><path d="M320 60 H370" class="ap-wire"/><path d="M520 60 H580" class="ap-wire arc"/><path d="M740 60 H790" class="ap-wire wl"/>
+        <text x="550" y="28" class="sub">cabo HDMI</text><text x="550" y="104" class="sub">ARC: AC3 5.1 ou PCM 2 canais</text>
+      </svg>
+      </div>
+
+      <h4>O que a barra aceita e o que acontece com cada formato</h4>
+      <table class="table">
+        <thead><tr><th>Formato do filme</th><th>Onde aparece</th><th>O que chega na barra</th><th>Resultado</th></tr></thead>
+        <tbody>
+          <tr><td>Dolby Digital (AC3) 5.1</td><td>Arquivos "DD 5.1" / "AC3" no Stremio</td><td>Dolby Digital 5.1, inteiro</td><td class="ok">✓ 5.1 de verdade</td></tr>
+          <tr><td>Dolby Digital Plus (E-AC3)</td><td>Netflix, Prime, arquivos "DD+" / "DDP"</td><td>A TV converte para Dolby Digital 5.1</td><td class="ok">✓ 5.1</td></tr>
+          <tr><td>Atmos (dentro de DD+)</td><td>Netflix, Prime</td><td>Dolby Digital 5.1, sem a parte de altura</td><td class="ok">✓ 5.1 (a barra não tem Atmos)</td></tr>
+          <tr><td>DTS, DTS-HD, DTS:X</td><td>Muitos arquivos do Stremio</td><td>O Fire TV converte em PCM, que pelo ARC passa só em 2 canais</td><td class="mid">≈ toca, mas em estéreo</td></tr>
+          <tr><td>TrueHD / Atmos em TrueHD</td><td>Arquivos "remux" do Stremio</td><td>O Fire TV converte em PCM 2 canais</td><td class="mid">≈ toca, mas em estéreo</td></tr>
+          <tr><td>Qualquer formato com passthrough errado</td><td>Stremio mandando DTS ou TrueHD direto</td><td>Nada: a barra não entende</td><td class="bad">✗ filme sem som</td></tr>
+        </tbody>
+      </table>
+      <p class="muted small">Em estéreo, a barra ainda cria o surround virtual (MultiBeam), mas a partir de 2 canais. Por isso, no Stremio, escolher fontes com áudio "DD 5.1" ou "AC3" faz diferença.</p>
+
+      <h4>Passo a passo</h4>
+      <ol class="audio-steps">
+        <li><b>Ligação.</b> Cabo HDMI (vem com a barra) da porta <b>eARC</b> da TV até a porta <b>HDMI ARC</b> da barra. A entrada HDMI e a entrada óptica da barra não são usadas.</li>
+        <li><b>TV Samsung.</b> Em Som > Saída de som, escolha a soundbar (receptor HDMI). Em Som > Configurações avançadas > Formato de saída de áudio digital, escolha <b>Automático</b>. Deixe o Anynet+ (HDMI-CEC) ligado para controlar o volume pelo controle da TV.</li>
+        <li><b>Splitter.</b> Modo de EDID <b>copiando da TV</b> (saída 1). Assim o Fire TV sabe o que a barra aceita e não manda DTS direto.</li>
+        <li><b>Fire TV.</b> Em Configurações > Tela e sons > Áudio > Som surround, escolha <b>Melhor disponível</b>. Vale para Netflix, Prime e Stremio.</li>
+        <li><b>Stremio, em Configurações > Player, passthrough de áudio:</b>
+          <ul>
+            <li>Se der para escolher formato por formato: deixe ligado <b>só o AC3 / Dolby Digital</b> e desligue DTS, DTS-HD, TrueHD e E-AC3.</li>
+            <li>Se for um botão só: <b>desligue</b>. O Fire TV converte o áudio e a barra toca normal.</li>
+          </ul>
+        </li>
+        <li><b>Ao escolher o arquivo no Stremio,</b> prefira os que dizem <b>"DD 5.1"</b>, <b>"AC3"</b> ou <b>"DD+"</b>. Os que dizem "DTS", "TrueHD" ou "Atmos TrueHD" vão tocar em estéreo.</li>
+        <li><b>Na barra,</b> deixe o modo surround (MultiBeam) ligado e rode a calibração automática de som dela uma vez, com a sala montada. Ela não tem caixas traseiras: o surround é feito pela própria barra.</li>
+      </ol>
+
+      <h4>Se algo der errado</h4>
+      <table class="table compact">
+        <tbody>
+          <tr><td>Filme sem som</td><td>O Stremio está mandando DTS ou TrueHD direto. Desligue o passthrough (ou deixe só o AC3).</td></tr>
+          <tr><td>Som em estéreo num filme 5.1</td><td>O arquivo é DTS ou TrueHD. Procure outra fonte com "DD 5.1" ou "AC3".</td></tr>
+          <tr><td>Som atrasado em relação à imagem</td><td>Ajuste o atraso de áudio (sincronia labial) na TV ou no Stremio.</td></tr>
+          <tr><td>O controle da TV não muda o volume da barra</td><td>Ligue o Anynet+ (HDMI-CEC) na TV.</td></tr>
+        </tbody>
+      </table>
+      <p class="muted small">Os nomes dos menus podem mudar um pouco conforme a versão do sistema da TV, do Fire TV e do Stremio.</p>
+    </div>
+    <div class="warn reveal"><b>Em atualização.</b> O guia de áudio acima já está atualizado. As configurações abaixo (WLED e HyperHDR) ainda são da versão anterior e serão refeitas para a versão "Parede da TV" quando você decidir entre com ou sem rack.</div>
     <div class="cards cols-2">
       <article class="card reveal">
         <h3>WLED (controlador)</h3>
@@ -885,14 +943,13 @@
         <h3>Fire TV e Stremio</h3>
         <ul class="list">
           <li>Vídeo: resolução automática, faixa dinâmica "Adaptativa" (o Fire TV muda para HDR só quando o conteúdo é HDR).</li>
-          <li>Áudio: Dolby Digital Plus automático. A TV repassa para a soundbar.</li>
-          <li>Stremio: se um arquivo ficar sem som (comum com DTS), configure um player externo, como Just Player ou VLC, que converte o áudio no próprio Fire TV.</li>
+          <li>Áudio: veja o guia de áudio acima.</li>
         </ul>
       </article>
       <article class="card reveal">
         <h3>TV, PS5 e soundbar</h3>
         <ul class="list">
-          <li>TV: ativar "Input Signal Plus" (sinal HDMI aprimorado) na porta do splitter. Saída de som: receptor HDMI (eARC).</li>
+          <li>TV: ativar "Input Signal Plus" (sinal HDMI aprimorado) na porta do splitter. Saída de som: veja o guia de áudio acima.</li>
           <li>TV: modo de imagem "Filmmaker" ou "Filme" para filmes e "Jogo" para o PS5.</li>
           <li>PS5: saída 4K 60 Hz com HDR. Ajuste de HDR feito com o splitter já instalado.</li>
           <li>JBL Bar 5.1: fica no rack, centralizada embaixo da TV, sem encostar na tela. Conferir se ela não tampa o sensor do controle remoto da TV.</li>
@@ -910,7 +967,6 @@
     </div>
     <ul class="pending reveal">
       <li><b>Medidas reais da TV S85H 55"</b> e do suporte, para cortar a fita da zona 1.</li>
-      <li><b>Formatos de áudio aceitos pela JBL Bar 5.1</b>, principalmente DTS, para definir a configuração do Stremio.</li>
       <li><b>Disponibilidade no Brasil</b> do splitter com redução de resolução e do controlador com Ethernet. Os dois provavelmente serão importados.</li>
       <li><b>Sinal do Deco X60 da sala.</b> Testar a velocidade no lugar do rack. Filmes 4K pesados do Stremio pedem uma conexão estável.</li>
     </ul>
@@ -921,18 +977,18 @@
     <p class="muted small">Baseado no tutorial de Chris Maher (SignalRGB + Soft Ambiance) e adaptado para fontes externas com HyperHDR.</p>
   </footer>
 
-  <script src="assets/js/scenes.js?v=202611271928"></script>
-  <script src="assets/js/sim.js?v=202611271928"></script>
-  <script src="assets/js/ripacalc.js?v=202611271928"></script>
-  <script src="assets/js/main.js?v=202611271928"></script>
+  <script src="assets/js/scenes.js?v=202611271937"></script>
+  <script src="assets/js/sim.js?v=202611271937"></script>
+  <script src="assets/js/ripacalc.js?v=202611271937"></script>
+  <script src="assets/js/main.js?v=202611271937"></script>
   <script type="importmap">
     { "imports": {
       "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
       "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
     } }
   </script>
-  <script type="module" src="assets/js/room3d.js?v=202611271928"></script>
-  <script type="module" src="assets/js/ripa3d.js?v=202611271928"></script>
+  <script type="module" src="assets/js/room3d.js?v=202611271937"></script>
+  <script type="module" src="assets/js/ripa3d.js?v=202611271937"></script>
 </body>
 </html>
 
