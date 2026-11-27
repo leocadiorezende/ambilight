@@ -543,3 +543,4 @@ nav a:hover, nav a.active { color: #fff; background: var(--panel-2); }
 .audio-steps { padding-left: 1.2rem; color: #c3c8d8; }
 .audio-steps li { margin-bottom: .7rem; }
 .audio-steps ul { margin-top: .4rem; }
+.badge.ver { background: rgba(124,77,255,.15); color: #b388ff; }

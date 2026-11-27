@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css?v=202611271937">
+  <link rel="stylesheet" href="assets/css/style.css?v=202611271945">
 </head>
 <body>
   <div class="bg-grid" aria-hidden="true"></div>
@@ -705,40 +705,52 @@
     <div class="section-head reveal">
       <span class="num">05</span>
       <h2>Elétrica dos LEDs</h2>
-      <p>Alimentação, proteção e ligação de dados. Esta seção é para o eletricista ou o profissional de iluminação.</p>
+      <p>Alimentação, proteção e ligação de dados da versão "Parede da TV". A elétrica é a mesma com ou sem rack; muda só onde ficam as fontes e o controlador.</p>
     </div>
-    <div class="warn reveal"><b>Em atualização.</b> Esta seção ainda mostra a versão anterior do projeto (colunas e luz no teto). Ela será refeita para a versão "Parede da TV" assim que você decidir entre com ou sem rack.</div>
 
     <div class="split">
       <div class="reveal">
         <h3>Princípios</h3>
         <ul class="list">
-          <li><b>As fontes alimentam as fitas diretamente</b>, cada trecho com o próprio fusível. O controlador só envia os dados e divide o negativo (GND) com as fontes.</li>
+          <li><b>Duas fontes Mean Well LRS-200-12</b> (12 V · 17 A), resfriadas sem ventoinha, para não fazer barulho no filme.</li>
+          <li><b>As fontes alimentam as fitas diretamente</b>, cada trecho com o próprio fusível. O controlador só manda os dados e divide o negativo (GND) com as fontes.</li>
           <li><b>GND comum:</b> o V− das duas fontes e o GND do controlador ficam interligados. Sem isso, os dados falham.</li>
-          <li><b>Injeção de energia:</b> cada trecho recebe energia no início. A zona da TV (3,6 m) também recebe no fim, fechando o anel.</li>
-          <li><b>Dados:</b> um par trançado de cabo de rede, com um fio para dados e o outro para GND, reduz interferência em trechos longos dentro dos eletrodutos.</li>
-          <li><b>Fontes sem ventoinha</b> (Mean Well LRS-150 e LRS-200, resfriadas por convecção), para não fazer barulho durante o filme. Elas ficam no rack, com ventilação.</li>
-          <li><b>Limite de corrente no WLED</b> abaixo da capacidade das fontes. O ambilight raramente chega ao branco total.</li>
-          <li>A fiação de 127/220 V fica com o eletricista, em eletroduto separado da baixa tensão, como exige a NBR 5410.</li>
+          <li><b>Energia nas duas pontas</b> de cada trecho de 5 m. O fio de retorno corre escondido dentro da fenda da tábua.</li>
+          <li><b>Dados em par trançado</b> (cabo de rede): um fio para dados e o outro para GND.</li>
+          <li><b>Limite de corrente no WLED</b> abaixo da capacidade das fontes. O ambilight quase nunca chega ao branco total.</li>
+          <li>A fiação de 127/220 V fica com o eletricista, em eletroduto separado da baixa tensão (NBR 5410).</li>
         </ul>
+        <table class="table compact" style="margin-top:1rem">
+          <thead><tr><th></th><th>Com rack</th><th>Sem rack</th></tr></thead>
+          <tbody>
+            <tr><td>Fontes e controlador</td><td>Dentro do rack, com ventilação</td><td>No nicho técnico atrás da TV (ou no móvel lateral)</td></tr>
+            <tr><td>Rodapé</td><td>2 × 1,40 m, ligados por um fio atrás do rack</td><td>5,00 m inteiro</td></tr>
+            <tr><td>Fita do rack</td><td>Saída 1, depois da TV</td><td>Não existe</td></tr>
+          </tbody>
+        </table>
       </div>
 
       <div class="calc reveal">
         <h3>Calculadora de LEDs e potência</h3>
         <p class="muted">Ajuste os comprimentos depois de medir. O consumo por metro deve ser conferido na ficha técnica da fita comprada.</p>
+        <div class="filters" id="pc-rack" style="margin-bottom:.8rem">
+          <button class="chip active" data-r="com">Com rack</button>
+          <button class="chip" data-r="sem">Sem rack</button>
+        </div>
         <div class="calc-grid" id="power-calc">
-          <label>Zona TV (m)<input type="number" step="0.01" min="0" value="3.52" data-z="tv"></label>
-          <label>Rack (m)<input type="number" step="0.01" min="0" value="2.10" data-z="rack"></label>
-          <label>Colunas (m, cada)<input type="number" step="0.01" min="0" value="2.00" data-z="col"></label>
-          <label>Teto (m, total)<input type="number" step="0.01" min="0" value="5.00" data-z="teto"></label>
+          <label>Atrás da TV (m)<input type="number" step="0.01" min="0" value="3.52" data-z="tv"></label>
+          <label>Embaixo do rack (m)<input type="number" step="0.01" min="0" value="2.10" data-z="rack"></label>
+          <label>Cantos (m, os dois)<input type="number" step="0.01" min="0" value="5.16" data-z="cantos"></label>
+          <label>Tábua de cima (m)<input type="number" step="0.01" min="0" value="5.00" data-z="cima"></label>
+          <label>Rodapé (m)<input type="number" step="0.01" min="0" value="2.80" data-z="rodape"></label>
           <label>LEDs por metro<input type="number" step="1" min="1" value="60" id="pc-density"></label>
           <label>Consumo máx. (W/m)<input type="number" step="0.1" min="0" value="14.4" id="pc-wm"></label>
         </div>
         <div class="calc-out">
-          <div><span>LEDs</span><strong id="pc-leds">877</strong></div>
-          <div><span>Metros de fita</span><strong id="pc-m">14,4</strong></div>
-          <div><span>Fonte A (TV + rack)</span><strong id="pc-a">77 W</strong></div>
-          <div><span>Fonte B (colunas + teto)</span><strong id="pc-b">130 W</strong></div>
+          <div><span>LEDs</span><strong id="pc-leds">—</strong></div>
+          <div><span>Metros de fita</span><strong id="pc-m">—</strong></div>
+          <div><span>Fonte A (TV + rack + cantos)</span><strong id="pc-a">—</strong></div>
+          <div><span>Fonte B (cima + rodapé)</span><strong id="pc-b">—</strong></div>
         </div>
         <p class="muted small" id="pc-advice"></p>
       </div>
@@ -747,26 +759,25 @@
     <div class="reveal">
       <h3>Esquema de ligação</h3>
       <pre class="diagram">
-  TOMADA (rack) ─┬─► Fonte A · Mean Well LRS-150-12 (12 V · 12,5 A)
-                 │        V+ ─┬─ fusível 7,5 A ─► Zona 1 · TV (início e fim)
-                 │            ├─ fusível 5 A ───► Zona 2 · Rack
-                 │            └─────────────────► Controlador WLED (alimentação)
-                 │        V− ─┬─────────────────► GND comum
-                 │
-                 └─► Fonte B · Mean Well LRS-200-12 (12 V · 17 A)
-                          V+ ─┬─ fusível 7,5 A ─► Zona 3 · Coluna E + teto E
-                              └─ fusível 7,5 A ─► Zona 4 · Coluna D + teto D
-                          V− ───────────────────► GND comum
+  TOMADA ─┬─► Fonte A · Mean Well LRS-200-12 (12 V · 17 A)
+          │      V+ ─┬─ fusível 10 A ──► Saída 1: TV (~211) → rack (~126, só com rack)
+          │          ├─ fusível 10 A ──► Saída 4: canto esquerdo → canto direito (~310)
+          │          └────────────────► Controlador WLED (alimentação)
+          │      V− ──────────────────► GND comum
+          │
+          └─► Fonte B · Mean Well LRS-200-12 (12 V · 17 A)
+                 V+ ─┬─ fusível 7,5 A ─► Saída 2: tábua de cima (300)
+                     └─ fusível 7,5 A ─► Saída 3: rodapé (300 sem rack · 168 com rack)
+                 V− ──────────────────► GND comum
 
-  Controlador WLED (Ethernet ◄── switch do rack)
-     Saída 1 ── dados ─► Zona 1  (TV · ~211 LEDs)
-     Saída 2 ── dados ─► Zona 2  (rack · ~126 LEDs)
-     Saída 3 ── dados ─► Zona 3  (coluna E 120 → teto E 150, do canto ao centro)
-     Saída 4 ── dados ─► Zona 4  (coluna D 120 → teto D 150, do canto ao centro)
+  Controlador WLED (Ethernet ◄── switch de rede)
+     Saída 1 ─► TV, depois o rack     Saída 2 ─► tábua de cima
+     Saída 3 ─► rodapé                Saída 4 ─► canto esquerdo, depois o direito
+                                                 (o fio de dados atravessa por dentro da tábua de cima)
 
   Fita WS2815: V+ · DI (dados) · BI (dados reserva) · GND
   No início de cada trecho, ligue BI ao GND. Nas emendas, ligue DO→DI e BO→BI.</pre>
-      <p class="muted small">Nas zonas 3 e 4, a fita sobe pela coluna e, no topo, um fio dentro da moldura leva dados e energia até o canto da parede. Dali a fita do teto segue até o centro. A correção da direção é feita no mapeamento do HyperHDR.</p>
+      <p class="muted small">Cada saída fica com no máximo ~340 LEDs, o que permite cerca de 95 atualizações por segundo.</p>
     </div>
   </section>
 
@@ -775,36 +786,40 @@
     <div class="section-head reveal">
       <span class="num">06</span>
       <h2>Obra simples</h2>
-      <p>Lista para o pedreiro e o eletricista: o objetivo é não deixar nenhum fio aparente na parede da TV.</p>
+      <p>Lista para o pedreiro, o eletricista e o marceneiro. A fiação das ripas corre por dentro da fenda das tábuas, então quase não é preciso abrir a parede.</p>
     </div>
-    <div class="warn reveal"><b>Em atualização.</b> Esta seção ainda mostra a versão anterior do projeto (colunas e luz no teto). Ela será refeita para a versão "Parede da TV" assim que você decidir entre com ou sem rack.</div>
 
-    <div class="timeline">
-      <div class="tl-item reveal"><span class="tl-dot"></span><div>
-        <h3>Remover o painel de madeira</h3>
-        <p>Retirar o painel, consertar o reboco (inclusive a parte danificada no canto inferior direito, perto da porta) e preparar a parede para pintura.</p>
-      </div></div>
-      <div class="tl-item reveal"><span class="tl-dot"></span><div>
-        <h3>Atrás da TV</h3>
-        <p><b>Tomada</b> em caixa 4×2, no centro, escondida pela TV. <b>Caixa 4×4</b> ao lado para os cabos de baixa tensão, com espelho de saída de cabos (com escova).</p>
-      </div></div>
-      <div class="tl-item reveal"><span class="tl-dot"></span><div>
-        <h3>Eletroduto TV ↔ rack</h3>
-        <p>Eletroduto corrugado de <b>32 mm no mínimo (40 mm se possível)</b> da caixa 4×4 da TV até uma caixa atrás do rack. Por ele passam 2 cabos HDMI (splitter → TV e TV → soundbar), energia e dados da zona da TV. Deixar um arame-guia para puxar cabos no futuro.</p>
-        <p class="muted small">O conector HDMI precisa passar por dentro. Passe os cabos antes de fechar a parede ou teste com o cabo real.</p>
-      </div></div>
-      <div class="tl-item reveal"><span class="tl-dot"></span><div>
-        <h3>Rasgos das colunas</h3>
-        <p>Dois rasgos verticais de 2,00 m na largura do perfil de embutir, alinhados às pontas do rack (1,40 m de cada canto da parede). Eletroduto de 25 mm da base de cada coluna até a caixa do rack. No topo de cada coluna, uma saída até a altura da moldura.</p>
-      </div></div>
-      <div class="tl-item reveal"><span class="tl-dot"></span><div>
-        <h3>Tomadas no rack</h3>
-        <p>Pelo menos 8 pontos: fonte A, fonte B, Raspberry Pi, switch de rede, switch HDMI/splitter, PS5, Fire TV e soundbar/subwoofer. Recomendado usar um filtro de linha com protetor de surto (DPS).</p>
-      </div></div>
-      <div class="tl-item reveal"><span class="tl-dot"></span><div>
-        <h3>Moldura do teto e pintura</h3>
-        <p>Colar a moldura de poliestireno ao longo dos 5 m, 15 a 20 cm abaixo do teto, deixando a abertura para cima. Passar os fios por dentro antes de fechar. Pintar parede e moldura de branco fosco (o fosco evita reflexos de pontos de luz).</p>
-      </div></div>
+    <div class="cards cols-3">
+      <article class="card reveal">
+        <h3>Comum às duas versões</h3>
+        <ul class="list">
+          <li>Remover o painel de madeira e consertar o reboco (inclusive o canto danificado perto da porta).</li>
+          <li><b>Massa corrida bem lixada e tinta branca fosca</b> na parede da TV. A luz rasante mostra qualquer imperfeição.</li>
+          <li>Tomada atrás da TV (caixa 4×2) e caixa 4×4 com espelho de saída de cabos.</li>
+          <li>Tábuas de 11 cm nos 4 cantos da parede da TV, a 5 cm da parede, com suportes pequenos.</li>
+          <li>Prendedor de porta no chão (porta da parede 2).</li>
+          <li>Cortina blackout nas duas janelas.</li>
+        </ul>
+      </article>
+      <article class="card reveal">
+        <h3>Com rack</h3>
+        <ul class="list">
+          <li>Eletroduto de 32 mm (40 mm se couber) da caixa atrás da TV até a caixa atrás do rack: 2 HDMI (splitter → TV e TV → soundbar), energia e dados da TV.</li>
+          <li>Pelo menos 8 tomadas atrás do rack, com filtro de linha com protetor de surto.</li>
+          <li>Os fios das ripas saem do rack por trás do rodapé, sem rasgo na parede.</li>
+          <li>Rodapé em dois pedaços (1,40 m de cada lado), com tampinha de acabamento nas pontas.</li>
+        </ul>
+      </article>
+      <article class="card reveal">
+        <h3>Sem rack (nicho atrás da TV)</h3>
+        <ul class="list">
+          <li>Nicho embutido atrás da TV, uns 40 × 30 × 8 cm, com tomadas e ventilação, para Fire TV, Pi, captura, splitter, switches, controlador e fontes.</li>
+          <li>Eletroduto de 25 mm do nicho até o canto inferior (atrás do rodapé), por onde descem os fios das ripas.</li>
+          <li>Soundbar no suporte de parede que vem com ela, ~12 cm abaixo da TV.</li>
+          <li>Lugar para o PS5 (prateleira estreita ou móvel pequeno numa parede lateral), com eletroduto para o HDMI até o nicho.</li>
+          <li>Tomada para o subwoofer no canto perto do sofá.</li>
+        </ul>
+      </article>
     </div>
   </section>
 
@@ -815,9 +830,12 @@
       <h2>Lista de compras</h2>
       <p>Tudo que precisa ser comprado, inclusive ferramentas. A TV e o som ficam fora da conta.</p>
     </div>
-    <div class="warn reveal"><b>Em atualização.</b> Esta seção ainda mostra a versão anterior do projeto (colunas e luz no teto). Ela será refeita para a versão "Parede da TV" assim que você decidir entre com ou sem rack.</div>
 
     <div class="shop-toolbar reveal">
+      <div class="filters" id="shop-version">
+        <button class="chip active" data-v="rack">Com rack</button>
+        <button class="chip" data-v="semrack">Sem rack</button>
+      </div>
       <div class="filters" id="shop-filters">
         <button class="chip active" data-f="all">Todos</button>
         <button class="chip" data-f="essencial">Essencial</button>
@@ -841,7 +859,6 @@
       <h2>Passo a passo</h2>
       <p>Ordem de execução. Cada fase termina com um teste antes de seguir.</p>
     </div>
-    <div class="warn reveal"><b>Em atualização.</b> Esta seção ainda mostra a versão anterior do projeto (colunas e luz no teto). Ela será refeita para a versão "Parede da TV" assim que você decidir entre com ou sem rack.</div>
     <div class="steps" id="steps"></div>
   </section>
 
@@ -910,7 +927,6 @@
       </table>
       <p class="muted small">Os nomes dos menus podem mudar um pouco conforme a versão do sistema da TV, do Fire TV e do Stremio.</p>
     </div>
-    <div class="warn reveal"><b>Em atualização.</b> O guia de áudio acima já está atualizado. As configurações abaixo (WLED e HyperHDR) ainda são da versão anterior e serão refeitas para a versão "Parede da TV" quando você decidir entre com ou sem rack.</div>
     <div class="cards cols-2">
       <article class="card reveal">
         <h3>WLED (controlador)</h3>
@@ -918,7 +934,7 @@
           <tbody>
             <tr><td>Conexão</td><td>Ethernet (Config → Ethernet Type: o modelo do controlador)</td></tr>
             <tr><td>Tipo de LED</td><td>WS281x (WS2815), ordem de cor GRB (confirmar com teste)</td></tr>
-            <tr><td>Saídas 1 a 4</td><td>~211 · ~126 · 270 · 270 LEDs</td></tr>
+            <tr><td>Saídas 1 a 4</td><td>1: TV ~211 (+ rack ~126) · 2: tábua de cima 300 · 3: rodapé 300 sem rack / 168 com rack · 4: cantos ~310</td></tr>
             <tr><td>Limite de corrente</td><td>Ativado. Por saída ou total, conforme as fontes (ver calculadora)</td></tr>
             <tr><td>Recepção em tempo real</td><td>Ativada (DDP / E1.31), "Force max brightness" desligado</td></tr>
             <tr><td>IP</td><td>Fixo (reserva de DHCP no app Deco)</td></tr>
@@ -931,8 +947,8 @@
           <tbody>
             <tr><td>Captura</td><td>Placa MS2130, 1280×720 ou 1920×1080, 60 fps</td></tr>
             <tr><td>Correção de HDR</td><td>Ativada, com LUT calibrada para a placa (calibração automática do HyperHDR)</td></tr>
-            <tr><td>Saída</td><td>Dispositivo WLED pelo IP do controlador, protocolo DDP, 877 LEDs</td></tr>
-            <tr><td>Layout</td><td>Mapeamento das 5 zonas no editor de LEDs (TV nas bordas, colunas nas laterais, teto no topo, rack na base)</td></tr>
+            <tr><td>Saída</td><td>Dispositivo WLED pelo IP do controlador, protocolo DDP, ~1.120 LEDs</td></tr>
+            <tr><td>Layout</td><td>TV nas bordas da tela, tábua de cima no topo, rodapé na base, cantos nas laterais e rack na base (se houver)</td></tr>
             <tr><td>Suavização</td><td>Começar por volta de 100 ms para filmes. Valores menores para jogos.</td></tr>
             <tr><td>Barras pretas</td><td>Detecção automática ativada (filmes em 21:9)</td></tr>
             <tr><td>Sem sinal</td><td>Detecção de sinal ativada: as luzes apagam quando a TV desliga</td></tr>
@@ -952,7 +968,7 @@
           <li>TV: ativar "Input Signal Plus" (sinal HDMI aprimorado) na porta do splitter. Saída de som: veja o guia de áudio acima.</li>
           <li>TV: modo de imagem "Filmmaker" ou "Filme" para filmes e "Jogo" para o PS5.</li>
           <li>PS5: saída 4K 60 Hz com HDR. Ajuste de HDR feito com o splitter já instalado.</li>
-          <li>JBL Bar 5.1: fica no rack, centralizada embaixo da TV, sem encostar na tela. Conferir se ela não tampa o sensor do controle remoto da TV.</li>
+          <li>JBL Bar 5.1: com rack, em cima do rack; sem rack, no suporte de parede que vem com ela, ~12 cm abaixo da TV. Conferir se ela não tampa o sensor do controle remoto.</li>
         </ul>
       </article>
     </div>
@@ -967,6 +983,7 @@
     </div>
     <ul class="pending reveal">
       <li><b>Medidas reais da TV S85H 55"</b> e do suporte, para cortar a fita da zona 1.</li>
+      <li><b>Com rack ou sem rack.</b> Sem rack, decidir onde ficam o PS5 e os aparelhos (nicho atrás da TV, móvel lateral ou outro cômodo).</li>
       <li><b>Disponibilidade no Brasil</b> do splitter com redução de resolução e do controlador com Ethernet. Os dois provavelmente serão importados.</li>
       <li><b>Sinal do Deco X60 da sala.</b> Testar a velocidade no lugar do rack. Filmes 4K pesados do Stremio pedem uma conexão estável.</li>
     </ul>
@@ -977,18 +994,18 @@
     <p class="muted small">Baseado no tutorial de Chris Maher (SignalRGB + Soft Ambiance) e adaptado para fontes externas com HyperHDR.</p>
   </footer>
 
-  <script src="assets/js/scenes.js?v=202611271937"></script>
-  <script src="assets/js/sim.js?v=202611271937"></script>
-  <script src="assets/js/ripacalc.js?v=202611271937"></script>
-  <script src="assets/js/main.js?v=202611271937"></script>
+  <script src="assets/js/scenes.js?v=202611271945"></script>
+  <script src="assets/js/sim.js?v=202611271945"></script>
+  <script src="assets/js/ripacalc.js?v=202611271945"></script>
+  <script src="assets/js/main.js?v=202611271945"></script>
   <script type="importmap">
     { "imports": {
       "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
       "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
     } }
   </script>
-  <script type="module" src="assets/js/room3d.js?v=202611271937"></script>
-  <script type="module" src="assets/js/ripa3d.js?v=202611271937"></script>
+  <script type="module" src="assets/js/room3d.js?v=202611271945"></script>
+  <script type="module" src="assets/js/ripa3d.js?v=202611271945"></script>
 </body>
 </html>
 

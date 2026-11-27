@@ -90,6 +90,12 @@ TV (eARC) → cabo HDMI → JBL Bar 5.1 Surround (HDMI ARC) → subwoofer sem fi
 - Fire TV: Som surround "Melhor disponível". TV: formato de saída de áudio digital "Automático", Anynet+ ligado. Splitter: EDID copiando da TV.
 - Barra: modo surround (MultiBeam) e calibração automática.
 
+## Estado do site (última atualização)
+
+- Todas as seções estão na versão "Parede da TV", com as opções **com rack** e **sem rack** lado a lado (botões em Zonas, Elétrica, Compras; tabelas em Sala 3D e Obra; notas no Passo a passo).
+- Estimativa da lista de compras (sem TV e som, preços não conferidos): **com rack R$ 4.940 – 11.190**; **sem rack R$ 5.240 – 12.120**.
+- Calculadora de potência: com rack, fonte A ~155 W e fonte B ~112 W; sem rack, A ~125 W e B ~144 W (2 × LRS-200-12, dentro de 80%).
+
 ## Pendências
 
 1. Decidir **com rack** ou **sem rack** (e, sem rack, onde guardar PS5 e eletrônicos: opções B, C ou D).
