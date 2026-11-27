@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css?v=202611271810">
+  <link rel="stylesheet" href="assets/css/style.css?v=202611271825">
 </head>
 <body>
   <div class="bg-grid" aria-hidden="true"></div>
@@ -21,6 +21,7 @@
       <a href="#visao">Visão geral</a>
       <a href="#simulador">Simulador</a>
       <a href="#sala3d">Sala 3D</a>
+      <a href="#ripa">A ripa</a>
       <a href="#sala">A sala</a>
       <a href="#sinal">Sinal</a>
       <a href="#zonas">Zonas de luz</a>
@@ -239,6 +240,7 @@
         </div>
         <div class="sim-group">
           <label class="sim-check"><input type="checkbox" id="r3-strips"> Mostrar onde ficam as fitas (raio-X)</label>
+          <label class="sim-check"><input type="checkbox" id="r3-door"> Abrir a porta</label>
           <label class="sim-check"><input type="checkbox" id="r3-slow"> Simular lâmpada inteligente (atraso de ~0,5 s)</label>
           <label class="sim-range">Brilho das camadas extras <output id="r3-extra-out">60%</output>
             <input type="range" id="r3-extra" min="0" max="100" value="60">
@@ -340,6 +342,79 @@
     </div>
   </section>
 
+  <!-- COMO FUNCIONA A RIPA -->
+  <section id="ripa" class="section">
+    <div class="section-head reveal">
+      <span class="num">COMO FUNCIONA</span>
+      <h2>A ripa, peça por peça</h2>
+      <p>Funciona como uma sanca de gesso, só que de madeira e na parede: uma canaleta em "L" com a fita escondida dentro. Clique em "Ver montagem" ou avance passo a passo. Você também pode girar a peça com o mouse.</p>
+    </div>
+
+    <div class="sim reveal">
+      <div class="sim-stage">
+        <div id="ripa3d" class="room3d"><p class="r3-loading">Carregando…</p></div>
+      </div>
+      <div class="sim-panel">
+        <div class="sim-group">
+          <h4>Montagem</h4>
+          <p id="ripa-step" class="step-caption">—</p>
+          <div class="step-nav">
+            <button class="chip" id="ripa-prev">Anterior</button>
+            <span id="ripa-n" class="muted small">1 / 6</span>
+            <button class="chip" id="ripa-next">Próximo</button>
+          </div>
+          <button class="btn primary small-btn" id="ripa-play">Ver montagem</button>
+        </div>
+        <div class="sim-group">
+          <label class="sim-check"><input type="checkbox" id="ripa-xray"> Tábua da frente transparente (para ver a fita)</label>
+        </div>
+        <div class="sim-group">
+          <h4>Medidas de partida</h4>
+          <ul class="list small">
+            <li>Espaçador: tira de madeira de 2 × 5 cm, presa na parede.</li>
+            <li>Tábua da frente: 11 cm de largura, MDF ou madeira, pintada de branco fosco.</li>
+            <li>Fenda por onde a luz sai: 5 cm.</li>
+            <li>A tábua avança o dobro da fenda, e por isso o LED fica escondido de quem está no sofá.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-head reveal" style="margin-top:3rem">
+      <h2>O canto da porta</h2>
+      <p>A porta da parede 2 começa a 10 cm do canto e abre girando em direção à parede da TV. Veja como cada opção de ripa fica com a porta aberta e fechada.</p>
+    </div>
+    <div class="sim reveal">
+      <div class="sim-stage">
+        <div id="porta3d" class="room3d"><p class="r3-loading">Carregando…</p></div>
+      </div>
+      <div class="sim-panel">
+        <div class="sim-group">
+          <h4>Opção de ripa no canto</h4>
+          <div class="filters" id="porta-opts">
+            <button class="chip active" data-o="A">A · 20 cm do canto</button>
+            <button class="chip" data-o="B">B · no canto</button>
+            <button class="chip" data-o="C">C · sem ripa vertical</button>
+          </div>
+          <p id="porta-text" class="step-caption">—</p>
+        </div>
+        <div class="sim-group">
+          <button class="btn primary small-btn" id="porta-toggle">Abrir a porta</button>
+        </div>
+        <div class="sim-group">
+          <h4>Ponto de vista</h4>
+          <div class="filters" id="porta-views">
+            <button class="chip active" data-v="sala">De dentro da sala</button>
+            <button class="chip" data-v="cima">De cima</button>
+          </div>
+        </div>
+        <div class="sim-group">
+          <p class="muted small">Durante o filme a porta fica fechada, então ela não atrapalha a luz. Vale colocar um prendedor de porta no chão para a maçaneta não bater na parede nem na ripa.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- A SALA -->
   <section id="sala" class="section">
     <div class="section-head reveal">
@@ -420,8 +495,9 @@
         <text id="p-tv-label" x="280" y="20" class="p-t tv">TV 55"</text>
         <!-- porta (parede 2) -->
         <line x1="530" y1="40" x2="530" y2="134" class="p-gap"/>
-        <path d="M530 134 L436 134 A94 94 0 0 1 530 40" class="p-door"/>
+        <path d="M530 44 L450 44 A80 80 0 0 0 530 124" class="p-door"/>
         <text x="478" y="152" class="p-t">porta 94 cm</text>
+        <text x="478" y="166" class="p-t">abre para a parede da TV</text>
         <!-- janela parede 4 -->
         <line x1="30" y1="138" x2="30" y2="288" class="p-window"/>
         <text x="44" y="230" class="p-t left">janela 1,50 m</text>
@@ -836,16 +912,17 @@
     <p class="muted small">Baseado no tutorial de Chris Maher (SignalRGB + Soft Ambiance) e adaptado para fontes externas com HyperHDR.</p>
   </footer>
 
-  <script src="assets/js/scenes.js?v=202611271810"></script>
-  <script src="assets/js/sim.js?v=202611271810"></script>
-  <script src="assets/js/main.js?v=202611271810"></script>
+  <script src="assets/js/scenes.js?v=202611271825"></script>
+  <script src="assets/js/sim.js?v=202611271825"></script>
+  <script src="assets/js/main.js?v=202611271825"></script>
   <script type="importmap">
     { "imports": {
       "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
       "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
     } }
   </script>
-  <script type="module" src="assets/js/room3d.js?v=202611271810"></script>
+  <script type="module" src="assets/js/room3d.js?v=202611271825"></script>
+  <script type="module" src="assets/js/ripa3d.js?v=202611271825"></script>
 </body>
 </html>
 

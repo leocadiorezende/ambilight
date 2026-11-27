@@ -302,6 +302,9 @@ nav a:hover, nav a.active { color: #fff; background: var(--panel-2); }
   width: 100%; padding: .5rem .6rem; border-radius: 8px; font: inherit; font-size: .9rem;
   background: #0d1020; color: #fff; border: 1px solid var(--line);
 }
+.step-caption { color: #fff; font-size: .95rem; min-height: 3.2em; margin: 0 0 .8rem; }
+.step-nav { display: flex; align-items: center; gap: .8rem; margin-bottom: .8rem; }
+.small-btn { padding: .55rem 1.1rem; font-size: .9rem; border: none; cursor: pointer; font-family: inherit; }
 .cuts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1rem; }
 .cut { margin: 0; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 1rem; }
 .cut svg { width: 100%; height: auto; }

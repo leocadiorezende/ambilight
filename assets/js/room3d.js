@@ -94,6 +94,12 @@ function init() {
   box(0.18, 0.65, 1.05, 0.09, 0.325, 2.47, sofaMat);              // braços
   box(0.18, 0.65, 1.05, 4.91, 0.325, 2.47, sofaMat);
 
+  // porta (parede 2): dobradiça do lado do canto da TV, abre em direção à parede da TV
+  const doorHinge = new THREE.Group(); doorHinge.position.set(RW - 0.02, 0, 0.14); scene.add(doorHinge);
+  const leaf = new THREE.Mesh(new THREE.BoxGeometry(0.035, 2.08, 0.80), lam("#6b4a2a")); leaf.position.set(0, 1.04, 0.40); doorHinge.add(leaf);
+  const knob = new THREE.Mesh(new THREE.BoxGeometry(0.065, 0.025, 0.12), lam("#bdbdbd")); knob.position.set(-0.05, 1.0, 0.72); doorHinge.add(knob);
+  let doorOpen = 0, doorTarget = 0;
+
   // ripas da moldura (pintadas de branco)
   const ripaMat = lam("#e6e6e6");
   const ripas = new THREE.Group();
@@ -172,6 +178,7 @@ function init() {
   }));
   $$("#r3-views .chip").forEach((c) => c.addEventListener("click", () => { $$("#r3-views .chip").forEach((x) => x.classList.toggle("active", x === c)); setView(c.dataset.v); }));
   $("#r3-strips").addEventListener("change", (e) => { showStrips = e.target.checked; syncStrips(); });
+  $("#r3-door").addEventListener("change", (e) => (doorTarget = e.target.checked ? 1 : 0));
   $("#r3-slow").addEventListener("change", (e) => (slow = e.target.checked));
   $("#r3-extra").addEventListener("input", (e) => { extra = e.target.value / 100; $("#r3-extra-out").textContent = e.target.value + "%"; });
   const sc = $("#r3-scenes");
@@ -220,8 +227,8 @@ function init() {
     curtain(P.left, 1.08, 0.95, 2.58, 2.05);
     curtain(P.back, 2.30, 0.95, 3.80, 2.06);
     const [dx, dy, dw, dh] = rectPx(P.right, 0.10, 0, 1.04, 2.10);
-    P.right.ctx.fillStyle = "#24190f"; P.right.ctx.fillRect(dx, dy, dw, dh);
-    P.right.ctx.strokeStyle = "#3a2a1a"; P.right.ctx.lineWidth = 3; P.right.ctx.strokeRect(dx, dy, dw, dh);
+    P.right.ctx.fillStyle = "#060607"; P.right.ctx.fillRect(dx, dy, dw, dh);
+    P.right.ctx.strokeStyle = "#3a2a1a"; P.right.ctx.lineWidth = 4; P.right.ctx.strokeRect(dx, dy, dw, dh);
     // piso
     const f = P.floor.ctx; f.strokeStyle = "rgba(255,255,255,.025)"; f.lineWidth = 1;
     for (let i = 0; i <= RW; i += 0.6) { f.beginPath(); f.moveTo(i * S, 0); f.lineTo(i * S, RD * S); f.stroke(); }
@@ -304,6 +311,8 @@ function init() {
     const f = player.tick(now);
     $("#r3-scene").textContent = f.name;
     paint(follow(f.colors, slow));
+    doorOpen += (doorTarget - doorOpen) * 0.06;
+    doorHinge.rotation.y = -doorOpen * Math.PI / 2 * 0.97;
     controls.update();
     renderer.render(scene, camera);
     requestAnimationFrame(loop);
