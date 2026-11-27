@@ -185,25 +185,20 @@
       text: "Fita colada na traseira da TV, a 3–4 cm da borda, com os LEDs virados para a parede. É a base do ambilight e copia as bordas da imagem.",
       specs: { "Comprimento": "~3,52 m", "LEDs": "~211", "Saída": "1", "Energia": "Fonte A, início e fim", "Fixação": "Fita 3M VHB + cantos em L ou soldados" }
     },
-    colunas: {
-      title: "Zonas 3 e 4 · Colunas laterais",
-      text: "Perfis de alumínio embutidos na parede, alinhados às pontas do rack (1,40 m de cada canto). Copiam as laterais da imagem e ampliam a sensação de tela maior.",
-      specs: { "Altura": "2,00 m cada (0,55 a 2,55 m do chão)", "LEDs": "120 cada", "Saídas": "3 (esq.) e 4 (dir.)", "Energia": "Fonte B", "Acabamento": "Difusor leitoso, perfil ≥ 15 mm" }
-    },
-    teto: {
-      title: "Zonas 3 e 4 · Luz indireta no teto",
-      text: "Moldura de poliestireno ao longo dos 5 m, 15 a 20 cm abaixo do teto, com a fita virada para cima. Copia o topo da imagem e banha o teto de cor.",
-      specs: { "Comprimento": "5,00 m (2 × 2,50 m)", "LEDs": "150 + 150", "Saídas": "3 e 4, depois das colunas", "Sentido": "Do canto ao centro", "Energia": "Fonte B, com injeção no canto" }
+    quadro: {
+      title: "Quadro de ripas nos cantos",
+      text: "Tábuas de 11 cm nas 4 bordas da parede da TV, a 5 cm da parede. A fita fica atrás de cada tábua, encostada na madeira, e a luz lava a parede em direção à TV.",
+      specs: { "Comprimento": "~15,2 m sem rack (5 + 5 + 2 × 2,58)", "LEDs": "~910", "Saídas": "2 (cima), 3 (rodapé), 4 (cantos)", "Fita": "Numa cantoneira de alumínio nas costas da tábua", "Visível?": "Do sofá, nunca" }
     },
     rack: {
-      title: "Zona 2 · Embaixo do rack",
+      title: "Embaixo do rack (opcional)",
       text: "Fita dentro de um perfil de alumínio com difusor, colada embaixo da parte da frente do rack, no recuo de mais de 4 cm da base, virada para o chão. Fica escondida de quem está no sofá. Substitui a luz de baixo da TV, que fica tampada pela soundbar, e completa a moldura de luz.",
-      specs: { "Comprimento": "~2,10 m (rack de 2,20 m)", "LEDs": "~126", "Saída": "2", "Energia": "Fonte A", "Posição": "Junto à base recuada, longe da borda da frente", "Acabamento": "Perfil de sobrepor com difusor leitoso" }
+      specs: { "Comprimento": "~2,10 m (rack de 2,20 m)", "LEDs": "~126", "Saída": "1, depois da TV", "Energia": "Fonte A", "Posição": "Junto à base recuada, longe da borda da frente", "Acabamento": "Perfil de sobrepor com difusor leitoso" }
     }
   };
   /* ---------- tamanho da TV: atualiza desenhos e contagem de LEDs ---------- */
-  // Fixos: rack 2,10 m de fita, colunas 2 × 2,00 m, teto 5,00 m.
-  const FIXED_M = 2.10 + 4.00 + 5.00;
+  // Quadro de ripas: ~15,1 m de fita (com ou sem rack, quase igual).
+  const FIXED_M = 15.1; // quadro (com ou sem rack, quase igual)
   const setAttrs = (el, a) => Object.entries(a).forEach(([k, v]) => el.setAttribute(k, v));
   window.addEventListener("tvchange", (e) => {
     const { inch, d, width, height } = e.detail;
@@ -232,7 +227,7 @@
     $("#zt-tv-len").textContent = "~" + num(perim, 2) + " m";
     $("#zt-tv-leds").textContent = "~" + leds;
     $("#zt-total-len").textContent = "~" + num(perim + FIXED_M, 1) + " m";
-    $("#zt-total-leds").textContent = "~" + Math.round((perim + FIXED_M) * 60);
+    $("#zt-total-leds").textContent = "~" + Math.round((perim + FIXED_M) * 60).toLocaleString("pt-BR");
     const tvInput = $("[data-z=tv]", pc);
     tvInput.value = perim.toFixed(2);
     updatePower();
@@ -256,6 +251,11 @@
     g.addEventListener("mouseenter", () => showZone(g.dataset.zone));
     g.addEventListener("click", () => showZone(g.dataset.zone));
   });
+  $$("#zone-rack .chip").forEach((c) => c.addEventListener("click", () => {
+    $$("#zone-rack .chip").forEach((x) => x.classList.toggle("active", x === c));
+    const com = c.dataset.r === "com";
+    wall.classList.toggle("with-rack", com); wall.classList.toggle("no-rack", !com);
+  }));
   updateAngle(); // aplica o tamanho inicial da TV nos desenhos
 
   /* ---------- lista de compras ---------- */

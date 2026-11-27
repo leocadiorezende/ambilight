@@ -522,3 +522,8 @@ nav a:hover, nav a.active { color: #fff; background: var(--panel-2); }
 .rc-list li.ok span, .rc-list li.ok b { color: var(--green); }
 .rc-list li.bad span, .rc-list li.bad b { color: var(--pink); }
 .sim-layers label.off { opacity: .4; pointer-events: none; }
+.wall-svg .ripa { fill: #d9d9d9; }
+.wall-svg .q-glow { opacity: .55; transition: opacity .3s; animation: pulse 3s ease-in-out infinite; }
+.wall-svg .zone:hover .q-glow, .wall-svg .zone.on .q-glow { opacity: 1; animation: none; }
+.wall-svg.has-sel .zone:not(.on) .q-glow { opacity: .15; animation: none; }
+.wall-svg.with-rack .only-sem, .wall-svg.no-rack .only-com { display: none; }

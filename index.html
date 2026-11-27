@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css?v=202611271857">
+  <link rel="stylesheet" href="assets/css/style.css?v=202611271928">
 </head>
 <body>
   <div class="bg-grid" aria-hidden="true"></div>
@@ -41,8 +41,8 @@
       <h1>Ambilight de cinema<br><span class="grad">em sincronia com cada quadro</span></h1>
       <p class="lead">Projeto completo para transformar a parede da TV em uma extensão da imagem: luz atrás da TV, colunas laterais, luz indireta no teto e embaixo do rack, tudo copiando a imagem em tempo real, sem perder qualidade de vídeo.</p>
       <div class="hero-stats">
-        <div><strong data-count="877">0</strong><span>LEDs endereçáveis</span></div>
-        <div><strong data-count="5">0</strong><span>zonas de luz</span></div>
+        <div><strong data-count="1120">0</strong><span>LEDs endereçáveis</span></div>
+        <div><strong data-count="4">0</strong><span>bordas da parede com luz</span></div>
         <div><strong data-count="60">0</strong><span>quadros por segundo</span></div>
       </div>
       <div class="hero-cta">
@@ -603,32 +603,39 @@
     <div class="section-head reveal">
       <span class="num">04</span>
       <h2>Zonas de luz</h2>
-      <p>Vista frontal da parede da TV (5,00 m × 2,80 m). Passe o mouse ou toque numa zona para ver os detalhes.</p>
+      <p>Versão "Parede da TV": o halo atrás da TV e o quadro de ripas nos 4 cantos da parede (5,00 m × 2,80 m). Passe o mouse ou toque numa zona para ver os detalhes.</p>
+    </div>
+
+    <div class="filters reveal" id="zone-rack" style="margin-bottom:1rem">
+      <button class="chip active" data-r="com">Com rack</button>
+      <button class="chip" data-r="sem">Sem rack</button>
     </div>
 
     <div class="zones reveal">
-      <svg viewBox="0 0 500 280" class="wall-svg" id="wall-svg" role="img" aria-label="Vista frontal da parede com as zonas de luz">
+      <svg viewBox="0 0 500 280" class="wall-svg with-rack" id="wall-svg" role="img" aria-label="Vista frontal da parede com as zonas de luz">
         <defs>
           <filter id="blur"><feGaussianBlur stdDeviation="6"/></filter>
-          <linearGradient id="ceil" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#7c4dff" stop-opacity=".9"/><stop offset="1" stop-color="#7c4dff" stop-opacity="0"/></linearGradient>
+          <linearGradient id="qTop" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#ff3d81" stop-opacity=".85"/><stop offset="1" stop-color="#ff3d81" stop-opacity="0"/></linearGradient>
+          <linearGradient id="qBot" x1="0" x2="0" y1="1" y2="0"><stop offset="0" stop-color="#ff3d81" stop-opacity=".85"/><stop offset="1" stop-color="#ff3d81" stop-opacity="0"/></linearGradient>
+          <linearGradient id="qLeft" x1="0" x2="1"><stop offset="0" stop-color="#ff3d81" stop-opacity=".85"/><stop offset="1" stop-color="#ff3d81" stop-opacity="0"/></linearGradient>
+          <linearGradient id="qRight" x1="1" x2="0"><stop offset="0" stop-color="#ff3d81" stop-opacity=".85"/><stop offset="1" stop-color="#ff3d81" stop-opacity="0"/></linearGradient>
         </defs>
         <rect x="0" y="0" width="500" height="280" class="wall"/>
         <!-- escala: 100 px = 1 m -->
-        <text x="70" y="262" class="dim">1,40 m</text>
-        <line x1="0" y1="268" x2="140" y2="268" class="cota"/>
-        <text x="430" y="262" class="dim">1,40 m</text>
-        <line x1="360" y1="268" x2="500" y2="268" class="cota"/>
-        <!-- zona teto -->
-        <g class="zone" data-zone="teto">
-          <rect x="0" y="0" width="500" height="60" fill="url(#ceil)" class="zone-glow"/>
-          <rect x="0" y="16" width="500" height="5" class="zone-strip"/>
-        </g>
-        <!-- colunas -->
-        <g class="zone" data-zone="colunas">
-          <rect x="132" y="25" width="16" height="200" class="zone-glow" filter="url(#blur)"/>
-          <rect x="138" y="25" width="4" height="200" class="zone-strip"/>
-          <rect x="352" y="25" width="16" height="200" class="zone-glow" filter="url(#blur)"/>
-          <rect x="358" y="25" width="4" height="200" class="zone-strip"/>
+        <!-- quadro de ripas nos cantos -->
+        <g class="zone" data-zone="quadro">
+          <rect x="0" y="11" width="500" height="100" fill="url(#qTop)" class="q-glow"/>
+          <rect x="11" y="0" width="100" height="280" fill="url(#qLeft)" class="q-glow"/>
+          <rect x="389" y="0" width="100" height="280" fill="url(#qRight)" class="q-glow"/>
+          <rect x="0" y="169" width="140" height="100" fill="url(#qBot)" class="q-glow"/>
+          <rect x="360" y="169" width="140" height="100" fill="url(#qBot)" class="q-glow"/>
+          <rect x="140" y="169" width="220" height="100" fill="url(#qBot)" class="q-glow only-sem"/>
+          <rect x="0" y="0" width="500" height="11" class="ripa"/>
+          <rect x="0" y="0" width="11" height="280" class="ripa"/>
+          <rect x="489" y="0" width="11" height="280" class="ripa"/>
+          <rect x="0" y="269" width="140" height="11" class="ripa"/>
+          <rect x="360" y="269" width="140" height="11" class="ripa"/>
+          <rect x="140" y="269" width="220" height="11" class="ripa only-sem"/>
         </g>
         <!-- TV: 1,22 × 0,69 m, centro a 1,10 m do chão -->
         <g class="zone" data-zone="tv">
@@ -636,15 +643,19 @@
           <rect id="w-tv" x="189" y="135" width="122" height="70" rx="2" class="tvrect"/>
           <text id="w-tv-label" x="250" y="174" class="dim light">TV 55"</text>
         </g>
-        <!-- rack -->
-        <g class="zone" data-zone="rack">
+        <!-- soundbar na parede (sem rack) -->
+        <rect x="200" y="217" width="100" height="6" rx="2" class="soundbar only-sem"/>
+        <!-- rack (opcional) -->
+        <g class="zone only-com" data-zone="rack">
           <rect x="140" y="234" width="220" height="42" class="rack"/>
           <rect x="145" y="272" width="210" height="8" class="zone-glow" filter="url(#blur)"/>
           <rect x="145" y="276" width="210" height="3" class="zone-strip"/>
           <rect x="200" y="228" width="100" height="6" rx="2" class="soundbar"/>
         </g>
-        <!-- cotas -->
-        <text x="250" y="12" class="dim">moldura de luz indireta · 5,00 m</text>
+        <text x="250" y="24" class="dim">tábua de cima, junto ao teto · 5,00 m</text>
+        <text x="70" y="262" class="dim only-com">rodapé 1,40 m</text>
+        <text x="430" y="262" class="dim only-com">rodapé 1,40 m</text>
+        <text x="250" y="262" class="dim only-sem">rodapé 5,00 m</text>
       </svg>
 
       <div class="zone-info" id="zone-info">
@@ -659,32 +670,31 @@
         <thead><tr><th>Zona</th><th>Comprimento</th><th>LEDs (60/m)</th><th>Copia da imagem</th><th>Saída do controlador</th></tr></thead>
         <tbody>
           <tr><td>1 · Atrás da TV</td><td><span id="zt-tv-len">~3,52 m</span> (perímetro, a 3–4 cm da borda)</td><td id="zt-tv-leds">~211</td><td>Bordas da tela</td><td>Saída 1</td></tr>
-          <tr><td>2 · Embaixo do rack</td><td>~2,10 m, no recuo de 4+ cm da base</td><td>~126</td><td>Faixa inferior</td><td>Saída 2</td></tr>
-          <tr><td>3 · Coluna esquerda + teto esquerdo</td><td>2,00 m + 2,50 m</td><td>120 + 150</td><td>Lateral esquerda + metade esquerda do topo</td><td>Saída 3</td></tr>
-          <tr><td>4 · Coluna direita + teto direito</td><td>2,00 m + 2,50 m</td><td>120 + 150</td><td>Lateral direita + metade direita do topo</td><td>Saída 4</td></tr>
-          <tr class="total"><td>Total</td><td id="zt-total-len">~14,7 m</td><td id="zt-total-leds">~877</td><td colspan="2">4 rolos de 5 m (sobra para cortes e reposição)</td></tr>
+          <tr><td>2 · Tábua de cima (junto ao teto)</td><td>5,00 m</td><td>300</td><td>Topo da imagem</td><td>Saída 2</td></tr>
+          <tr><td>3 · Rodapé</td><td>Sem rack: 5,00 m · Com rack: 2 × 1,40 m</td><td>300 · 168</td><td>Faixa de baixo da imagem</td><td>Saída 3</td></tr>
+          <tr><td>4 · Cantos esquerdo e direito</td><td>2 × 2,58 m</td><td>2 × 155</td><td>Laterais da imagem</td><td>Saída 4 (as duas em sequência; o fio passa por dentro da tábua de cima)</td></tr>
+          <tr><td>5 · Embaixo do rack (só com rack)</td><td>~2,10 m, no recuo da base</td><td>~126</td><td>Faixa de baixo da imagem</td><td>Saída 1, depois da TV</td></tr>
+          <tr class="total"><td>Total</td><td id="zt-total-len">~18,6 m</td><td id="zt-total-leds">~1.120</td><td colspan="2">Com ou sem rack o total fica quase igual. 4 rolos de 5 m ficam justos; o ideal é comprar 5.</td></tr>
         </tbody>
       </table>
-      <p class="muted small">Os comprimentos são estimativas. A zona 1 só pode ser medida com a TV em mãos e a zona 2 depende da largura do rack. Todas as saídas ficam com no máximo ~270 LEDs, o que permite mais de 100 atualizações por segundo, bem acima dos 60 quadros do vídeo.</p>
+      <p class="muted small">Os comprimentos são estimativas. A zona 1 só pode ser medida com a TV em mãos. Cada saída fica com no máximo ~340 LEDs, o que permite cerca de 95 atualizações por segundo, acima dos 60 quadros do vídeo.</p>
     </div>
 
     <div class="cards cols-2">
       <article class="card reveal">
-        <h3>Luz do teto: moldura no lugar de sanca de gesso</h3>
-        <p>Uma <b>moldura de poliestireno para luz indireta</b> (também vendida como "rodateto para LED") é colada na parede, 15 a 20 cm abaixo do teto, com a fita virada para cima. A luz bate no teto e desce pela parede, com efeito muito parecido com o de uma sanca.</p>
+        <h3>Quadro de ripas nos cantos</h3>
+        <p>Uma tábua de 11 cm em cada borda da parede da TV: junto ao teto, junto ao chão e nos dois cantos. Cada tábua fica a 5 cm da parede, e a fita vai atrás dela, encostada na madeira, apontando ao longo da parede.</p>
         <ul class="list">
-          <li>Custa uma fração da sanca de gesso e não exige gesseiro.</li>
-          <li>Pode ser pintada da cor da parede, e os fios dos LEDs correm escondidos dentro dela.</li>
-          <li>A outra opção é um perfil de alumínio de canto a 45°, que é mais barato, mas deixa a linha de luz visível, sem o efeito indireto.</li>
+          <li>Do sofá aparecem só as tábuas brancas e a parede iluminada.</li>
+          <li>A montagem, a calculadora de visibilidade e o canto da porta estão na seção <a href="#ripa">A ripa</a>.</li>
+          <li>Na tábua de cima não há luz para o teto. A versão base não tem luz no teto.</li>
         </ul>
       </article>
       <article class="card reveal">
-        <h3>Colunas laterais embutidas</h3>
-        <p>Perfis de alumínio <b>de embutir</b> com difusor leitoso, num rasgo vertical na parede, do lado de cada TV. O perfil fica rente à parede e a luz aparece como uma linha contínua.</p>
+        <h3>Com rack ou sem rack</h3>
+        <p><b>Com rack:</b> o rodapé de luz fica dividido, um pedaço de cada lado, e embaixo do rack a fita no recuo da base ilumina o chão. <b>Sem rack:</b> o rodapé vai de ponta a ponta e a soundbar fica na parede, embaixo da TV.</p>
         <ul class="list">
-          <li>Profundidade do perfil de pelo menos 15 mm, para os LEDs não aparecerem como pontos.</li>
-          <li>Posição: alinhadas às pontas do rack, a 1,40 m de cada canto e ~49 cm de cada borda da TV.</li>
-          <li>A parede da TV não tem janela nem porta, então as duas colunas ficam simétricas.</li>
+          <li>Onde guardar os equipamentos em cada caso está na tabela da seção <a href="#sala3d">Sala 3D</a>.</li>
         </ul>
       </article>
     </div>
@@ -697,6 +707,7 @@
       <h2>Elétrica dos LEDs</h2>
       <p>Alimentação, proteção e ligação de dados. Esta seção é para o eletricista ou o profissional de iluminação.</p>
     </div>
+    <div class="warn reveal"><b>Em atualização.</b> Esta seção ainda mostra a versão anterior do projeto (colunas e luz no teto). Ela será refeita para a versão "Parede da TV" assim que você decidir entre com ou sem rack.</div>
 
     <div class="split">
       <div class="reveal">
@@ -766,6 +777,7 @@
       <h2>Obra simples</h2>
       <p>Lista para o pedreiro e o eletricista: o objetivo é não deixar nenhum fio aparente na parede da TV.</p>
     </div>
+    <div class="warn reveal"><b>Em atualização.</b> Esta seção ainda mostra a versão anterior do projeto (colunas e luz no teto). Ela será refeita para a versão "Parede da TV" assim que você decidir entre com ou sem rack.</div>
 
     <div class="timeline">
       <div class="tl-item reveal"><span class="tl-dot"></span><div>
@@ -803,6 +815,7 @@
       <h2>Lista de compras</h2>
       <p>Tudo que precisa ser comprado, inclusive ferramentas. A TV e o som ficam fora da conta.</p>
     </div>
+    <div class="warn reveal"><b>Em atualização.</b> Esta seção ainda mostra a versão anterior do projeto (colunas e luz no teto). Ela será refeita para a versão "Parede da TV" assim que você decidir entre com ou sem rack.</div>
 
     <div class="shop-toolbar reveal">
       <div class="filters" id="shop-filters">
@@ -828,6 +841,7 @@
       <h2>Passo a passo</h2>
       <p>Ordem de execução. Cada fase termina com um teste antes de seguir.</p>
     </div>
+    <div class="warn reveal"><b>Em atualização.</b> Esta seção ainda mostra a versão anterior do projeto (colunas e luz no teto). Ela será refeita para a versão "Parede da TV" assim que você decidir entre com ou sem rack.</div>
     <div class="steps" id="steps"></div>
   </section>
 
@@ -838,6 +852,7 @@
       <h2>Configuração de software</h2>
       <p>Valores de partida. O ajuste fino é feito vendo conteúdo real na sala escura.</p>
     </div>
+    <div class="warn reveal"><b>Em atualização.</b> Esta seção ainda mostra a versão anterior do projeto (colunas e luz no teto). Ela será refeita para a versão "Parede da TV" assim que você decidir entre com ou sem rack.</div>
     <div class="cards cols-2">
       <article class="card reveal">
         <h3>WLED (controlador)</h3>
@@ -906,18 +921,18 @@
     <p class="muted small">Baseado no tutorial de Chris Maher (SignalRGB + Soft Ambiance) e adaptado para fontes externas com HyperHDR.</p>
   </footer>
 
-  <script src="assets/js/scenes.js?v=202611271857"></script>
-  <script src="assets/js/sim.js?v=202611271857"></script>
-  <script src="assets/js/ripacalc.js?v=202611271857"></script>
-  <script src="assets/js/main.js?v=202611271857"></script>
+  <script src="assets/js/scenes.js?v=202611271928"></script>
+  <script src="assets/js/sim.js?v=202611271928"></script>
+  <script src="assets/js/ripacalc.js?v=202611271928"></script>
+  <script src="assets/js/main.js?v=202611271928"></script>
   <script type="importmap">
     { "imports": {
       "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
       "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
     } }
   </script>
-  <script type="module" src="assets/js/room3d.js?v=202611271857"></script>
-  <script type="module" src="assets/js/ripa3d.js?v=202611271857"></script>
+  <script type="module" src="assets/js/room3d.js?v=202611271928"></script>
+  <script type="module" src="assets/js/ripa3d.js?v=202611271928"></script>
 </body>
 </html>
 
