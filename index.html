@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projeto Ambilight · Sala de Cinema</title>
+  <meta name="description" content="Projeto completo de ambilight para sala de cinema: arquitetura do sinal, zonas de luz, elétrica, obra, lista de compras e passo a passo.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
+
+  <header class="topbar">
+    <a href="#inicio" class="brand"><span class="brand-dot"></span>AMBILIGHT<span class="brand-sub">/sala</span></a>
+    <button class="menu-btn" id="menu-btn" aria-label="Abrir menu" aria-expanded="false">☰</button>
+    <nav id="nav">
+      <a href="#visao">Visão geral</a>
+      <a href="#sala">A sala</a>
+      <a href="#sinal">Sinal</a>
+      <a href="#zonas">Zonas de luz</a>
+      <a href="#eletrica">Elétrica</a>
+      <a href="#obra">Obra</a>
+      <a href="#compras">Compras</a>
+      <a href="#passos">Passo a passo</a>
+      <a href="#software">Software</a>
+      <a href="#pendencias">Pendências</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section id="inicio" class="hero">
+    <div class="hero-text reveal">
+      <p class="eyebrow">Projeto de imersão · TV OLED 55" · 2026</p>
+      <h1>Ambilight de cinema<br><span class="grad">em sincronia com cada quadro</span></h1>
+      <p class="lead">Projeto completo para transformar a parede da TV em uma extensão da imagem: luz atrás da TV, colunas laterais, luz indireta no teto e embaixo do rack, tudo copiando a imagem em tempo real, sem perder qualidade de vídeo.</p>
+      <div class="hero-stats">
+        <div><strong data-count="862">0</strong><span>LEDs endereçáveis</span></div>
+        <div><strong data-count="5">0</strong><span>zonas de luz</span></div>
+        <div><strong data-count="60">0</strong><span>quadros por segundo</span></div>
+      </div>
+      <div class="hero-cta">
+        <a class="btn primary" href="#compras">Lista de compras</a>
+        <a class="btn ghost" href="#passos">Passo a passo</a>
+      </div>
+    </div>
+    <div class="hero-demo reveal">
+      <div class="tv-wrap">
+        <canvas id="glow" class="glow" width="160" height="100" aria-hidden="true"></canvas>
+        <div class="tv">
+          <canvas id="screen" width="320" height="180" aria-label="Demonstração: a luz em volta da TV acompanha as cores da imagem"></canvas>
+        </div>
+        <div class="tv-foot"></div>
+      </div>
+      <p class="demo-caption">Demonstração ao vivo: a luz em volta da tela é calculada a partir das bordas da imagem, como o HyperHDR faz.</p>
+    </div>
+  </section>
+
+  <!-- VISÃO GERAL -->
+  <section id="visao" class="section">
+    <div class="section-head reveal">
+      <span class="num">01</span>
+      <h2>Visão geral</h2>
+      <p>O que o projeto precisa entregar e as decisões que já foram tomadas.</p>
+    </div>
+    <div class="cards cols-4">
+      <article class="card reveal">
+        <div class="icon">⚡</div>
+        <h3>Sem travar</h3>
+        <p>Captura dedicada (placa USB + Raspberry Pi 5 com HyperHDR) e envio às luzes por cabo de rede, num switch local. O tráfego das luzes nunca passa pelo Wi-Fi.</p>
+      </article>
+      <article class="card reveal">
+        <div class="icon">🎨</div>
+        <h3>Cores fiéis</h3>
+        <p>HyperHDR com correção de HDR (tabela LUT calibrada para a placa de captura) e calibração de branco das fitas. Conteúdo HDR não fica lavado nas luzes.</p>
+      </article>
+      <article class="card reveal">
+        <div class="icon">🖥️</div>
+        <h3>Imagem intacta</h3>
+        <p>A TV recebe o sinal original em 4K HDR direto do splitter. Só a cópia que vai para as luzes é reduzida para 1080p.</p>
+      </article>
+      <article class="card reveal">
+        <div class="icon">🌌</div>
+        <h3>Imersão real</h3>
+        <p>Cinco zonas de luz na parede da TV e som surround com as caixas destacáveis da soundbar JBL Bar 5.1 atrás do sofá.</p>
+      </article>
+    </div>
+
+    <div class="decisions reveal">
+      <h3>Decisões do projeto</h3>
+      <table class="table">
+        <thead><tr><th>Tema</th><th>Decisão</th><th>Motivo</th></tr></thead>
+        <tbody>
+          <tr><td>TV</td><td>Samsung S85H 55" OLED (2026)</td><td>Sala escura e foco em filmes: o OLED tem preto perfeito e não cria halo em volta de objetos claros.</td></tr>
+          <tr><td>Fontes de vídeo</td><td>Fire TV Stick 4K Max e PS5, ambos pelo sistema de ambilight</td><td>Os apps internos da TV não passam pelo splitter. Netflix, Prime e Stremio rodam no Fire TV.</td></tr>
+          <tr><td>Taxa de quadros</td><td>4K 60 Hz com HDR</td><td>Limite dos splitters HDMI 2.0 com redução de resolução. Atende filmes, séries e jogos de aventura.</td></tr>
+          <tr><td>Processamento</td><td>Raspberry Pi 5 + HyperHDR</td><td>Software livre, feito para ambilight com captura HDMI, com correção de HDR e baixa latência.</td></tr>
+          <tr><td>Controle das fitas</td><td>1 controlador WLED com Ethernet e 4 saídas</td><td>Um único dispositivo de saída no HyperHDR, com saídas em paralelo para manter 60 quadros por segundo.</td></tr>
+          <tr><td>Fitas</td><td>WS2815 12 V, 60 LEDs/m</td><td>Cada LED é controlado individualmente, a tensão de 12 V reduz a queda de tensão e a linha de dados reserva continua funcionando se um LED falhar.</td></tr>
+          <tr><td>Rede</td><td>Switch gigabit local no rack, ligado ao Deco X60 da sala (sem fio)</td><td>Não haverá cabo do roteador até a sala. O switch mantém o tráfego das luzes local.</td></tr>
+          <tr><td>Luz do teto</td><td>Moldura de poliestireno para luz indireta (no lugar de sanca de gesso)</td><td>Efeito parecido com sanca, custo bem menor e instalação simples, colada e pintada.</td></tr>
+          <tr><td>Áudio</td><td>TV (eARC) → soundbar (ARC) por HDMI</td><td>A soundbar recebe só o som e não interfere no HDR. As caixas surround ficam atrás do sofá.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- A SALA -->
+  <section id="sala" class="section">
+    <div class="section-head reveal">
+      <span class="num">02</span>
+      <h2>A sala</h2>
+      <p>Medidas informadas e posicionamento da TV.</p>
+    </div>
+
+    <div class="split">
+      <div class="reveal">
+        <ul class="facts">
+          <li><span>Largura da parede da TV</span><strong>5,00 m</strong></li>
+          <li><span>Pé-direito</span><strong>2,80 m</strong></li>
+          <li><span>TV → encosto do sofá</span><strong>2,50 m</strong></li>
+          <li><span>Olhos → tela (estimado)</span><strong>~2,35 m</strong></li>
+          <li><span>Cor da parede</span><strong>Branca</strong></li>
+          <li><span>Janela (parede da TV, à esquerda)</span><strong>a 1,10 m do canto</strong></li>
+          <li><span>Rack de chão</span><strong>Mantido (soundbar)</strong></li>
+          <li><span>Painel de madeira da parede</span><strong>Removido</strong></li>
+        </ul>
+        <div class="note">
+          <strong>Por que a parede branca é ideal:</strong> o branco reflete a luz sem mudar a cor. A madeira do painel atual deixaria tudo alaranjado, por isso a remoção ajuda bastante. Para escurecer a sala, vale trocar a cortina por uma blackout.
+        </div>
+      </div>
+
+      <div class="calc reveal">
+        <h3>Calculadora de ângulo de visão</h3>
+        <p class="muted">Quanto do seu campo de visão a tela ocupa. Referências: SMPTE recomenda no mínimo 30° e a THX recomenda cerca de 36° a 40° para sensação de cinema.</p>
+        <label>Tamanho da TV (polegadas)
+          <input type="range" id="tv-size" min="43" max="85" step="1" value="55">
+          <output id="tv-size-out">55"</output>
+        </label>
+        <label>Distância dos olhos até a tela (m)
+          <input type="range" id="tv-dist" min="1.5" max="4" step="0.05" value="2.35">
+          <output id="tv-dist-out">2,35 m</output>
+        </label>
+        <div class="angle-viz">
+          <svg viewBox="0 0 300 150" id="angle-svg" aria-hidden="true">
+            <line id="ang-a" x1="150" y1="140" x2="100" y2="20" />
+            <line id="ang-b" x1="150" y1="140" x2="200" y2="20" />
+            <line id="ang-screen" x1="100" y1="20" x2="200" y2="20" class="screen-line"/>
+            <circle cx="150" cy="140" r="5"/>
+          </svg>
+          <div class="angle-out">
+            <strong id="angle-value">29°</strong>
+            <span id="angle-label">Confortável</span>
+            <small id="angle-width">Largura da tela: 1,22 m</small>
+          </div>
+        </div>
+        <p class="muted small">Com os olhos a ~2,35 m: a 55" dá cerca de 29° e a 65" cerca de 34°. A 65" não seria desconfortável e ainda fica dentro das recomendações. A 55" com ambilight parece maior do que é, porque a luz amplia a área percebida da imagem.</p>
+      </div>
+    </div>
+
+    <div class="reveal tip-row">
+      <div class="tip"><strong>Altura da TV:</strong> o centro da tela deve ficar próximo da altura dos olhos sentado, em torno de <b>1,00 m a 1,15 m do chão</b>. TV alta demais cansa o pescoço.</div>
+      <div class="tip"><strong>Afastamento da parede:</strong> use suporte fixo com <b>5 a 8 cm</b> de afastamento. Com a TV colada na parede, a luz não tem espaço para espalhar e aparecem pontos de luz.</div>
+    </div>
+  </section>
+
+  <!-- SINAL -->
+  <section id="sinal" class="section">
+    <div class="section-head reveal">
+      <span class="num">03</span>
+      <h2>Caminho do sinal</h2>
+      <p>Como imagem, som e luz chegam a cada aparelho.</p>
+    </div>
+
+    <div class="flow reveal">
+      <svg viewBox="0 0 1000 460" class="flow-svg" role="img" aria-label="Diagrama do caminho do sinal">
+        <defs>
+          <linearGradient id="gv" x1="0" x2="1"><stop offset="0" stop-color="#00e5ff"/><stop offset="1" stop-color="#7c4dff"/></linearGradient>
+          <linearGradient id="gl" x1="0" x2="1"><stop offset="0" stop-color="#ff3d81"/><stop offset="1" stop-color="#ffb300"/></linearGradient>
+        </defs>
+        <!-- paths -->
+        <path class="wire video" d="M150 70 H225 V120 H300" />
+        <path class="wire video" d="M150 170 H225 V140 H300" />
+        <path class="wire video" d="M440 130 H520" />
+        <path class="wire video" d="M660 115 H730 V70 H800" />
+        <path class="wire audio" d="M875 100 V180" />
+        <path class="wire capture" d="M590 165 V210" />
+        <path class="wire capture" d="M590 255 V300" />
+        <path class="wire net" d="M520 327 H480" />
+        <path class="wire net" d="M340 327 H300" />
+        <path class="wire light" d="M160 327 H140" />
+        <path class="wire net" d="M410 352 V400" />
+
+        <!-- nodes -->
+        <g class="node"><rect x="20" y="45" width="130" height="50" rx="10"/><text x="85" y="75">Fire TV 4K Max</text></g>
+        <g class="node"><rect x="20" y="145" width="130" height="50" rx="10"/><text x="85" y="175">PS5</text></g>
+        <g class="node"><rect x="300" y="105" width="140" height="50" rx="10"/><text x="370" y="128">Switch HDMI</text><text x="370" y="145" class="sub">3×1 · 4K60 HDR</text></g>
+        <g class="node hl"><rect x="520" y="95" width="140" height="70" rx="10"/><text x="590" y="122">Splitter HDMI</text><text x="590" y="140" class="sub">saída 1: 4K HDR</text><text x="590" y="155" class="sub">saída 2: 1080p</text></g>
+        <g class="node tvnode"><rect x="800" y="40" width="150" height="60" rx="10"/><text x="875" y="68">TV OLED 55"</text><text x="875" y="86" class="sub">imagem original</text></g>
+        <g class="node"><rect x="800" y="180" width="150" height="55" rx="10"/><text x="875" y="205">JBL Bar 5.1</text><text x="875" y="222" class="sub">som via HDMI ARC</text></g>
+        <g class="node"><rect x="520" y="210" width="140" height="45" rx="10"/><text x="590" y="230">Captura USB</text><text x="590" y="246" class="sub">MS2130 · 1080p</text></g>
+        <g class="node hl"><rect x="520" y="300" width="140" height="55" rx="10"/><text x="590" y="323">Raspberry Pi 5</text><text x="590" y="340" class="sub">HyperHDR</text></g>
+        <g class="node"><rect x="340" y="302" width="140" height="50" rx="10"/><text x="410" y="325">Switch de rede</text><text x="410" y="341" class="sub">gigabit · rack</text></g>
+        <g class="node"><rect x="160" y="302" width="140" height="50" rx="10"/><text x="230" y="325">Controlador WLED</text><text x="230" y="341" class="sub">Ethernet · 4 saídas</text></g>
+        <g class="node led"><rect x="10" y="287" width="130" height="80" rx="10"/><text x="75" y="315">5 zonas de LED</text><text x="75" y="333" class="sub">TV · colunas</text><text x="75" y="349" class="sub">teto · rack</text></g>
+        <g class="node"><rect x="340" y="400" width="140" height="45" rx="10"/><text x="410" y="420">Deco X60 (sala)</text><text x="410" y="436" class="sub">só internet · sem fio</text></g>
+      </svg>
+      <div class="legend">
+        <span><i class="lg video"></i>Vídeo (HDMI)</span>
+        <span><i class="lg capture"></i>Cópia para captura</span>
+        <span><i class="lg audio"></i>Áudio (HDMI ARC)</span>
+        <span><i class="lg net"></i>Rede (Ethernet)</span>
+        <span><i class="lg light"></i>Dados das luzes</span>
+      </div>
+    </div>
+
+    <div class="cards cols-3">
+      <article class="card reveal">
+        <h3>Vídeo</h3>
+        <p>O Fire TV e o PS5 entram num <b>switch HDMI</b>, que escolhe sozinho o aparelho ligado. O <b>splitter</b> manda o sinal original em 4K HDR para a TV e uma cópia reduzida para 1080p para a placa de captura.</p>
+        <p class="muted small">O splitter deve ser configurado para copiar o EDID da TV (saída 1). Assim o Fire TV e o PS5 enxergam a TV e enviam 4K HDR.</p>
+      </article>
+      <article class="card reveal">
+        <h3>Áudio</h3>
+        <p>O som vai junto com a imagem até a TV. A TV repassa o som pela porta <b>HDMI eARC</b> para a entrada <b>HDMI ARC</b> da JBL Bar 5.1. As três entradas HDMI da soundbar não são usadas, porque ela é de 2017 e poderia limitar o HDR.</p>
+        <p class="muted small">Stremio: arquivos com áudio DTS podem ficar sem som. A solução está no passo a passo, fase 7.</p>
+      </article>
+      <article class="card reveal">
+        <h3>Luz</h3>
+        <p>O <b>HyperHDR</b> lê as bordas de cada quadro e envia as cores pelo protocolo DDP via Ethernet ao <b>controlador WLED</b>, que acende as 5 zonas. O atraso fica na casa de poucos quadros, imperceptível na prática.</p>
+        <p class="muted small">Tudo isso acontece dentro do switch do rack. O Deco da sala, ligado sem fio, só leva a internet.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ZONAS -->
+  <section id="zonas" class="section">
+    <div class="section-head reveal">
+      <span class="num">04</span>
+      <h2>Zonas de luz</h2>
+      <p>Vista frontal da parede da TV (5,00 m × 2,80 m). Passe o mouse ou toque numa zona para ver os detalhes.</p>
+    </div>
+
+    <div class="zones reveal">
+      <svg viewBox="0 0 500 280" class="wall-svg" id="wall-svg" role="img" aria-label="Vista frontal da parede com as zonas de luz">
+        <defs>
+          <filter id="blur"><feGaussianBlur stdDeviation="6"/></filter>
+          <linearGradient id="ceil" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#7c4dff" stop-opacity=".9"/><stop offset="1" stop-color="#7c4dff" stop-opacity="0"/></linearGradient>
+        </defs>
+        <rect x="0" y="0" width="500" height="280" class="wall"/>
+        <!-- escala: 100 px = 1 m -->
+        <!-- janela (largura a confirmar) -->
+        <rect x="110" y="70" width="30" height="110" class="window"/>
+        <text x="125" y="194" class="dim">janela</text>
+        <text x="55" y="262" class="dim">1,10 m</text>
+        <line x1="0" y1="268" x2="110" y2="268" class="cota"/>
+        <!-- zona teto -->
+        <g class="zone" data-zone="teto">
+          <rect x="0" y="0" width="500" height="60" fill="url(#ceil)" class="zone-glow"/>
+          <rect x="0" y="16" width="500" height="5" class="zone-strip"/>
+        </g>
+        <!-- colunas -->
+        <g class="zone" data-zone="colunas">
+          <rect x="143" y="25" width="16" height="200" class="zone-glow" filter="url(#blur)"/>
+          <rect x="149" y="25" width="4" height="200" class="zone-strip"/>
+          <rect x="341" y="25" width="16" height="200" class="zone-glow" filter="url(#blur)"/>
+          <rect x="347" y="25" width="4" height="200" class="zone-strip"/>
+        </g>
+        <!-- TV: 1,22 × 0,69 m, centro a 1,10 m do chão -->
+        <g class="zone" data-zone="tv">
+          <rect x="183" y="129" width="134" height="82" rx="4" class="zone-glow" filter="url(#blur)"/>
+          <rect x="189" y="135" width="122" height="70" rx="2" class="tvrect"/>
+          <text x="250" y="174" class="dim light">TV 55"</text>
+        </g>
+        <!-- rack -->
+        <g class="zone" data-zone="rack">
+          <rect x="150" y="228" width="200" height="45" class="rack"/>
+          <rect x="155" y="272" width="190" height="8" class="zone-glow" filter="url(#blur)"/>
+          <rect x="155" y="273" width="190" height="3" class="zone-strip"/>
+          <rect x="200" y="220" width="100" height="8" rx="3" class="soundbar"/>
+        </g>
+        <!-- cotas -->
+        <text x="250" y="12" class="dim">moldura de luz indireta · 5,00 m</text>
+      </svg>
+
+      <div class="zone-info" id="zone-info">
+        <h3 id="zi-title">Selecione uma zona</h3>
+        <p id="zi-text">Cada zona copia uma região da imagem. Juntas, elas estendem a imagem pela parede inteira.</p>
+        <dl id="zi-specs"></dl>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <table class="table">
+        <thead><tr><th>Zona</th><th>Comprimento</th><th>LEDs (60/m)</th><th>Copia da imagem</th><th>Saída do controlador</th></tr></thead>
+        <tbody>
+          <tr><td>1 · Atrás da TV</td><td>~3,56 m (perímetro, a 3–4 cm da borda)</td><td>~214</td><td>Bordas da tela</td><td>Saída 1</td></tr>
+          <tr><td>2 · Embaixo do rack</td><td>~1,80 m (confirmar largura do rack)</td><td>~108</td><td>Faixa inferior</td><td>Saída 2</td></tr>
+          <tr><td>3 · Coluna esquerda + teto esquerdo</td><td>2,00 m + 2,50 m</td><td>120 + 150</td><td>Lateral esquerda + metade esquerda do topo</td><td>Saída 3</td></tr>
+          <tr><td>4 · Coluna direita + teto direito</td><td>2,00 m + 2,50 m</td><td>120 + 150</td><td>Lateral direita + metade direita do topo</td><td>Saída 4</td></tr>
+          <tr class="total"><td>Total</td><td>~14,4 m</td><td>~862</td><td colspan="2">4 rolos de 5 m (sobra para cortes e reposição)</td></tr>
+        </tbody>
+      </table>
+      <p class="muted small">Os comprimentos são estimativas. A zona 1 só pode ser medida com a TV em mãos e a zona 2 depende da largura do rack. Todas as saídas ficam com no máximo ~270 LEDs, o que permite mais de 100 atualizações por segundo, bem acima dos 60 quadros do vídeo.</p>
+    </div>
+
+    <div class="cards cols-2">
+      <article class="card reveal">
+        <h3>Luz do teto: moldura no lugar de sanca de gesso</h3>
+        <p>Uma <b>moldura de poliestireno para luz indireta</b> (também vendida como "rodateto para LED") é colada na parede, 15 a 20 cm abaixo do teto, com a fita virada para cima. A luz bate no teto e desce pela parede, com efeito muito parecido com o de uma sanca.</p>
+        <ul class="list">
+          <li>Custa uma fração da sanca de gesso e não exige gesseiro.</li>
+          <li>Pode ser pintada da cor da parede, e os fios dos LEDs correm escondidos dentro dela.</li>
+          <li>A outra opção é um perfil de alumínio de canto a 45°, que é mais barato, mas deixa a linha de luz visível, sem o efeito indireto.</li>
+        </ul>
+      </article>
+      <article class="card reveal">
+        <h3>Colunas laterais embutidas</h3>
+        <p>Perfis de alumínio <b>de embutir</b> com difusor leitoso, num rasgo vertical na parede, do lado de cada TV. O perfil fica rente à parede e a luz aparece como uma linha contínua.</p>
+        <ul class="list">
+          <li>Profundidade do perfil de pelo menos 15 mm, para os LEDs não aparecerem como pontos.</li>
+          <li>Posição sugerida: 40 cm além de cada borda da TV, alinhada às laterais do rack.</li>
+          <li><b>A confirmar:</b> a coluna esquerda não pode cair sobre a janela (ver pendências).</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <!-- ELÉTRICA -->
+  <section id="eletrica" class="section">
+    <div class="section-head reveal">
+      <span class="num">05</span>
+      <h2>Elétrica dos LEDs</h2>
+      <p>Alimentação, proteção e ligação de dados. Esta seção é para o eletricista ou o profissional de iluminação.</p>
+    </div>
+
+    <div class="split">
+      <div class="reveal">
+        <h3>Princípios</h3>
+        <ul class="list">
+          <li><b>As fontes alimentam as fitas diretamente</b>, cada trecho com o próprio fusível. O controlador só envia os dados e divide o negativo (GND) com as fontes.</li>
+          <li><b>GND comum:</b> o V− das duas fontes e o GND do controlador ficam interligados. Sem isso, os dados falham.</li>
+          <li><b>Injeção de energia:</b> cada trecho recebe energia no início. A zona da TV (3,6 m) também recebe no fim, fechando o anel.</li>
+          <li><b>Dados:</b> um par trançado de cabo de rede, com um fio para dados e o outro para GND, reduz interferência em trechos longos dentro dos eletrodutos.</li>
+          <li><b>Fontes sem ventoinha</b> (Mean Well LRS-150 e LRS-200, resfriadas por convecção), para não fazer barulho durante o filme. Elas ficam no rack, com ventilação.</li>
+          <li><b>Limite de corrente no WLED</b> abaixo da capacidade das fontes. O ambilight raramente chega ao branco total.</li>
+          <li>A fiação de 127/220 V fica com o eletricista, em eletroduto separado da baixa tensão, como exige a NBR 5410.</li>
+        </ul>
+      </div>
+
+      <div class="calc reveal">
+        <h3>Calculadora de LEDs e potência</h3>
+        <p class="muted">Ajuste os comprimentos depois de medir. O consumo por metro deve ser conferido na ficha técnica da fita comprada.</p>
+        <div class="calc-grid" id="power-calc">
+          <label>Zona TV (m)<input type="number" step="0.01" min="0" value="3.56" data-z="tv"></label>
+          <label>Rack (m)<input type="number" step="0.01" min="0" value="1.80" data-z="rack"></label>
+          <label>Colunas (m, cada)<input type="number" step="0.01" min="0" value="2.00" data-z="col"></label>
+          <label>Teto (m, total)<input type="number" step="0.01" min="0" value="5.00" data-z="teto"></label>
+          <label>LEDs por metro<input type="number" step="1" min="1" value="60" id="pc-density"></label>
+          <label>Consumo máx. (W/m)<input type="number" step="0.1" min="0" value="14.4" id="pc-wm"></label>
+        </div>
+        <div class="calc-out">
+          <div><span>LEDs</span><strong id="pc-leds">862</strong></div>
+          <div><span>Metros de fita</span><strong id="pc-m">14,4</strong></div>
+          <div><span>Fonte A (TV + rack)</span><strong id="pc-a">77 W</strong></div>
+          <div><span>Fonte B (colunas + teto)</span><strong id="pc-b">130 W</strong></div>
+        </div>
+        <p class="muted small" id="pc-advice"></p>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <h3>Esquema de ligação</h3>
+      <pre class="diagram">
+  TOMADA (rack) ─┬─► Fonte A · Mean Well LRS-150-12 (12 V · 12,5 A)
+                 │        V+ ─┬─ fusível 7,5 A ─► Zona 1 · TV (início e fim)
+                 │            ├─ fusível 5 A ───► Zona 2 · Rack
+                 │            └─────────────────► Controlador WLED (alimentação)
+                 │        V− ─┬─────────────────► GND comum
+                 │
+                 └─► Fonte B · Mean Well LRS-200-12 (12 V · 17 A)
+                          V+ ─┬─ fusível 7,5 A ─► Zona 3 · Coluna E + teto E
+                              └─ fusível 7,5 A ─► Zona 4 · Coluna D + teto D
+                          V− ───────────────────► GND comum
+
+  Controlador WLED (Ethernet ◄── switch do rack)
+     Saída 1 ── dados ─► Zona 1  (TV · ~214 LEDs)
+     Saída 2 ── dados ─► Zona 2  (rack · ~108 LEDs)
+     Saída 3 ── dados ─► Zona 3  (coluna E 120 → teto E 150, do canto ao centro)
+     Saída 4 ── dados ─► Zona 4  (coluna D 120 → teto D 150, do canto ao centro)
+
+  Fita WS2815: V+ · DI (dados) · BI (dados reserva) · GND
+  No início de cada trecho, ligue BI ao GND. Nas emendas, ligue DO→DI e BO→BI.</pre>
+      <p class="muted small">Nas zonas 3 e 4, a fita sobe pela coluna e, no topo, um fio dentro da moldura leva dados e energia até o canto da parede. Dali a fita do teto segue até o centro. A correção da direção é feita no mapeamento do HyperHDR.</p>
+    </div>
+  </section>
+
+  <!-- OBRA -->
+  <section id="obra" class="section">
+    <div class="section-head reveal">
+      <span class="num">06</span>
+      <h2>Obra simples</h2>
+      <p>Lista para o pedreiro e o eletricista: o objetivo é não deixar nenhum fio aparente na parede da TV.</p>
+    </div>
+
+    <div class="timeline">
+      <div class="tl-item reveal"><span class="tl-dot"></span><div>
+        <h3>Remover o painel de madeira</h3>
+        <p>Retirar o painel, consertar o reboco (inclusive a parte danificada no canto inferior direito, perto da porta) e preparar a parede para pintura.</p>
+      </div></div>
+      <div class="tl-item reveal"><span class="tl-dot"></span><div>
+        <h3>Atrás da TV</h3>
+        <p><b>Tomada</b> em caixa 4×2, no centro, escondida pela TV. <b>Caixa 4×4</b> ao lado para os cabos de baixa tensão, com espelho de saída de cabos (com escova).</p>
+      </div></div>
+      <div class="tl-item reveal"><span class="tl-dot"></span><div>
+        <h3>Eletroduto TV ↔ rack</h3>
+        <p>Eletroduto corrugado de <b>32 mm no mínimo (40 mm se possível)</b> da caixa 4×4 da TV até uma caixa atrás do rack. Por ele passam 2 cabos HDMI (splitter → TV e TV → soundbar), energia e dados da zona da TV. Deixar um arame-guia para puxar cabos no futuro.</p>
+        <p class="muted small">O conector HDMI precisa passar por dentro. Passe os cabos antes de fechar a parede ou teste com o cabo real.</p>
+      </div></div>
+      <div class="tl-item reveal"><span class="tl-dot"></span><div>
+        <h3>Rasgos das colunas</h3>
+        <p>Dois rasgos verticais de 2,00 m na largura do perfil de embutir, a 40 cm de cada borda da TV. Eletroduto de 25 mm da base de cada coluna até a caixa do rack. No topo de cada coluna, uma saída até a altura da moldura.</p>
+      </div></div>
+      <div class="tl-item reveal"><span class="tl-dot"></span><div>
+        <h3>Tomadas no rack</h3>
+        <p>Pelo menos 8 pontos: fonte A, fonte B, Raspberry Pi, switch de rede, switch HDMI/splitter, PS5, Fire TV e soundbar/subwoofer. Recomendado usar um filtro de linha com protetor de surto (DPS).</p>
+      </div></div>
+      <div class="tl-item reveal"><span class="tl-dot"></span><div>
+        <h3>Moldura do teto e pintura</h3>
+        <p>Colar a moldura de poliestireno ao longo dos 5 m, 15 a 20 cm abaixo do teto, deixando a abertura para cima. Passar os fios por dentro antes de fechar. Pintar parede e moldura de branco fosco (o fosco evita reflexos de pontos de luz).</p>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- COMPRAS -->
+  <section id="compras" class="section">
+    <div class="section-head reveal">
+      <span class="num">07</span>
+      <h2>Lista de compras</h2>
+      <p>Tudo que precisa ser comprado, inclusive ferramentas. A TV e o som ficam fora da conta.</p>
+    </div>
+
+    <div class="shop-toolbar reveal">
+      <div class="filters" id="shop-filters">
+        <button class="chip active" data-f="all">Todos</button>
+        <button class="chip" data-f="essencial">Essencial</button>
+        <button class="chip" data-f="recomendado">Recomendado</button>
+        <button class="chip" data-f="opcional">Opcional</button>
+      </div>
+      <div class="shop-total">
+        <span>Estimativa (itens visíveis)</span>
+        <strong id="shop-total">—</strong>
+        <small id="shop-progress">0 de 0 comprados</small>
+      </div>
+    </div>
+    <div class="warn reveal">Os preços são <b>estimativas aproximadas</b> em reais (novembro de 2026), apenas para planejar o orçamento. Eles variam muito entre lojas e com importação. Os links abrem buscas no Mercado Livre, na Amazon Brasil e no AliExpress. Marque os itens já comprados; a marcação fica salva neste navegador.</div>
+    <div id="shop-list"></div>
+  </section>
+
+  <!-- PASSO A PASSO -->
+  <section id="passos" class="section">
+    <div class="section-head reveal">
+      <span class="num">08</span>
+      <h2>Passo a passo</h2>
+      <p>Ordem de execução. Cada fase termina com um teste antes de seguir.</p>
+    </div>
+    <div class="steps" id="steps"></div>
+  </section>
+
+  <!-- SOFTWARE -->
+  <section id="software" class="section">
+    <div class="section-head reveal">
+      <span class="num">09</span>
+      <h2>Configuração de software</h2>
+      <p>Valores de partida. O ajuste fino é feito vendo conteúdo real na sala escura.</p>
+    </div>
+    <div class="cards cols-2">
+      <article class="card reveal">
+        <h3>WLED (controlador)</h3>
+        <table class="table compact">
+          <tbody>
+            <tr><td>Conexão</td><td>Ethernet (Config → Ethernet Type: o modelo do controlador)</td></tr>
+            <tr><td>Tipo de LED</td><td>WS281x (WS2815), ordem de cor GRB (confirmar com teste)</td></tr>
+            <tr><td>Saídas 1 a 4</td><td>~214 · ~108 · 270 · 270 LEDs</td></tr>
+            <tr><td>Limite de corrente</td><td>Ativado. Por saída ou total, conforme as fontes (ver calculadora)</td></tr>
+            <tr><td>Recepção em tempo real</td><td>Ativada (DDP / E1.31), "Force max brightness" desligado</td></tr>
+            <tr><td>IP</td><td>Fixo (reserva de DHCP no app Deco)</td></tr>
+          </tbody>
+        </table>
+      </article>
+      <article class="card reveal">
+        <h3>HyperHDR (Raspberry Pi 5)</h3>
+        <table class="table compact">
+          <tbody>
+            <tr><td>Captura</td><td>Placa MS2130, 1280×720 ou 1920×1080, 60 fps</td></tr>
+            <tr><td>Correção de HDR</td><td>Ativada, com LUT calibrada para a placa (calibração automática do HyperHDR)</td></tr>
+            <tr><td>Saída</td><td>Dispositivo WLED pelo IP do controlador, protocolo DDP, 862 LEDs</td></tr>
+            <tr><td>Layout</td><td>Mapeamento das 5 zonas no editor de LEDs (TV nas bordas, colunas nas laterais, teto no topo, rack na base)</td></tr>
+            <tr><td>Suavização</td><td>Começar por volta de 100 ms para filmes. Valores menores para jogos.</td></tr>
+            <tr><td>Barras pretas</td><td>Detecção automática ativada (filmes em 21:9)</td></tr>
+            <tr><td>Sem sinal</td><td>Detecção de sinal ativada: as luzes apagam quando a TV desliga</td></tr>
+          </tbody>
+        </table>
+      </article>
+      <article class="card reveal">
+        <h3>Fire TV e Stremio</h3>
+        <ul class="list">
+          <li>Vídeo: resolução automática, faixa dinâmica "Adaptativa" (o Fire TV muda para HDR só quando o conteúdo é HDR).</li>
+          <li>Áudio: Dolby Digital Plus automático. A TV repassa para a soundbar.</li>
+          <li>Stremio: se um arquivo ficar sem som (comum com DTS), configure um player externo, como Just Player ou VLC, que converte o áudio no próprio Fire TV.</li>
+        </ul>
+      </article>
+      <article class="card reveal">
+        <h3>TV, PS5 e soundbar</h3>
+        <ul class="list">
+          <li>TV: ativar "Input Signal Plus" (sinal HDMI aprimorado) na porta do splitter. Saída de som: receptor HDMI (eARC).</li>
+          <li>TV: modo de imagem "Filmmaker" ou "Filme" para filmes e "Jogo" para o PS5.</li>
+          <li>PS5: saída 4K 60 Hz com HDR. Ajuste de HDR feito com o splitter já instalado.</li>
+          <li>JBL Bar 5.1: caixas surround atrás ou ao lado do sofá, na altura dos ouvidos. Elas usam bateria e recarregam encaixadas na barra.</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <!-- PENDÊNCIAS -->
+  <section id="pendencias" class="section">
+    <div class="section-head reveal">
+      <span class="num">10</span>
+      <h2>Pendências</h2>
+      <p>Pontos em aberto antes da compra e da obra.</p>
+    </div>
+    <ul class="pending reveal">
+      <li><b>Largura da janela.</b> A janela começa a 1,10 m do canto esquerdo. A coluna esquerda sugerida ficaria a ~1,49 m do canto. Se a janela passar disso, a coluna muda de posição ou a distância das colunas até a TV diminui.</li>
+      <li><b>Largura do rack</b>, que define a zona 2 e a posição das colunas.</li>
+      <li><b>Medidas reais da TV S85H 55"</b> e do suporte, para cortar a fita da zona 1.</li>
+      <li><b>Formatos de áudio aceitos pela JBL Bar 5.1</b>, principalmente DTS, para definir a configuração do Stremio.</li>
+      <li><b>Disponibilidade no Brasil</b> do splitter com redução de resolução e do controlador com Ethernet. Os dois provavelmente serão importados.</li>
+      <li><b>Sinal do Deco X60 da sala.</b> Testar a velocidade no lugar do rack. Filmes 4K pesados do Stremio pedem uma conexão estável.</li>
+    </ul>
+  </section>
+
+  <footer class="footer">
+    <p>Projeto Ambilight · Sala de cinema · Documento vivo, atualizado conforme o projeto avança.</p>
+    <p class="muted small">Baseado no tutorial de Chris Maher (SignalRGB + Soft Ambiance) e adaptado para fontes externas com HyperHDR.</p>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
+
