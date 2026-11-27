@@ -290,6 +290,36 @@ nav a:hover, nav a.active { color: #fff; background: var(--panel-2); }
 .sim .chip { font-size: .8rem; padding: .35rem .75rem; }
 @media (max-width: 900px) { .sim { grid-template-columns: 1fr; } }
 
+/* sala 3D */
+.room3d { position: relative; aspect-ratio: 16 / 9; background: #000; cursor: grab; touch-action: none; }
+.room3d:active { cursor: grabbing; }
+.room3d canvas { display: block; }
+.r3-loading { position: absolute; inset: 0; display: grid; place-items: center; margin: 0; color: var(--muted); font-family: var(--mono); font-size: .85rem; }
+.room3d.ready .r3-loading { display: none; }
+.sim-layers.compact label { padding: .3rem .5rem; }
+.sw { display: inline-block; width: 10px; height: 10px; border-radius: 3px; flex: none; box-shadow: 0 0 6px currentColor; }
+.select {
+  width: 100%; padding: .5rem .6rem; border-radius: 8px; font: inherit; font-size: .9rem;
+  background: #0d1020; color: #fff; border: 1px solid var(--line);
+}
+.cuts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1rem; }
+.cut { margin: 0; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 1rem; }
+.cut svg { width: 100%; height: auto; }
+.cut figcaption { color: var(--muted); font-size: .88rem; margin-top: .5rem; }
+.c-wall { fill: #2a2d38; }
+.c-mount { fill: #555a68; }
+.c-tv { fill: #050506; stroke: #444; }
+.c-ripa { fill: #e6e6e6; }
+.c-rack { fill: #cfc8bd; } .c-rack.dark { fill: #8f897f; }
+.c-led { fill: #ff3d81; filter: drop-shadow(0 0 4px #ff3d81); }
+.c-led.top { fill: #b388ff; filter: drop-shadow(0 0 4px #b388ff); }
+.c-led.side { fill: #00e676; filter: drop-shadow(0 0 4px #00e676); }
+.c-ray { fill: none; stroke: #ffb300; stroke-width: 2; stroke-dasharray: 5 4; animation: dash 1.2s linear infinite; }
+.c-ray.top { stroke: #b388ff; }
+.c-t { fill: var(--muted); font-family: var(--mono); font-size: 9.5px; text-anchor: middle; }
+.c-t.l { text-anchor: start; }
+@media (max-width: 900px) { .cuts { grid-template-columns: 1fr; } }
+
 /* planta baixa */
 .plan { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.5rem; margin-top: 2rem; }
 .plan-svg { width: 100%; max-width: 820px; display: block; margin: 0 auto; height: auto; }

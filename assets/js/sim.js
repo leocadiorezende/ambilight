@@ -32,112 +32,11 @@
   setTvSize(55);
   window.addEventListener("tvchange", (e) => setTvSize(e.detail.inch));
 
-  /* ---------- cenas (vídeo de exemplo) ---------- */
-  const sc = document.createElement("canvas");
-  sc.width = 160; sc.height = 90;
-  const s = sc.getContext("2d", { willReadFrequently: true });
-  const SW = sc.width, SH = sc.height;
-
-  const scenes = [
-    { id: "tempestade", name: "Tempestade com raios", dur: 10 },
-    { id: "explosao", name: "Explosões", dur: 8 },
-    { id: "por", name: "Pôr do sol", dur: 7 },
-    { id: "oceano", name: "Oceano", dur: 7 }
-  ];
-  let sceneIdx = 0, sceneT0 = 0, auto = true;
-
-  const flash = (t, at, len = 0.18) => (t >= at && t < at + len ? 1 - (t - at) / len : 0);
-
-  const drawScene = (id, t) => {
-    if (id === "tempestade") {
-      const g = s.createLinearGradient(0, 0, 0, SH);
-      g.addColorStop(0, "#0b1424"); g.addColorStop(0.7, "#1c2a3d"); g.addColorStop(1, "#0a0f16");
-      s.fillStyle = g; s.fillRect(0, 0, SW, SH);
-      for (let i = 0; i < 6; i++) {
-        const x = ((i * 37 + t * 6) % (SW + 60)) - 30, y = 12 + (i % 3) * 10;
-        const cg = s.createRadialGradient(x, y, 0, x, y, 34);
-        cg.addColorStop(0, "rgba(60,75,95,.8)"); cg.addColorStop(1, "rgba(60,75,95,0)");
-        s.fillStyle = cg; s.fillRect(0, 0, SW, SH);
-      }
-      s.fillStyle = "#06080c"; s.fillRect(0, SH - 14, SW, 14); // horizonte
-      const f = Math.max(flash(t, 2.0), flash(t, 2.25, 0.12) * 0.8, flash(t, 5.6, 0.25), flash(t, 8.1), flash(t, 8.3, 0.1) * 0.7);
-      if (f > 0) {
-        const bx = t < 4 ? 50 : t < 7 ? 115 : 80;
-        s.fillStyle = `rgba(220,230,255,${0.85 * f})`; s.fillRect(0, 0, SW, SH);
-        s.strokeStyle = `rgba(255,255,255,${f})`; s.lineWidth = 1.5; s.beginPath();
-        let x = bx, y = 0; s.moveTo(x, y);
-        while (y < SH - 14) { x += (Math.sin(y * 7.3 + bx) * 6); y += 7; s.lineTo(x, y); }
-        s.stroke();
-      }
-    } else if (id === "explosao") {
-      s.fillStyle = "#07090d"; s.fillRect(0, 0, SW, SH);
-      s.fillStyle = "#0f1620";
-      for (let i = 0; i < 12; i++) s.fillRect(i * 14, SH - 20 - ((i * 13) % 22), 12, 40); // prédios
-      const boom = (cx, cy, at) => {
-        const k = t - at;
-        if (k < 0 || k > 2.2) return;
-        const r = 8 + k * 45, a = Math.max(0, 1 - k / 2.2);
-        const g = s.createRadialGradient(cx, cy, 0, cx, cy, r);
-        g.addColorStop(0, `rgba(255,250,210,${a})`); g.addColorStop(0.3, `rgba(255,170,40,${a})`);
-        g.addColorStop(0.7, `rgba(200,50,10,${a * 0.7})`); g.addColorStop(1, "rgba(80,10,0,0)");
-        s.fillStyle = g; s.fillRect(0, 0, SW, SH);
-        if (k < 0.15) { s.fillStyle = `rgba(255,240,200,${0.6 * (1 - k / 0.15)})`; s.fillRect(0, 0, SW, SH); }
-      };
-      boom(110, 55, 1.5); boom(40, 60, 4.6);
-    } else if (id === "por") {
-      const g = s.createLinearGradient(0, 0, 0, SH);
-      g.addColorStop(0, "#2b0f4a"); g.addColorStop(0.45, "#c2410c"); g.addColorStop(0.7, "#f59e0b"); g.addColorStop(1, "#1a0b05");
-      s.fillStyle = g; s.fillRect(0, 0, SW, SH);
-      const sy = 48 + t * 2;
-      const sg = s.createRadialGradient(80, sy, 0, 80, sy, 26);
-      sg.addColorStop(0, "rgba(255,240,180,1)"); sg.addColorStop(1, "rgba(255,180,60,0)");
-      s.fillStyle = sg; s.fillRect(0, 0, SW, SH);
-      s.fillStyle = "#120804"; s.fillRect(0, SH - 18, SW, 18);
-    } else {
-      const g = s.createLinearGradient(0, 0, 0, SH);
-      g.addColorStop(0, "#0ea5e9"); g.addColorStop(0.5, "#0369a1"); g.addColorStop(1, "#022c43");
-      s.fillStyle = g; s.fillRect(0, 0, SW, SH);
-      for (let i = 0; i < 5; i++) {
-        s.strokeStyle = `rgba(165,243,252,${0.25 + i * 0.08})`; s.lineWidth = 2; s.beginPath();
-        for (let x = 0; x <= SW; x += 4) s.lineTo(x, 45 + i * 9 + Math.sin(x / 12 + t * 2 + i) * 3);
-        s.stroke();
-      }
-    }
-  };
-
-  /* ---------- amostragem das bordas ---------- */
-  const NT = 20, NS = 10;
-  const target = { top: [], bottom: [], left: [], right: [], all: [0, 0, 0] };
-  const sample = () => {
-    const d = s.getImageData(0, 0, SW, SH).data;
-    const avg = (x0, y0, w, h) => {
-      let r = 0, g = 0, b = 0, n = 0;
-      for (let y = y0; y < y0 + h; y += 2) for (let x = x0; x < x0 + w; x += 2) {
-        const i = (y * SW + x) * 4; r += d[i]; g += d[i + 1]; b += d[i + 2]; n++;
-      }
-      return [r / n, g / n, b / n];
-    };
-    const bw = SW / NT, bh = SH / NS;
-    for (let i = 0; i < NT; i++) {
-      target.top[i] = avg(Math.floor(i * bw), 0, Math.ceil(bw), 14);
-      target.bottom[i] = avg(Math.floor(i * bw), SH - 14, Math.ceil(bw), 14);
-    }
-    for (let j = 0; j < NS; j++) {
-      target.left[j] = avg(0, Math.floor(j * bh), 20, Math.ceil(bh));
-      target.right[j] = avg(SW - 20, Math.floor(j * bh), 20, Math.ceil(bh));
-    }
-    target.all = avg(0, 0, SW, SH);
-  };
-
-  // estado suavizado + histórico para simular atraso
-  const clone = (o) => JSON.parse(JSON.stringify(o));
-  let shown = null;
-  const history = [];
-  const smoothTo = (cur, tgt, k) => {
-    if (Array.isArray(cur[0]) || (Array.isArray(cur) && Array.isArray(tgt[0]))) {
-      for (let i = 0; i < cur.length; i++) smoothTo(cur[i], tgt[i], k);
-    } else for (let c = 0; c < 3; c++) cur[c] += (tgt[c] - cur[c]) * k;
-  };
+  /* ---------- vídeo de exemplo (assets/js/scenes.js) ---------- */
+  const player = Ambi.createPlayer();
+  const follow = Ambi.createFollower();
+  const sc = player.canvas;
+  const NT = Ambi.NT, NS = Ambi.NS;
 
   /* ---------- controles ---------- */
   const layers = {
@@ -169,10 +68,12 @@
     $("#sim-extra-out").textContent = e.target.value + "%";
   });
   $("#sim-slow").addEventListener("change", (e) => (slow = e.target.checked));
+  const chips = $("#sim-scenes");
+  chips.innerHTML = '<button class="chip active" data-s="auto">Automático</button>' +
+    Ambi.scenes.map((x) => `<button class="chip" data-s="${x.id}">${x.name}</button>`).join("");
   $$("#sim-scenes .chip").forEach((c) => c.addEventListener("click", () => {
     $$("#sim-scenes .chip").forEach((x) => x.classList.toggle("active", x === c));
-    auto = c.dataset.s === "auto";
-    if (!auto) { sceneIdx = scenes.findIndex((x) => x.id === c.dataset.s); sceneT0 = performance.now(); }
+    player.setScene(c.dataset.s);
   }));
   syncToggles();
 
@@ -337,24 +238,9 @@
   /* ---------- loop ---------- */
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const loop = (now) => {
-    if (!sceneT0) sceneT0 = now;
-    let t = (now - sceneT0) / 1000;
-    if (t > scenes[sceneIdx].dur) {
-      if (auto) sceneIdx = (sceneIdx + 1) % scenes.length;
-      sceneT0 = now; t = 0;
-    }
-    $("#sim-scene").textContent = scenes[sceneIdx].name;
-    drawScene(scenes[sceneIdx].id, t);
-    sample();
-    if (!shown) shown = clone(target);
-    // atraso: fitas WLED reagem em 1–2 quadros; lâmpadas inteligentes ~0,5 s
-    history.push(clone(target));
-    if (history.length > 40) history.shift();
-    const src = slow ? history[0] : target;
-    const k = slow ? 0.12 : 0.65;
-    ["top", "bottom", "left", "right"].forEach((e) => smoothTo(shown[e], src[e], k));
-    smoothTo(shown.all, src.all, k);
-    render(shown);
+    const f = player.tick(now);
+    $("#sim-scene").textContent = f.name;
+    render(follow(f.colors, slow));
     if (!reduce) requestAnimationFrame(loop);
   };
 
